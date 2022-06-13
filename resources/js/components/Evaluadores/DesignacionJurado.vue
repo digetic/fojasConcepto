@@ -29,7 +29,7 @@
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fas fa-shield-alt"></i> &nbsp;
-                  {{ NomUnidad }}
+                  {{ nomUnidad }}
                 </h3>
               </div>
               <div class="card-body">
@@ -37,21 +37,6 @@
                   <div class="col-md">
                     <div class="row">
                       <div class="col-6">
-                       <div class="row ">
-                          <div class="col-12">
-                            <label class="stlabel" for="pregunta"><b>UNIDAD</b></label>
-                            <select
-                              class="form-control"
-                              id="menuPreguntas"
-                              v-model="dest3"
-                              @change="evaluados()"
-                            >
-                              <option v-for="d3 of destinos3" :value="d3.id">
-                                {{ d3.descripcion }}
-                              </option>
-                            </select>
-                          </div>
-                        </div>
                         <br>
                         <div class="row">
                           <div class="col-12">
@@ -104,7 +89,7 @@
                         
                       </div>
                       <div class="col-6">
-                        <br><br>
+                        <br>
                         <label class="stlabel" for="pregunta"><b>SECCIÓN</b></label>
                         <select
                           class="form-control"
@@ -255,8 +240,8 @@ export default {
   mounted() {
     
     this.NomUnidad();
+    this.ListarPersonal();
     this.Destino4();
-    this.Destino3();
   },
 
   data() {
@@ -270,6 +255,7 @@ export default {
         dest3: 0,
         dest4: [],
         per: [],
+        nomUnidad: "",
         //VALORES QUE LLEGAN DESDE LA RUTA
         de1: this.$route.params.des1,
         de2: this.$route.params.des2,
@@ -317,81 +303,58 @@ export default {
   },
   methods: {
     NomUnidad(){
-      let me = this;
-      axios
-        .post("/nomUni", {
-          id: me.de3
-        })
-        .then(function (response) {
-          me.NomUnidad = response.data.descripcion
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
 
-    },
-    Destino3(){
         let me = this;
-        axios
-        .post("/destino3Combo", {
-            dest2: me.de2
-        })
-        .then(function (response) {
-            me.destinos3 = response.data;
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-    },
-    Destino4(){
-        try {
-            let me = this;
-            me.dest4 = '';
             axios
-            .post("/destino4Combo", {
-                dest3: me.de3
-            })
-            .then(function (response) {
-                // console.log(response);
-                me.destinos4 = response.data;
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-        } catch (error) {
-            this.destinos4 = [];
-        } 
+          .post("http://sipefabapi2.test/api/nomUni", {
+              id: me.de3
+          },{
+              headers: {'token': me.$tokensipefab}
+          })
+          .then(function (response) {
+               me.nomUnidad = response.data.descripcion
+          })
+          .catch(function (error) {
+              // handle error
+              console.log(error);
+          })
+
+    },    
+    Destino4(){
+
+          let me = this;
+            axios
+          .post("http://sipefabapi2.test/api/destino4Combo", {
+              dest3: me.de3
+          },{
+              headers: {'token': me.$tokensipefab}
+          })
+          .then(function (response) {
+               me.destinos4 = response.data;
+          })
+          .catch(function (error) {
+              // handle error
+              console.log(error);
+          })
     },
     ListarPersonal(){
-        try {
-            let me = this;
-            me.nuevoEncargado = '';
+      let me = this;
             axios
-            .post("/listaPersonalDesignacion", {
-                destino1: me.de1,
+          .post("http://sipefabapi2.test/api/listaPersonalDesignacion", {
+              destino1: me.de1,
                 destino2: me.de2,
-                destino3: me.dest3
-            })
-            .then(function (response) {
-                // console.log(response);
-                me.personal = response.data;
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-        } catch (error) {
-            this.personal = [];
-        } 
+                destino3: me.de3
+          },{
+              headers: {'token': me.$tokenfoja}
+          })
+          .then(function (response) {
+               me.personal = response.data;
+          })
+          .catch(function (error) {
+              // handle error
+              console.log(error);
+          })
     },
-    evaluados(dest){      
-      this.ListarPersonal();
-    },
-    
-    
     obtenerEncargado() {
       try {
         var tam = this.calificadores.length;

@@ -53,23 +53,6 @@ Route::post('/asignarJurados','JuradoController@asignarJurados');
 //Actualizar el estado de la tabla jurado
 Route::post('/actEstado', 'JuradoController@actEstado');
 
-//***********************************RUTAS PARAMETRICAS********************************* */
-/**
- * RUTAS PARA LOS COMBOS DE DESTINOS
- */
-//DESTINO 1
-Route::get('/destino1Combo','DestinoController@Destinos1');
-//DESTINO 2
-Route::post('/destino2Combo','DestinoController@Destinos2');
-//DESTINO 3
-Route::post('/destino3Combo','DestinoController@Destinos3');
-//DESTINO 4
-Route::post('/destino4Combo','DestinoController@Destinos4');
-//LISTA DESTINO LAS UNIDADES DEL ENCARGADO DE IMPRIMIR LAS FOJAS DE CONCEPTO
-Route::get('/dest3cal','DestinoController@dest3cal');
-//NOMBRE DE UNIDAD
-Route::post('/nomUni','DestinoController@NombreUnidad');
-
 
 //***********************************PREGUNTAS OBJETIVAS********************************* */
 /**
@@ -78,8 +61,6 @@ Route::post('/nomUni','DestinoController@NombreUnidad');
 Route::post('/preguntasObjetivas', 'PreguntasController@preguntasObjetivas');
 
 //**************************LISTA PERSONAL************************************/
-//PERSONAL PARA SELECCION DE JURADOS
-Route::post('/listaPersonalDesignacion','PersonalController@ListaPersonalDesignacion');
 //Ruta para Listar al personal a evaluar de la tabla "jurado_personal"
 Route::post('/juradoPersonal','PersonalController@juradoPersonal');
 //Ruta para datos del evaluador

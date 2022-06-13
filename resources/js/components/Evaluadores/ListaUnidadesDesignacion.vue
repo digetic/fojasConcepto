@@ -342,12 +342,14 @@ export default {
         Destino2(){
             try {
                 let me = this;
-                me.dest2 = '';
-                axios
-                .post("/destino2Combo", {
+                 axios
+                .post("http://sipefabapi2.test/api/destino2Combo", {
                     dest1: 5
+                },{
+                    headers: {'token': me.$tokensipefab}
                 })
                 .then(function (response) {
+                    console.log(response);
                     me.Adestinos2 = response.data;
                 })
                 .catch(function (error) {
@@ -360,11 +362,14 @@ export default {
         },
         Destino3(){
             let me = this;
-            axios
-            .post("/destino3Combo", {
+              axios
+            .post("http://sipefabapi2.test/api/destino3Combo", {
                 dest2: me.dest2
+            },{
+                headers: {'token': me.$tokensipefab}
             })
             .then(function (response) {
+                console.log(response);
                 me.Adestinos3 = response.data;
             })
             .catch(function (error) {

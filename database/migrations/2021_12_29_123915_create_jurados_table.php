@@ -20,20 +20,15 @@ class CreateJuradosTable extends Migration
             $table->string('graCom');
             $table->string('cargo');
             $table->integer('orden');
-            $table->unsignedBigInteger('dest1');
-            $table->unsignedBigInteger('dest2');
-            $table->unsignedBigInteger('dest3');
-            $table->unsignedBigInteger('dest4');
+            $table->integer('dest1');
+            $table->integer('dest2');
+            $table->integer('dest3');
+            $table->integer('dest4');
             $table->integer('evaluacion');
             $table->integer('externo')->default(0);
             $table->integer('estado');
             $table->string('sysuser',30);
             $table->timestamps();
-
-            $table->foreign('dest1')->references('id')->on('nivel1_destinos');
-            $table->foreign('dest2')->references('id')->on('nivel2_destinos');
-            $table->foreign('dest3')->references('id')->on('nivel3_destinos');
-            $table->foreign('dest4')->references('id')->on('nivel4_destinos');
         });
     }
 

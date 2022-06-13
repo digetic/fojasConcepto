@@ -15,13 +15,13 @@ class CreateJuradoPersonalsTable extends Migration
     {
         Schema::create('jurado_personals', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idpersonal')->comment('percodigo de la persna evaluada');
+            $table->inetger('idpersonal')->comment('percodigo de la persna evaluada');
             $table->unsignedBigInteger('idjurado');
             
             $table->string('graCom');
             $table->integer('division');
             $table->string('cargo');
-            $table->unsignedBigInteger('dest4');
+            $table->integer('dest4');
             $table->integer('evaluacion');
 
             $table->integer('estado');
@@ -29,8 +29,6 @@ class CreateJuradoPersonalsTable extends Migration
             $table->timestamps();
 
             $table->foreign('idjurado')->references('id')->on('jurados');
-            $table->foreign('idpersonal')->references('per_codigo')->on('personals');
-            $table->foreign('dest4')->references('id')->on('nivel4_destinos');
         });
     }
 
