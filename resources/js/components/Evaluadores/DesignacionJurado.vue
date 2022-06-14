@@ -472,18 +472,18 @@ export default {
      * Guardado de jurados
      */
     guardarJurados(){
-      swal.fire({
-          title: '¿DESEA ASIGNAR ESTOS EVALUADORES?', // TITULO 
-          icon: 'question', //ICONO (success, warnning, error, info, question)
-          showCancelButton: true, //HABILITACION DEL BOTON CANCELAR
-          confirmButtonColor: 'info', // COLOR DEL BOTON PARA CONFIRMAR
-          cancelButtonColor: '#868077', // CLOR DEL BOTON CANCELAR
-          confirmButtonText: 'CONFIRMAR', //TITULO DEL BOTON CONFIRMAR
-          cancelButtonText: 'CANCELAR', //TIUTLO DEL BOTON CANCELAR
-          buttonsStyling: true,
-          reverseButtons: true
-          }).then((result) => {
-          if (result.value) {
+      // swal.fire({
+      //     title: '¿DESEA ASIGNAR ESTOS EVALUADORES?', // TITULO 
+      //     icon: 'question', //ICONO (success, warnning, error, info, question)
+      //     showCancelButton: true, //HABILITACION DEL BOTON CANCELAR
+      //     confirmButtonColor: 'info', // COLOR DEL BOTON PARA CONFIRMAR
+      //     cancelButtonColor: '#868077', // CLOR DEL BOTON CANCELAR
+      //     confirmButtonText: 'CONFIRMAR', //TITULO DEL BOTON CONFIRMAR
+      //     cancelButtonText: 'CANCELAR', //TIUTLO DEL BOTON CANCELAR
+      //     buttonsStyling: true,
+      //     reverseButtons: true
+      //     }).then((result) => {
+      //     if (result.value) {
             let me = this;
             axios
               .post("/guardarJurados", {
@@ -495,26 +495,27 @@ export default {
                 calificadores: this.calificadores
               })
               .then(function (response) {
-                Swal.fire(
-                    response.data.titulo,
-                    response.data.mensaje,
-                    response.data.tipo
+                console.log(response.data);
+                // Swal.fire(
+                //     response.data.titulo,
+                //     response.data.mensaje,
+                //     response.data.tipo
                     
-                )
-                me.$router.push({
-                  name: "ListaUnidadesDesignaciones",
-                  params:{
-                      e: me.evaluacion
-                  }
-                });
+                // )
+                // me.$router.push({
+                //   name: "ListaUnidadesDesignaciones",
+                //   params:{
+                //       e: me.evaluacion
+                //   }
+                // });
               })
               .catch(function (error) {
                 // handle error
                 console.log(error);
               })
 
-          }
-      })
+      //     }
+      // })
       
     },
     // /**
