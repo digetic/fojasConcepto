@@ -99,13 +99,15 @@ class JuradoController extends Controller
             //     }
             // }
 
-            // foreach ($secciones as $s) {
-               $as =  Http::withHeaders([
+            foreach ($secciones as $s) {
+               Http::withHeaders([
                     'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-                    ])->get('http://sipefabapi2.test/api/destDesginado');
-            // }
+                    ])->post('http://sipefabapi2.test/api/destDesginado',[
+                        'id' => $s
+                    ]);
+            }
 
-            return response()->json($as);
+            return response()->json('si');
         //     DB::commit();return response()->json(['titulo' => 'Asignado', 'mensaje' => 'Los evaluadores fueron asignados correctamente.','tipo' => 'success']);
         // } catch (\Exception $e) {
         //     DB::rollBack();

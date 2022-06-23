@@ -324,13 +324,14 @@ export default {
 
           let me = this;
             axios
-          .post("http://sipefabapi2.test/api/destino4Combo", {
+          .post("http://sipefabapi2.test/api/destino4ComboFoja", {
               dest3: me.de3
           },{
               headers: {'token': me.$tokensipefab}
           })
           .then(function (response) {
                me.destinos4 = response.data;
+               console.log(response);
           })
           .catch(function (error) {
               // handle error
@@ -516,6 +517,21 @@ export default {
 
       //     }
       // })
+
+      // let me = this;
+      //       axios
+      //     .post("http://sipefabapi2.test/api/destDesginado", {
+      //         id: 1258
+      //     },{
+      //         headers: {'token': me.$tokenfoja}
+      //     })
+      //     .then(function (response) {
+      //          console.log(response);
+      //     })
+      //     .catch(function (error) {
+      //         // handle error
+      //         console.log(error);
+      //     })
       
     },
     // /**

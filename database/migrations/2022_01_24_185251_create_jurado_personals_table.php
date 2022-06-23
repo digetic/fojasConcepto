@@ -15,7 +15,7 @@ class CreateJuradoPersonalsTable extends Migration
     {
         Schema::create('jurado_personals', function (Blueprint $table) {
             $table->id();
-            $table->inetger('idpersonal')->comment('percodigo de la persna evaluada');
+            $table->integer('idpersonal')->comment('percodigo de la persna evaluada');
             $table->unsignedBigInteger('idjurado');
             
             $table->string('graCom');

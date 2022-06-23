@@ -15,7 +15,7 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('percod');
+            $table->integer('percod');
 
             $table->string('nick');
             $table->string('email')->unique();
@@ -26,7 +26,6 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('percod')->references('per_codigo')->on('personals');
         });
     }
 
