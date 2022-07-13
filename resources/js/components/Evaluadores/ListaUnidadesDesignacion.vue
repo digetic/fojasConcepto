@@ -49,10 +49,10 @@
                     <div class="col-md-6">
                         <div class="input-group">
                             <select class="form-control col-md-4" v-model="criterio">
-                                <option value="d1.descripcion">Entidad</option>
-                                <option value="d2.descripcion">Gran Unidad</option>
-                                <option value="d3.descripcion">Unidad</option>
-                                <option value="d4.descripcion">Sección</option>
+                                <option value="n1.descripcion">Entidad</option>
+                                <option value="n2.descripcion">Gran Unidad</option>
+                                <option value="n3.descripcion">Unidad</option>
+                                <option value="n4.descripcion">Sección</option>
                             </select><!-- el arroba @ es el simplificado del v-on -->
                             <input type="text" v-model="buscar" @keyup="BuscarEvaluacion()" class="form-control" placeholder="Texto a buscar"  style="text-transform:uppercase">
                             <!-- <button type="submit" @click="listarPersonal(1,buscar,criterio)" class="btn btn-primary btn-flat"><i class="fa fa-search"></i> Buscar</button> -->
@@ -75,7 +75,7 @@
                             <tbody>
                                 <tr v-for="aeu in asigEvaUni">
                                   <td class="text-center">
-                                    <button type="button" class="btn btn-primary btn-sm" @click="verJurados(aeu.dest4)">
+                                    <button type="button" class="btn btn-primary btn-sm" @click="verJurados(aeu.id4)">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                     </button> &nbsp;
                                     <!-- <button type="button" class="btn btn-warning btn-sm " @click="editarEvaluadores(ds.destino1,ds.destino2,ds.destino3,ds.destino4)">
@@ -188,7 +188,7 @@
                 </div>
                 <div class="modal-body">
                     <div v-for="le in listaEvaluadores">
-                        <li>{{le.graCom}} {{le.per_nombre}} {{le.per_paterno}} {{le.per_materno}} - {{le.cargo}}</li>
+                        <li>{{le.nombre}}</li>
                     </div>
                 </div>
                 <div class="modal-footer justify-content-between">
@@ -233,7 +233,7 @@ export default {
                 'to' : 0,
             },
             offset : 3,
-            criterio : 'd1.descripcion',
+            criterio : 'n1.descripcion',
             buscar : '',
             /**
             * Variables para destinos
@@ -255,85 +255,90 @@ export default {
       this.ListarEvaluUnidades(1);
     },
     computed:{
-    isActived: function(){
-        return this.pagination.current_page;
+      isActived: function(){
+          return this.pagination.current_page;
+      },
+
+      //Calcuar los elementos de la paginacion
+      pagesNumber: function() {
+        if(!this.pagination.to){
+            return [];
+        }
+
+        var from = this.pagination.current_page - this.offset;
+        if(from < 1){
+            from = 1;
+        }
+
+        var to = from + (this.offset *2);
+        if( to >= this.pagination.last_page){
+            to = this.pagination.last_page;
+        }
+
+        var pagesArray = [];
+        while( from <= to){
+            pagesArray.push(from);
+            from ++;
+        }
+        return pagesArray;
+      },
+      valEntidad(){
+        var c = this.Adestinos2.length 
+        if (c > 0) {
+          return false;
+        } else {
+          return true;
+        }
+      },
+      valEntidad2(){
+        var c = this.Adestinos3.length 
+        if (c > 0) {
+          return false;
+        } else {
+          return true;
+        }
+      }
     },
-
-    //Calcuar los elementos de la paginacion
-    pagesNumber: function() {
-      if(!this.pagination.to){
-          return [];
-      }
-
-      var from = this.pagination.current_page - this.offset;
-      if(from < 1){
-          from = 1;
-      }
-
-      var to = from + (this.offset *2);
-      if( to >= this.pagination.last_page){
-          to = this.pagination.last_page;
-      }
-
-      var pagesArray = [];
-      while( from <= to){
-          pagesArray.push(from);
-          from ++;
-      }
-      return pagesArray;
-    },
-    valEntidad(){
-      var c = this.Adestinos2.length 
-      if (c > 0) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    valEntidad2(){
-      var c = this.Adestinos3.length 
-      if (c > 0) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-  },
     methods: {
-      /**
-       * FUNCIONES LISTADOR UNIDADES CON EVALUADORES DESIGNADOS
-       */
-      cambiarPagina(page,buscar,criterio){
-        let me = this;
-        //actualizando la pagina actual
-        me.pagination.current_page = page;
-        me.ListarEvaluUnidades(page,buscar,criterio);
-      },
-      ListarEvaluUnidades(page){
-        let me = this;
-        axios
-        .post("/listaUnidadesJurados", {
-            page: page,
-            buscar: me.buscar.toUpperCase(),
-            criterio: me.criterio,
-            eva: me.evaluacion
-        })
-        .then(function (response) {
-            console.log(response);
-            me.asigEvaUni = response.data.secciones.data;
-            me.pagination =response.data.pagination
-        })
-        .catch(function (error) {
-            // handle error
-            console.log(error);
-        })
-      },
-      BuscarEvaluacion(){
-          clearTimeout(this.setTiemoutBuscador);
-          this.setTiemoutBuscador = setTimeout(() => {
-              this.ListarEvaluUnidades(1)
-          }, 360)
-      },
+        /**
+         * FUNCIONES LISTADOR UNIDADES CON EVALUADORES DESIGNADOS
+         */
+        cambiarPagina(page,buscar,criterio){
+          let me = this;
+          //actualizando la pagina actual
+          me.pagination.current_page = page;
+          me.ListarEvaluUnidades(page,buscar,criterio);
+        },
+        ListarEvaluUnidades(page){
+          let me = this;
+          axios
+          .post("http://sipefabapi2.test/api/uniAsig", {
+              page: page,
+              buscar: me.buscar.toUpperCase(),
+              criterio: me.criterio,
+              eva: me.evaluacion
+          },{
+                  headers: {'token': me.$tokenfoja}
+              })
+          .then(function (response) {
+              console.log(response);
+              me.asigEvaUni = response.data.destinos.data;
+              me.pagination =response.data.pagination
+          })
+          .catch(function (error) {
+              // handle error
+              console.log(error);
+          })
+        
+
+
+        },
+        BuscarEvaluacion(){
+            clearTimeout(this.setTiemoutBuscador);
+            this.setTiemoutBuscador = setTimeout(() => {
+                this.ListarEvaluUnidades(1)
+            }, 360)
+        },
 
 
         /**

@@ -36,8 +36,8 @@
                     </h3>  
                   </div>
                   <div class="col-sm-2" >
-                    <router-link @click.native="$router.go()" to='/nuevaEvaluacion'>
-                      <button type="button" class="btn btn-primary btn-sm float-right">
+                    <router-link  @click.native="$router.go()" to='/nuevaEvaluacion'>
+                      <button :disabled="isActivedEva" type="button" class="btn btn-primary btn-sm float-right">
                         <i class="fas fa-plus"></i> Añadir Nueva Evaluación
                       </button>
                     </router-link> 
@@ -255,12 +255,16 @@ export default {
         },
         offset : 3,
         criterio : 'p.periodo',
-        buscar : ''
+        buscar : '',
+        ActivoEva: false,
     }
   },
   computed: {
     isActived   : function(){
         return this.pagination.current_page;
+    },
+    isActivedEva(){
+      return this.ActivoEva;
     },
     //creando funcion para calcular los elementos de la paginacion
     pagesNumber : function(){
@@ -289,23 +293,9 @@ export default {
   },
   mounted() {
     this.ListarEvaluaciones(1);
+    this.UltimaEvaluacion();
   },
   methods: {
-    nombreUnidad(){
-      let me = this;
-      axios
-          .post("/URL", {
-            dato: valor
-          })
-          .then(function (response) {
-            //Respuesta de la peticion
-          })
-          .catch(function (error) {
-            // handle error
-            console.log(error);
-          })
-
-    },
     cambiarPagina(page,buscar,criterio){
         let me = this;
         //actualizando la pagina actual
@@ -416,6 +406,25 @@ export default {
     })
     },
     /**
+     * Ultima Evaluacion
+     */
+
+    UltimaEvaluacion(){
+      let me = this;
+      axios
+      .get('/ultEvalActiva')
+      .then(function (response) {
+        
+        me.ActivoEva = response.data
+        console.log( me.ActivoEva);
+      })
+      .catch(function (error) {
+    // handle error
+        console.log(error);
+      });
+
+    },
+    /**
      * ELIMINAR EVALUACION
      */
     eliminarEvaluacion(id){
@@ -438,6 +447,7 @@ export default {
               swal.fire("Aceptado",
                 "La evaluacion a sido eliminada.",
                 "success");
+                me.UltimaEvaluacion();
               me.ListarEvaluaciones(1);
             })
             .catch(function (error) {
@@ -470,6 +480,7 @@ export default {
               }).then((result) => {
               if (result.value) {
                 this.finEvlauacion(id);
+
               }
           })
         } else {
@@ -498,6 +509,8 @@ export default {
                 "La evaluacion a sido finalizada.",
                 "success");
                 console.log(response);
+
+                me.UltimaEvaluacion();
               me.ListarEvaluaciones(1);
             })
             .catch(function (error) {

@@ -27,6 +27,10 @@ Route::post('/editarFechaEval', 'EvaluacionController@EditarFechaEval');
 Route::put('/eliminarEvaluacion', 'EvaluacionController@EliminarEvaluacion');
 Route::put('/finalizararEvaluacion', 'EvaluacionController@FinalizarEvaluacion');
 
+//Devuelve si hay una evaluacion activa
+
+Route::get('/ultEvalActiva','EvaluacionController@EvaluacionActiva');
+
 
 /**
  * Autor: Hidalgo Miranda Ariel Wilson

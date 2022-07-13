@@ -340,4 +340,13 @@ class EvaluacionController extends Controller
             ->count();
         return $personal;
     }
+
+    public function EvaluacionActiva()
+    {
+        $data = DB::table('evaluaciones')
+                ->where('estado',1)
+                ->exists();
+        
+        return response()->json($data);
+    }
 }
