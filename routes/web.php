@@ -73,8 +73,6 @@ Route::post('/datosEvaluador','PersonalController@datosEvaluador');
 Route::post('/datosEvaluado','PersonalController@datosEvaluado');
 //Lista del personal de la unidad a la cual pertenece el encargado de la impresion de las fojas de concepto
 Route::post('/listaPersonal','PersonalController@listaPersonal');
-//Lista de personal externo a la unidad para evaluar
-Route::post('/listperext','PersonalController@ListaPerExt');
 
 //**************************DATOS FOJAS DE CONCEPTO************************************/
 //Ruta para las desiganciones del evaluado
