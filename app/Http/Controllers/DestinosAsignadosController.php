@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class DestinosAsignadosController extends Controller
 {
+
     public function JuradosAsignados(Request $request)
     {
         $d4 = $request->d4;
@@ -25,7 +27,7 @@ class DestinosAsignadosController extends Controller
             
             $dato = Http::withHeaders([
                 'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-                ])->post('http://sipefabapi2.test/api/nomJud',[
+                ])->post(Config::get('nomServidor.web').'/api/nomJud',[
                     'percodigo' => $value->per_cod
                 ]);
 

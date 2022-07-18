@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\CrearJurador;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -71,7 +72,7 @@ class JuradoController extends Controller
 
                     $datos = Http::withHeaders([
                                 'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
-                                ])->post('http://sipefabapi2.test/api/datosPersonales',[
+                                ])->post(Config::get('nomServidor.web').'/api/datosPersonales',[
                                     'percodigo' => $e['id']
                                 ]);
                     $nick = $e['id'];
@@ -92,7 +93,7 @@ class JuradoController extends Controller
             foreach ($secciones as $s) {
                Http::withHeaders([
                     'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-                    ])->post('http://sipefabapi2.test/api/destDesginado',[
+                    ])->post(Config::get('nomServidor.web').'/api/destDesginado',[
                         'id' => $s
                     ]);
             }
