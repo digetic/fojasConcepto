@@ -306,7 +306,7 @@ export default {
 
         let me = this;
             axios
-          .post("http://sipefabapi2.test/api/nomUni", {
+          .post(me.$web+"/api/nomUni", {
               id: me.de3
           },{
               headers: {'token': me.$tokensipefab}
@@ -324,7 +324,7 @@ export default {
 
           let me = this;
             axios
-          .post("http://sipefabapi2.test/api/destino4ComboFoja", {
+          .post(me.$web+"/api/destino4ComboFoja", {
               dest3: me.de3
           },{
               headers: {'token': me.$tokensipefab}
@@ -341,7 +341,7 @@ export default {
     ListarPersonal(){
       let me = this;
             axios
-          .post("http://sipefabapi2.test/api/listaPersonalDesignacion", {
+          .post(me.$web+"/api/listaPersonalDesignacion", {
               destino1: me.de1,
                 destino2: me.de2,
                 destino3: me.de3

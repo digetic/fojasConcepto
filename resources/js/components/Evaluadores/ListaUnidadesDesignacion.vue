@@ -312,7 +312,7 @@ export default {
         ListarEvaluUnidades(page){
           let me = this;
           axios
-          .post("http://sipefabapi2.test/api/uniAsig", {
+          .post(me.$web+"/api/uniAsig", {
               page: page,
               buscar: me.buscar.toUpperCase(),
               criterio: me.criterio,
@@ -348,7 +348,7 @@ export default {
             try {
                 let me = this;
                  axios
-                .post("http://sipefabapi2.test/api/destino2Combo", {
+                .post(me.$web+"/api/destino2Combo", {
                     dest1: 5
                 },{
                     headers: {'token': me.$tokensipefab}
@@ -368,7 +368,7 @@ export default {
         Destino3(){
             let me = this;
               axios
-            .post("http://sipefabapi2.test/api/destino3Combo", {
+            .post(me.$web+"/api/destino3Combo", {
                 dest2: me.dest2
             },{
                 headers: {'token': me.$tokensipefab}
