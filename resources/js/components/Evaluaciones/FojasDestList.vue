@@ -34,19 +34,6 @@
                     </h3>
                 </div>
                 <div class="card-body">
-                    <div class="form-group row">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <select class="form-control col-md-4" v-model="criterio">
-                                    <option value="d2">GRAN UNIDAD</option>
-                                    <option value="d3">UNIDAD</option>
-                                    <option value="d4">SECCION</option>
-                                </select>
-                                <input type="text"  class="form-control col-md-6" v-model="buscar" >
-                                <button type="submit" class="btn btn-primary" @click="listarSecciones(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
-                            </div>
-                        </div>
-                    </div>
                     <table class="table table-bordered table-striped table-sm">
                         <thead>
                             <tr>
@@ -193,8 +180,7 @@ export default {
           })
           .then(function (response) {
             console.log(response);
-            me.listSecc = response.data.secciones.data;
-            me.pagination = response.data.pagination;        
+            me.listSecc = response.data;       
           })
           .catch(function (error) {
             // handle error
@@ -222,14 +208,16 @@ export default {
                 id: id
               })
               .then(function (response) {
-                me.$router.push({
-                  name: "PersonalFoja",
-                  params:{
-                      d4: cod,
-                      e: eva,
-                      id: id
-                  }
-                });
+
+                console.log(response);
+                // me.$router.push({
+                //   name: "PersonalFoja",
+                //   params:{
+                //       d4: cod,
+                //       e: eva,
+                //       id: id
+                //   }
+                // });
               })
               .catch(function (error) {
                 // handle error

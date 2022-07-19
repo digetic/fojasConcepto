@@ -535,17 +535,20 @@ export default {
      */
     ModalExterno(){
       let me = this;
-      axios
-          .post("/listperext", {
-            dest2: me.de2
+            axios
+          .post(me.$web+"/api/listperext", {
+                dest2: me.de2,
+                dest3: me.de3
+          },{
+              headers: {'token': me.$tokenfoja}
           })
           .then(function (response) {
-            me.ApersoExt = response.data;            
-            $('#EvaluadorExterno').modal('show');            
+              me.ApersoExt = response.data;            
+              $('#EvaluadorExterno').modal('show'); 
           })
           .catch(function (error) {
-            // handle error
-            console.log(error);
+              // handle error
+              console.log(error);
           })
       
     }

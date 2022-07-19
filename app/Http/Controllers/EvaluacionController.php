@@ -8,7 +8,9 @@ use App\Periodo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class EvaluacionController extends Controller
 {
@@ -248,55 +250,36 @@ class EvaluacionController extends Controller
      * fueron asignados
      */
     public function listarDesignacionUsuario(Request $request){
-        $buscar = $request->buscar;
-        $criterio = $request->criterio;
         $evaluacion = $request->eva;
+        $secciones = DB::table('jurados as j')
+            ->join('evaluaciones as e', 'j.evaluacion','e.id')
+            ->select('j.id','j.evaluacion as eva','j.dest1','j.dest2','j.dest3','j.dest4', 'j.estado')
+            ->where('j.per_cod',Auth::user()->percod)//cambiar al dato del personal designado para la evaluacion
+            ->where('j.evaluacion',$evaluacion)
+            ->where('e.estado','>',0)
+            ->where('j.estado','<',3)
+            ->get();
 
-        if ($buscar == "") {
-            $secciones = DB::table('jurados as j')
-                ->join('evaluaciones as e', 'j.evaluacion','e.id')
-                ->join('nivel1_destinos as d1','j.dest1','d1.id')
-                ->join('nivel2_destinos as d2','j.dest2','d2.id')
-                ->join('nivel3_destinos as d3','j.dest3','d3.id')
-                ->join('nivel4_destinos as d4','j.dest4','d4.id')
-                ->select('j.id','d2.descripcion as d2','d3.descripcion as d3',
-                        'd4.descripcion as d4','d4.id as d4c', 
-                        'j.evaluacion as eva', 'j.estado')
-                ->where('j.per_cod',Auth::user()->percod)//cambiar al dato del personal designado para la evaluacion
-                ->where('j.evaluacion',$evaluacion)
-                ->where('e.estado','>',0)
-                ->where('j.estado','<',3)
-                ->paginate(10);
-        } else {
-            $secciones = DB::table('jurados as j')
-                ->join('evaluaciones as e', 'j.evaluacion','e.id')
-                ->join('nivel1_destinos as d1','j.dest1','d1.id')
-                ->join('nivel2_destinos as d2','j.dest2','d2.id')
-                ->join('nivel3_destinos as d3','j.dest3','d3.id')
-                ->join('nivel4_destinos as d4','j.dest4','d4.id')
-                ->select('j.id','d2.descripcion as d2','d3.descripcion as d3',
-                        'd4.descripcion as d4','d4.id as d4c', 
-                        'j.evaluacion as eva', 'j.estado')
-                ->where($criterio,'like','%'.$buscar.'%')
-                ->where('j.per_cod',Auth::user()->percod)//cambiar al dato del personal designado para la evaluacion
-                ->where('j.evaluacion',$evaluacion)
-                ->where('e.estado','>',0)
-                ->where('j.estado','<',3)
-                ->paginate(10);
+        $data = [];
+        foreach ($secciones as $key => $value) {
+
+            $dato = Http::withHeaders([
+                'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+                ])->post(Config::get('nomServidor.web').'/api/nomUnidad',[
+                    'd4' => $value->dest4
+                ]);
+            $data[$key] = [
+                'id' => $value->id,
+                'd2' =>$dato['n2'], 
+                'd3' =>$dato['n3'], 
+                'd4' =>$dato['n4'],
+                'd4c'=> $value->dest4,
+                'eva'=> $value->eva,                 
+            ];
         }
+
+        return response()->json($data);
         
-        return [
-            'pagination' => [
-                'total'         => $secciones->total(),
-                'current_page'  => $secciones->currentPage(),
-                'per_page'      => $secciones->perPage(),
-                'last_page'     => $secciones->lastPage(),
-                'from'          => $secciones->firstItem(),
-                'to'            => $secciones->lastItem(),
-            
-            ],
-            'secciones' => $secciones
-        ];
     }
 
     //FUNCION QUE RETORNA LA ULTIMA EVALUACION ACTIVA 
