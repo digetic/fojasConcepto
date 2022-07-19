@@ -54,38 +54,6 @@ class PersonalController extends Controller
     }
 
     /**
-     * Funcion que nos servira para realizar el listado 
-     * del personal a evaluar
-     */
-
-    public function listarPersonalD4($destino4){
-       
-        $personal = DB::table('personal_destinos as pd')
-            ->join('personals as p','pd.per_codigo','p.per_codigo')
-            ->join('personal_escalafones as ep','p.per_codigo','ep.per_codigo')
-            ->join('grados as g','ep.gra_cod','g.id')
-            ->join('personal_estudios as sp','p.per_codigo','sp.per_codigo')
-            ->join('estudios as e','sp.est_cod','e.id')
-            ->join('personal_cargos as pc','p.per_codigo','pc.per_codigo')
-            ->join('cargos as c','pc.car_cod','c.id')
-            ->select('p.per_codigo','p.per_paterno as paterno','p.per_materno as materno', 'p.per_nombre as nombre', 'g.abreviatura as grado', 'e.abreviatura as complemento','c.descripcion as cargo','g.orden','g.division')
-            ->where('pd.d4_cod','=',$destino4)
-            ->where('p.per_codigo','<>',Auth::user()->percod)//cambiar al dato del personal designado para la evaluacion
-            ->where('pd.estado','=',1)
-            ->where('ep.estado','=',1)
-            ->where('sp.estado','=',1)
-            ->where('pc.estado','=',1)
-            ->where('pc.flag','=',1)
-            ->where('pc.nivel_cargo','=',1)
-            ->orderBy('ep.esca_cod')
-            ->orderBy('ep.subesc_cod')
-            ->orderBy('g.orden')
-            ->orderBy('p.per_cm')
-            ->get();
-        return $personal;
-    }
-
-    /**
      * Funcion para listar a los evaluados de la tabla "jurado_personal"
      */
     public function juradoPersonal(Request $request){

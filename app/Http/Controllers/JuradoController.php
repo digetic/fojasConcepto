@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\CrearJurador;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -111,34 +112,38 @@ class JuradoController extends Controller
      * en progreso en la vista
      */
     public function asignarJurados(Request $request){
-        $destino4 = $request->dest4;
-        $evaluacion = $request->eva;
-        $id = $request->id;
+        // $destino4 = $request->dest4;
+        // $evaluacion = $request->eva;
+        // $id = $request->id;
         
-        $per = new PersonalController();
-        $person = $per->listarPersonalD4($destino4);
+        // $per = new PersonalController();
+        // $person = $per->listarPersonalD4($destino4);
         
-        
-        foreach ($person as $p) {
-            DB::table('jurado_personals')->insert([
-                    'idpersonal' => $p->per_codigo,
-                    'idjurado' => $id,
-                    'graCom' => $p->grado.' '.$p->complemento,
-                    'division' => $p->division,
-                    'cargo' => $p->cargo,
-                    'dest4' => $destino4,
-                    'evaluacion' => $evaluacion,
-                    'estado' => 1,
-                    'sysuser' => 'admin'
-                ]);
-        }
+        // $dato = Http::withHeaders([
+        //     'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+        //     ])->post(Config::get('nomServidor.web').'/api/permenran',[
+        //         'per_codigo' => Auth::user()->percod
+        //     ]);
+        // foreach ($person as $p) {
+        //     DB::table('jurado_personals')->insert([
+        //             'idpersonal' => $p->per_codigo,
+        //             'idjurado' => $id,
+        //             'graCom' => $p->grado.' '.$p->complemento,
+        //             'division' => $p->division,
+        //             'cargo' => $p->cargo,
+        //             'dest4' => $destino4,
+        //             'evaluacion' => $evaluacion,
+        //             'estado' => 1,
+        //             'sysuser' => 'admin'
+        //         ]);
+        // }
 
-        DB::table('jurados')
-            ->where('id',$id)
-            ->update([
-                'estado' => 2
-            ]);
-        return $person;
+        // DB::table('jurados')
+        //     ->where('id',$id)
+        //     ->update([
+        //         'estado' => 2
+        //     ]);
+        return response()->json($request);
     }
 
 
