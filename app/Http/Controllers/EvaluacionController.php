@@ -274,7 +274,8 @@ class EvaluacionController extends Controller
                 'd3' =>$dato['n3'], 
                 'd4' =>$dato['n4'],
                 'd4c'=> $value->dest4,
-                'eva'=> $value->eva,                 
+                'eva'=> $value->eva,
+                'estado' => $value->estado                 
             ];
         }
 

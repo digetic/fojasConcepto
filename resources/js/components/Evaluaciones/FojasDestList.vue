@@ -210,14 +210,14 @@ export default {
               .then(function (response) {
 
                 console.log(response);
-                // me.$router.push({
-                //   name: "PersonalFoja",
-                //   params:{
-                //       d4: cod,
-                //       e: eva,
-                //       id: id
-                //   }
-                // });
+                me.$router.push({
+                  name: "PersonalFoja",
+                  params:{
+                      d4: cod,
+                      e: eva,
+                      id: id
+                  }
+                });
               })
               .catch(function (error) {
                 // handle error

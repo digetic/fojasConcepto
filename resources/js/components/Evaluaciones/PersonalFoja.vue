@@ -41,20 +41,6 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="form-group row">
-                                 <div class="col-md-6">
-                                    <div class="input-group">
-                                        <select class="form-control col-md-3" v-model="criterio">
-                                            <option value="p.per_nombre">NOMBRE</option>
-                                            <option value="p.per_paterno">PATERNO</option>
-                                            <option value="p.per_materno">MATERNO</option>
-                                            <option value="jp.cargo">CARGO</option>
-                                        </select>
-                                        <input type="text"  class="form-control" v-model="buscar">
-                                        <button type="submit" class="btn btn-primary" @click="listarPersonal(1,buscar,criterio)"><i class="fa fa-search"></i> Buscar</button>
-                                    </div>
-                                </div>
-                            </div>
                             <table class="table table-bordered table-striped table-sm">
                                 <thead>
                                     <tr>
@@ -79,7 +65,7 @@
                                         </div> 
                                         
                                     </td>
-                                    <td>{{ls.graCom}} {{ls.per_nombre}} {{ls.per_paterno}} {{ls.per_materno}}</td>
+                                    <td>{{ls.nombre}} </td>
                                     <td v-text="ls.cargo"></td>
                                     <td class="text-center">
                                         <div v-if="ls.estado === 1">
@@ -93,20 +79,7 @@
                                 </tbody>
                                 
                             </table>
-                            <nav>
-                                <ul class="pagination">
-                                    <li class="page-item" v-if="pagination.current_page > 1">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
-                                    </li>
-                                    <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page"></a>
-                                    </li>
-                                    
-                                    <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1,buscar,criterio)">Sig</a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            
                         </div>
                         <!-- /.card -->
                     </div>
@@ -217,7 +190,7 @@ export default {
     }
   },
   mounted() {
-    this.listarPersonal(1,this.buscar,this.criterio);
+    this.listarPersonal();
     this.actEstado();
     console.log(this.id);
   },
@@ -251,11 +224,6 @@ export default {
     },
   },
   methods: {
-    cambiarPagina(page,buscar,criterio){
-      let me = this;
-      me.pagination.current_page = page;
-      me.listarPersonal(page,buscar,criterio);
-    },
     listarPersonal(page,busc,cri){
       let me = this;
       axios
@@ -268,9 +236,8 @@ export default {
           criterio: cri
         })
         .then(function (response) {
-          // console.log(response);
-          me.listaEvaluados = response.data.perjur.data;
-          me.pagination = response.data.pagination;        
+          console.log(response);
+          me.listaEvaluados = response.data;      
         })
         .catch(function (error) {
           // handle error

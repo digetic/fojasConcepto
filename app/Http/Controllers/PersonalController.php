@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class PersonalController extends Controller
 {
@@ -58,38 +60,32 @@ class PersonalController extends Controller
      */
     public function juradoPersonal(Request $request){
         $id = $request->id;
-        $buscar = $request->buscar;
-        $criterio = $request->criterio;
-        
-        if ($buscar == "") {
-            $perjur = DB::table('jurado_personals as jp')
-                ->join('personals as p','p.per_codigo', 'jp.idpersonal')
-                ->select('p.per_codigo','p.per_nombre', 'p.per_paterno', 'p.per_materno','jp.id as jpid', 'jp.graCom','jp.cargo', 'jp.estado', 'jp.evaluacion')
+
+        $perjur = DB::table('jurado_personals as jp')
+                ->select('jp.id as jpid', 'jp.idpersonal as percod','jp.graCom','jp.cargo', 'jp.estado', 'jp.evaluacion')
                 ->where('jp.idjurado',$id)
-                ->paginate(10);
-        } else {
-            $perjur = DB::table('jurado_personal as jp')
-                ->join('personal as p','p.per_codigo', 'jp.idpersonal')
-                ->select('p.per_codigo','p.per_nombre', 'p.per_paterno', 'p.per_materno','jp.id as jpid', 'jp.graCom','jp.cargo', 'jp.estado', 'jp.evaluacion')
-                ->where($criterio,'like','%'.$buscar.'%')
-                ->where('jp.idjurado',$id)
-                ->paginate(10);
+                ->get();
+                
+        $data = [];
+        foreach ($perjur as $key => $value) {
+            
+            $dato = Http::withHeaders([
+                'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+                ])->post(Config::get('nomServidor.web').'/api/nomJud',[
+                    'percodigo' => $value->percod
+                ]);
+
+            $data[$key] = [
+                'nombre' => $value->graCom.' '.$dato['nombre'].' '.$dato['paterno'].' '.$dato['materno'],
+                'jpid' => $value->jpid,
+                'per_codigo' => $value->percod,
+                'cargo' => $value->cargo,
+                'estado' => $value->estado
+            ];
         }
         
         
-        
-        return [
-            'pagination' => [
-                'total'         => $perjur->total(),
-                'current_page'  => $perjur->currentPage(),
-                'per_page'      => $perjur->perPage(),
-                'last_page'     => $perjur->lastPage(),
-                'from'          => $perjur->firstItem(),
-                'to'            => $perjur->lastItem(),
-            
-            ],
-            'perjur' => $perjur
-        ];
+        return response()->json($data);
     }
 
     /**
@@ -99,15 +95,21 @@ class PersonalController extends Controller
     public function datosEvaluador(Request $request){
         $id = $request->id;
         $evaluador = DB::table('jurados as j')
-                ->join('personals as p','p.per_codigo', 'j.per_cod')
-                ->join('nivel3_destinos as d3','j.dest3','d3.id')
-                ->select('p.per_codigo','p.per_nombre', 'p.per_paterno', 
-                        'p.per_materno', 'j.graCom','j.cargo', 'j.estado', 
-                        'j.evaluacion', 'd3.descripcion as de3')
+                ->select('j.graCom','j.cargo', 'j.estado','j.evaluacion','j.dest3','j.per_cod')
                 ->where('j.id',$id)
                 ->first();
-        
-        return response()->json($evaluador);
+        $dato = Http::withHeaders([
+            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+            ])->post(Config::get('nomServidor.web').'/api/nomdestper3',[
+                'percodigo' => $evaluador->per_cod,
+                'd3' => $evaluador->dest3
+            ]);
+        $data = [
+                'nombre' => $evaluador->graCom.' '.$dato['nombre'].' '.$dato['paterno'].' '.$dato['materno'],
+                'd3' => $dato['dest3'],
+                'cargo' => $evaluador->cargo
+            ];
+        return response()->json($data);
     }
 
     /**
@@ -120,15 +122,25 @@ class PersonalController extends Controller
         $eva = $request->eva;
         $id = $request->id;
         $evaluado = DB::table('jurado_personals as jp')
-                ->join('personals as p','p.per_codigo', 'jp.idpersonal')
-                ->join('nivel4_destinos as d4','d4.id','jp.dest4')
-                ->select('p.per_nombre', 'p.per_paterno', 'p.per_materno', 'jp.graCom','jp.cargo','d4.descripcion as d4','jp.division')
+                ->select('jp.graCom','jp.cargo','jp.division','jp.idpersonal as perecod','jp.dest4')
                 ->where('jp.idpersonal',$perCod)
                 ->where('jp.idjurado',$id)
                 ->where('jp.evaluacion',$eva)
                 ->first();
+        $dato = Http::withHeaders([
+            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+            ])->post(Config::get('nomServidor.web').'/api/nomdestper4',[
+                'percodigo' => $perCod,
+                'd4' => $evaluado->dest4
+            ]);
+        $data = [
+            'nombre' => $evaluado->graCom.' '.$dato['nombre'].' '.$dato['paterno'].' '.$dato['materno'],
+            'division' => $evaluado->division,
+            'd4' => $dato['dest4'],
+            'cargo' => $evaluado->cargo
+        ];
 
-        return response()->json($evaluado);
+        return response()->json($data);
     }
 
     //Lista personal de la unidad (DESTINO 3)

@@ -49,12 +49,10 @@
                             <dl>
                                 <dt class="st">NOMBRE:</dt>
                                 <dd class="st">
-                                {{ evaluador.graCom }}
-                                {{ evaluador.per_nombre }} {{ evaluador.per_paterno }}
-                                {{ evaluador.per_materno }}
+                                {{ evaluador.nombre }}
                                 </dd>
                                 <dt class="st">DESTINO</dt>
-                                <dd class="st">{{ evaluador.de3 }}</dd>
+                                <dd class="st">{{ evaluador.d3 }}</dd>
                                 <dt class="st">CARGO</dt>
                                 <dd class="st">{{ evaluador.cargo }}</dd>
                             </dl>
@@ -63,8 +61,7 @@
                             <dl>
                                 <dt class="st">NOMBRE:</dt>
                                 <dd class="st">
-                                {{ datos.graCom }}
-                                {{ datos.per_nombre }} {{ datos.per_paterno }} {{ datos.per_materno }}
+                                {{ datos.nombre }}
                                 </dd>
                                 <!-- Realizar los cambios necesarios para obtener el destino -->
                                 <dt class="st">DESTINO</dt>
@@ -517,7 +514,6 @@ export default {
         .then(function (response) {
           me.datos = response.data;  
           var  d = me.datos.division;
-          // console.log(d);
           me.listarPreguntas(d);
         })
         .catch(function (error) {
@@ -549,7 +545,7 @@ export default {
           id: me.id
         })
         .then(function (response) {
-          // console.log(response);
+          console.log(response);
           me.evaluador = response.data;          
         })
         .catch(function (error) {
@@ -614,8 +610,8 @@ export default {
     console.log(this.perCod);
     this.datosEvaluado();
     this.datosEvaluador();
-    this.listarSanciones();
-    this.listarDesignaciones();
+    // this.listarSanciones();
+    // this.listarDesignaciones();
   },
 };
 </script>

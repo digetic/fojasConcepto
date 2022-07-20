@@ -112,38 +112,45 @@ class JuradoController extends Controller
      * en progreso en la vista
      */
     public function asignarJurados(Request $request){
-        // $destino4 = $request->dest4;
-        // $evaluacion = $request->eva;
-        // $id = $request->id;
+        $destino4 = $request->dest4;
+        $evaluacion = $request->eva;
+        $id = $request->id;
         
-        // $per = new PersonalController();
-        // $person = $per->listarPersonalD4($destino4);
+        // // $per = new PersonalController();
+        // // $person = $per->listarPersonalD4($destino4);
         
-        // $dato = Http::withHeaders([
-        //     'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-        //     ])->post(Config::get('nomServidor.web').'/api/permenran',[
-        //         'per_codigo' => Auth::user()->percod
-        //     ]);
-        // foreach ($person as $p) {
-        //     DB::table('jurado_personals')->insert([
-        //             'idpersonal' => $p->per_codigo,
-        //             'idjurado' => $id,
-        //             'graCom' => $p->grado.' '.$p->complemento,
-        //             'division' => $p->division,
-        //             'cargo' => $p->cargo,
-        //             'dest4' => $destino4,
-        //             'evaluacion' => $evaluacion,
-        //             'estado' => 1,
-        //             'sysuser' => 'admin'
-        //         ]);
-        // }
+        $dato = Http::withHeaders([
+            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+            ])->post(Config::get('nomServidor.web').'/api/permenran',[
+                'percod' => Auth::user()->percod,
+                'dest4' => $destino4
+            ]);
+        $data = [];
+        foreach (json_decode($dato->getBody()->getContents()) as $key => $value) {
+            $data[$key]= [
+                'percod' => $value->per_codigo
+            ];
+            DB::table('jurado_personals')->insert([
+                'idpersonal' => $value->per_codigo,
+                'idjurado' => $id,
+                'graCom' => $value->grado.' '.$value->complemento,
+                'division' => $value->division,
+                'cargo' => $value->cargo,
+                'dest4' => $destino4,
+                'evaluacion' => $evaluacion,
+                'estado' => 1,
+                'sysuser' => Auth::user()->percod
+            ]);
+                
+        }
+        
 
-        // DB::table('jurados')
-        //     ->where('id',$id)
-        //     ->update([
-        //         'estado' => 2
-        //     ]);
-        return response()->json($request);
+        DB::table('jurados')
+            ->where('id',$id)
+            ->update([
+                'estado' => 2
+            ]);
+        return response()->json($data);
     }
 
 
