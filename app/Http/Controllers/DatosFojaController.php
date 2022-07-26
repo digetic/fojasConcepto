@@ -8,13 +8,20 @@ use Illuminate\Support\Facades\DB;
 
 class DatosFojaController extends Controller
 {
-    public function listarDesignaciones(Request $request){
-        $id = $request->id;
-        $date = DB::table('evaluaciones as e')
+    public function EvaluacionDatos(Request $request)
+    {
+        $data = DB::table('evaluaciones as e')
             ->join('periodos as p', 'e.idperiodo','p.id')
-            ->select('p.ano')
+            ->join('fecha_evaluaciones as fe','e.idfechaEvaluacion','fe.id')
+            ->select('p.ano','fe.final as evafinal','p.inicio','p.fin','p.periodo')
             ->where('e.id',$request->e)
             ->first();
+        
+        return response()->json($data);
+    }
+    public function listarDesignaciones(Request $request){
+        $id = $request->id;
+        
         $designaciones = DB::table('personal_designaciones')
             ->select('id','fecha', 'nro_doc as ndoc', 'documento as doc','descripcion as desc')
             ->where('per_codigo',$id)

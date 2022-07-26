@@ -7,15 +7,15 @@
           <div class="col-sm-6">
             <h1>
               <i class="far fa-bookmark"></i> &nbsp;
-              Evaluación
+              Evaluación Foja de Concepto
             </h1>
           </div>
-          <div class="col-sm-6">
+          <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Modals & Alerts</li>
             </ol>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- /.container-fluid -->
@@ -30,7 +30,15 @@
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="fas fa-file-signature"></i> &nbsp;
-                  Foja de Concepto
+                   <template v-if="datEva.periodo == 1">
+                      1° Semestre
+                   </template>
+                   <template v-else-if="datEva == 2">
+                      2° Semestre
+                   </template>
+                   <template v-else>
+                      Anual
+                   </template>
                 </h3>
               </div>
               <div class="card-body">
@@ -339,6 +347,8 @@ export default {
         desigNombr: [],
         //VARIABLES SANCIONES DISCIPLINARIAS
         sanciones: [],
+        //VARIABLE PARA DATOS DE LA EVALUACION
+        datEva: [],
     };
   },
   /**
@@ -585,6 +595,27 @@ export default {
         });
     },
     /**
+     * FUNCION QE DEVUELVE LOS DATOS DE LA EVALUACION
+     */
+    DatosEvaluacion() {
+      let me = this;
+      axios
+        .post("/evaDat", {
+          e: me.e
+        })
+        .then(function (response) {
+          console.log(response);
+          me.datEva = response.data;
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        })
+        .then(function () {
+          // always executed
+        });
+    },
+    /**
      * FUNCIONES PARA LISTAR SANCIONES DISCIPLINARIAS
      */
     listarSanciones() {
@@ -610,6 +641,7 @@ export default {
     console.log(this.perCod);
     this.datosEvaluado();
     this.datosEvaluador();
+    this.DatosEvaluacion();
     // this.listarSanciones();
     // this.listarDesignaciones();
   },

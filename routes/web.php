@@ -75,6 +75,8 @@ Route::post('/datosEvaluado','PersonalController@datosEvaluado');
 Route::post('/listaPersonal','PersonalController@listaPersonal');
 
 //**************************DATOS FOJAS DE CONCEPTO************************************/
+//Datos de la Evaluacion
+Route::post('/evaDat','DatosFojaController@EvaluacionDatos');
 //Ruta para las desiganciones del evaluado
 Route::post('/listarDesignaciones','DatosFojaController@listarDesignaciones');
 //Ruta para las sanciones del evaluado
