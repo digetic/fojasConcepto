@@ -39,6 +39,7 @@
                    <template v-else>
                       Anual
                    </template>
+                   ( {{datEva.inicio | moment('DD/MM/YYYY')}} al {{datEva.fin | moment('DD/MM/YYYY')}} )
                 </h3>
               </div>
               <div class="card-body">
@@ -249,7 +250,7 @@
                         <tbody>
                         <tr v-for="(desg, index) of desigNombr">
                             <td class="text-center">
-                            {{ desg.fecha | moment("YYYY-MM-DD") }}
+                            {{ desg.fecha | moment('DD/MM/YYYY') }}
                             </td>
                             <td class="text-center">
                             {{ desg.ndoc }} - {{ desg.doc }}
@@ -280,7 +281,7 @@
                         <tbody>
                         <tr v-for="(san, index) of sanciones">
                             <td class="text-center">
-                            {{ san.fecha | moment("YYYY-MM-DD") }}
+                            {{ san.fecha | moment('DD/MM/YYYY') }}
                             </td>
                             <td class="text-center">
                             {{ san.ndoc }} - {{ san.documento }}
@@ -349,6 +350,8 @@ export default {
         sanciones: [],
         //VARIABLE PARA DATOS DE LA EVALUACION
         datEva: [],
+
+        year: '',
     };
   },
   /**
@@ -466,7 +469,7 @@ export default {
               })
               .then(function (response) {
                 swalWithBootstrapButtons.fire(
-                  "Habilitado",
+                  "Evaluado",
                   "La Evaluacion a sido guardada",
                   "success"
                 );
@@ -478,7 +481,7 @@ export default {
                       id: me.id
                   }
                 });
-                console.log(response);
+                // console.log(response);
               })
               .catch(function (error) {
                 // handle error
@@ -577,22 +580,23 @@ export default {
      * fUNCIONES PARA AGREGAR DESIGNACIONES Y NOMBRAMIENTOS
      */
     listarDesignaciones() {
-      let me = this;
-      axios
-        .post("/listarDesignaciones", {
-          id: me.perCod,
-          e: me.e
-        })
-        .then(function (response) {
-          me.desigNombr = response.data;
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-        .then(function () {
-          // always executed
-        });
+      const today = new Date();
+        let me = this;
+            axios
+          .post(me.$web+"/api/listDesgAño", {
+                id: me.perCod,
+                date:today.getFullYear()
+          },{
+              headers: {'token': me.$tokensipefab}
+          })
+          .then(function (response) {
+            console.log(response);
+              me.desigNombr = response.data;
+          })
+          .catch(function (error) {
+              // handle error
+              console.log(error);
+          })
     },
     /**
      * FUNCION QE DEVUELVE LOS DATOS DE LA EVALUACION
@@ -606,6 +610,7 @@ export default {
         .then(function (response) {
           console.log(response);
           me.datEva = response.data;
+          me.year = me.datEva.ano
         })
         .catch(function (error) {
           // handle error
@@ -619,22 +624,24 @@ export default {
      * FUNCIONES PARA LISTAR SANCIONES DISCIPLINARIAS
      */
     listarSanciones() {
-      let me = this;
-      axios
-        .post("/listarSanciones", {
-          id: me.perCod,
-          e: me.e
-        })
-        .then(function (response) {
-          me.sanciones = response.data;
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        })
-        .then(function () {
-          // always executed
-        });
+
+        const today = new Date();
+        let me = this;
+            axios
+          .post(me.$web+"/api/listDemgAño", {
+                id: me.perCod,
+                date:today.getFullYear()
+          },{
+              headers: {'token': me.$tokensipefab}
+          })
+          .then(function (response) {
+            console.log(response);
+               me.sanciones = response.data;
+          })
+          .catch(function (error) {
+              // handle error
+              console.log(error);
+          })
     },
   },
   mounted() {
@@ -642,8 +649,8 @@ export default {
     this.datosEvaluado();
     this.datosEvaluador();
     this.DatosEvaluacion();
-    // this.listarSanciones();
-    // this.listarDesignaciones();
+    this.listarSanciones();
+    this.listarDesignaciones();
   },
 };
 </script>

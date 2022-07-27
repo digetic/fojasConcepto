@@ -135,55 +135,45 @@
                 <p style="margin: -2px 0px">DEPARTAMENTO I - PERSONAL EMGFAB</p>
                 <p style="margin: -2px 0px;"><u><strong>BOLIVIA</strong></u></p>
             </div>
-            <div style="position: absolute; top: 0px; right: 0px; width: 113.4px; height: 113.4px; border: 1px solid;">
+            <div style="position: absolute; top: 20px; right: 40px; width: 113.4px; height: 113.4px; border: 1px solid;">
                 <img src={{$foto}} width="100%" height="100%">
                 {{-- <img src="'http://sipefab.fab.bo/img/personal/'.{{$usuario->foto}}" width="100%" height="100%"> --}}
             </div>
             <div style="padding-top: 30px; padding-bottom: 10px; text-align: center; font-size: 14.5px; font-weight: bold;">
                 <p style="margin: 1px">FOJAS DE CONCEPTO</p>
-                <p style="margin: -2px 8px 4px 0px">(ESCALAFÓN: OFICIALES SUPERIORES Y SUBALTERNOS)</p>
+                <p style="margin: -6px 8px 4px 0px">(ESCALAFÓN: OFICIALES SUPERIORES Y SUBALTERNOS)</p>
             </div>
          </header>
 		<br>
-        <section> {{-- Datos personales --}}
-                {{-- <div style=" padding-bottom: 100px;">
-                    <div style="float: left; width: 200px;">
-                        <label><strong>CM:</strong>31213054</label><br>
-                        <strong>ESPECIALIDAD:</strong>SISTEMAS ELECTRICOS
-                    </div>
-                    <div style="float: left; width: 500px; ">
-                        <label ><strong>GRADO Y NOMBRE:</strong> SGTO. 1RO. TEC.  JUAN MANUEL QUISBERT ANTONIO</label>
-                    </div>
-                </div> --}}
-                
-                 <table style=" background: #ffffff; width: 100%;">
-                    <tbody>
-                        <tr>
-                            <td style="width: 40%;">
-                                <strong>GRADO: </strong> <span >{{$usuario->graCom}}</span> 
-                            </td>
-                            <td style="width: 60%;">
-                                <strong>APELLIDOS Y NOMBRES: </strong> <span>{{$usuario->paterno}} {{$usuario->materno}} {{$usuario->nombre}}</span> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width: 40%;">
-                                <strong>CARNET MILITAR:</strong> <span >{{$usuario->cm}}</span> 
-                            </td>
-                            <td style="width: 60%;">
-                                <strong>DESTINO:</strong> <span >{{$usuario->destino}}</span> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="width: 40%;">
-                                <strong>ESPECIALIDAD:</strong> <span >{{$usuario->esp}} - {{$usuario->subespe}}</span> 
-                            </td>
-                            <td style="width: 60%;">
-                                <strong>PERIODO DE CALIFICACIÓN:</strong> <span >{{$fechaEvaluacion->inicio}} AL {{$fechaEvaluacion->fin}}</span> 
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> 
+        <section> {{-- Datos personales --}}                              
+            <table style=" background: #ffffff; width: 100%;">
+            <tbody>
+                <tr>
+                    <td style="width: 40%;">
+                        <strong>GRADO: </strong> <span >{{$usuario1->graCom}}</span> 
+                    </td>
+                    <td style="width: 60%;">
+                        <strong>APELLIDOS Y NOMBRES: </strong> <span>{{$usuario2['paterno']}} {{$usuario2['materno']}} {{$usuario2['nombre']}}</span> 
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 40%;">
+                        <strong>CARNET MILITAR:</strong> <span >{{$usuario2['cm']}}</span> 
+                    </td>
+                    <td style="width: 60%;">
+                        <strong>DESTINO:</strong> <span >{{$usuario2['destino']}}</span> 
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 40%;">
+                        <strong>ESPECIALIDAD:</strong> <span >{{$usuario2['esp']}} - {{$usuario2['subespe']}}</span> 
+                    </td>
+                    <td style="width: 60%;">
+                        <strong>PERIODO DE CALIFICACIÓN:</strong> <span >{{$fechaEvaluacion->inicio}} AL {{$fechaEvaluacion->fin}}</span> 
+                    </td>
+                </tr>
+            </tbody>
+        </table> 
 
         </section>    
         <br>
@@ -234,7 +224,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="4" style="height:30px; font-size: 10px; "><i> {{$conceptual1['literal']}} </i></td>
+                            {{-- <td colspan="4" style="height:30px; font-size: 10px; "><i> {{$conceptual1['literal']}} </i></td> --}}
                         </tr>
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
@@ -260,16 +250,16 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="4" style="height:30px; font-size: 10px; "><i>{{$conceptual2['literal']}}</i></td>
+                            {{-- <td colspan="4" style="height:30px; font-size: 10px; "><i>{{$conceptual2['literal']}}</i></td> --}}
                         </tr>
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
-                            <td style="width: 17%; text-align: center;">{{$conceptual2['numerica']}}</td>
+                            {{-- <td style="width: 17%; text-align: center;">{{$conceptual2['numerica']}}</td> --}}
                             <td style="width: 12%; padding: 7px 3px;">Firma</td>
                             <td style="width: 35%;"></td>
                         </tr>
                         <tr>
-                            <td colspan="4"> {{$conceptual2['evaluador']}}</td>
+                            {{-- <td colspan="4"> {{$conceptual2['evaluador']}}</td> --}}
                         </tr>
                         {{-- <tr>
                             <td colspan="4">Grado, Nombre, Apellido y Cargo del Superior Calificador</td>
@@ -284,16 +274,16 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="4" style="height:30px; font-size: 10px; "><i>{{$conceptual3['literal']}}</i></td>
+                            {{-- <td colspan="4" style="height:30px; font-size: 10px; "><i>{{$conceptual3['literal']}}</i></td> --}}
                         </tr>
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
-                            <td style="width: 17%; text-align: center;">{{$conceptual3['numerica']}}</td>
+                            {{-- <td style="width: 17%; text-align: center;">{{$conceptual3['numerica']}}</td> --}}
                             <td style="width: 12%; padding: 7px 3px;">Firma</td>
                             <td style="width: 35%;"></td>
                         </tr>
                         <tr>
-                            <td colspan="4">{{$conceptual3['evaluador']}}</td>
+                            {{-- <td colspan="4">{{$conceptual3['evaluador']}}</td> --}}
                         </tr>
                         {{-- <tr>
                             <td colspan="4">Grado, Nombre, Apellido y Cargo del Superior Calificador</td>
@@ -310,7 +300,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        {{-- <tr>
                             <td style="border: 1px solid #000;">Primera</td>
                             <td style="border: 1px solid #000;"><center>{{$conceptual1['numerica']}}</center></td>
                             <td ></td>
@@ -337,7 +327,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                        </tr>
+                        </tr> --}}
                         
                     </tbody>
                 </table>
@@ -346,11 +336,11 @@
             <div style="font-size: 13px; padding-top: 10px; padding-bottom:70px;"><u><strong>5. NOTIFICACIÓN</strong></u></div>
             <table style="width: 100%; border-collapse: collapse; border-spacing: 0; border: black 1px ; margin-bottom: 5px;">{{-- promedio conceptual --}}
                 <thead>
-                    <tr>
+                    {{-- <tr>
                         <th colspan="2" style="  font-size: 12.5px; padding: 4px 3px; text-align: left; text-align: center;">{{$usuario->graCom}} {{$usuario->paterno}} {{$usuario->materno}} {{$usuario->nombre}}</th>
                         <th style="width: 2%;"></th>
                         <th colspan="2" style="  font-size: 12.5px; padding: 4px 3px; text-align: left;"><hr></th>
-                    </tr>
+                    </tr> --}}
                 </thead>
                 <tbody>
                     <tr>
@@ -376,7 +366,7 @@
                             <th>Detalle</th>
                         </tr>
                     </thead>
-                    <tbody >
+                    {{-- <tbody >
                         @if (count($designaciones) > 0)
                             @foreach ($designaciones as $item)
                                 <tr>
@@ -393,7 +383,7 @@
                         </tr>
                         @endif              
 
-                    </tbody>
+                    </tbody> --}}
                 </table>
             </div>
         </section>
@@ -411,7 +401,7 @@
                             <th>Motivo</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    {{-- <tbody>
                         @if (count($sanciones) > 0)
                             @foreach ($sanciones as $item)
                                 <tr>
@@ -432,13 +422,13 @@
                             </tr> 
                         @endif                
 
-                    </tbody>
+                    </tbody> --}}
                 </table>
             </div>
         </section>
         <br>
         <section>{{-- Horas de vuelo --}}
-            <div style="padding-bottom: 4px; font-size: 13px;"><u><strong>8. HORAS DE VUELO ANUAL</strong></u></div>
+            {{-- <div style="padding-bottom: 4px; font-size: 13px;"><u><strong>8. HORAS DE VUELO ANUAL</strong></u></div>
             <div>
                 <table id="sanciona">
                     <thead>
@@ -476,7 +466,7 @@
 
                     </tbody>
                 </table>
-            </div>
+            </div> --}}
         </section>
         <br>
         <section>{{-- Revistas Militares --}}
@@ -491,7 +481,7 @@
                             <th>COMPAÑIA / ESCALAFÓN</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    {{-- <tbody>
                         @if (count($revistas) > 0)
                             @foreach ($revistas as $item)
                                 <tr>
@@ -510,7 +500,7 @@
                             </tr> 
                         @endif                                  
 
-                    </tbody>
+                    </tbody> --}}
                 </table>
             </div>
         </section>

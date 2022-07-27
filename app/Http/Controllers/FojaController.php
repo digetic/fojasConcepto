@@ -10,6 +10,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 use  Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Http;
 use stdClass;
 
 class FojaController extends Controller
@@ -54,6 +56,8 @@ class FojaController extends Controller
                 'code' => 400
             ]);
         }
+
+        // return response()->json($request);
     }
 
     public function EstadoImpresion(Request $request)
@@ -114,32 +118,33 @@ class FojaController extends Controller
         $json = json_encode($conc);
          //Evaluacion Actual
         $actual = new EvaluacionController();
-        // $eva = $actual->EvaluacionActual();        
-        //nuemro de evalauciones calificadas
+
         $neva = $actual->NumEvaluacionesTerminadas($id, $eva);
-        //Preguntas Objetivas
-        // $preguntas = new PreguntasController();
-        // $pregun = $preguntas->preguntasObjetivasImp($d);
-        //Datos del Evaluado
+
+        
+        
+           
+
         $personal = DB::table('jurado_personals as jp')
-                ->join('personals as p','p.per_codigo', 'jp.idpersonal')
-                ->join('personal_especialidades as pe','p.per_codigo','pe.per_codigo')
-                ->join('especialidades as e','pe.espe_cod','e.id')
-                ->join('subespecialidades as se','pe.subespe_cod','se.id')
-                ->join('nivel4_destinos as d4','d4.id','jp.dest4')
-                ->join('nivel3_destinos as d3', 'd4.d3_cod','d3.id')
-                ->select('p.per_foto as foto','p.per_nombre as nombre', 'p.per_paterno as paterno', 'p.per_materno as materno', 'jp.graCom','jp.cargo','d3.descripcion as destino','jp.division', 'p.per_cm as cm','e.nombre as esp','se.nombre as subespe')
+                ->select( 'jp.graCom','jp.cargo','jp.division','jp.dest4','jp.idpersonal as per_cod')
                 ->where('jp.idpersonal',$id)
                 ->where('jp.evaluacion',$eva)
                 ->first();
+        
+        $datoPer = Http::withHeaders([
+            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+            ])->post(Config::get('nomServidor.web').'/api/nomdestper4',[
+                'percodigo' => $personal->per_cod,
+                'd4' => $personal->dest4
+            ]);
 
         
         //Desginaciones del Evaluado
-        $designaciones = $this->listarDesignacionesImp($id, $eva);
+        // $designaciones = $this->listarDesignacionesImp($id, $eva);
         //Sanciones del Evaluado
-        $sanciones = $this->listarSancionesImp($id, $eva);
+        // $sanciones = $this->listarSancionesImp($id, $eva);
         //Revistas del Evaluado
-        $revistas = $this->listarRevista($id, $eva);
+        // $revistas = $this->listarRevista($id, $eva);
         //Fecahs del Periodo de Evaluacion
         $fechaEvaluacion = $this->FechaEvalaucion($eva);
         //Evaluaciones calificadas
@@ -152,10 +157,10 @@ class FojaController extends Controller
         $p = 0;
         if ($neva == 1) {
             $cocep1 = $this->NotaConceptual($obj[0]);
-            $conc1 = ['literal'=>$cocep1->literal, 'numerica'=>$cocep1->numerica, 'evaluador'=>$cocep1->grado.' '.$cocep1->nombre.' '.$cocep1->paterno.' '.$cocep1->materno.' - '.$cocep1->cargo];
+            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'].' - '.$cocep1['cargo']];
             $conc2 = ['literal'=>'', 'numerica'=>'-', 'evaluador'=>' - '];
             $conc3 = ['literal'=>'', 'numerica'=>'-', 'evaluador'=>' - '];
-            $proConcep = $cocep1->numerica;
+            $proConcep = $cocep1['numerica'];
             $nota1 = $this->NotasObjetivasList($obj[0]);
             foreach ($nota1 as $key => $value) {
                 $notas[$key] = array('pre' => $value->detalle,'n1' => $value->nota, 'n2' => '-', 'n3' => '-', 'promedio' =>  $value->nota);
@@ -165,14 +170,14 @@ class FojaController extends Controller
            $proObjetiva = round($p/$c,2);
         }
         if ($neva == 2) {
-            $cocep1 = $this->NotaConceptual($obj[0]);
-            $cocep2 = $this->NotaConceptual($obj[1]);
+            // $cocep1 = $this->NotaConceptual($obj[0]);
+            // $cocep2 = $this->NotaConceptual($obj[1]);
             $nota1 = $this->NotasObjetivasList($obj[0]);
             $nota2 = $this->NotasObjetivasList($obj[1]);
-            $conc1 = ['literal'=>$cocep1->literal, 'numerica'=>$cocep1->numerica, 'evaluador'=>$cocep1->grado.' '.$cocep1->nombre.' '.$cocep1->paterno.' '.$cocep1->materno.' - '.$cocep1->cargo];
-            $conc2 = ['literal'=>$cocep2->literal, 'numerica'=>$cocep2->numerica, 'evaluador'=>$cocep2->grado.' '.$cocep2->nombre.' '.$cocep2->paterno.' '.$cocep2->materno.' - '.$cocep2->cargo];
-            $proConcep = round(($cocep1->numerica + $cocep2->numerica) / 2, 2);
-            $conc3 = ['literal'=>'', 'numerica'=>'-', 'evaluador'=>' - '];
+            // $conc1 = ['literal'=>$cocep1->literal, 'numerica'=>$cocep1->numerica, 'evaluador'=>$cocep1->grado.' '.$cocep1->nombre.' '.$cocep1->paterno.' '.$cocep1->materno.' - '.$cocep1->cargo];
+            // $conc2 = ['literal'=>$cocep2->literal, 'numerica'=>$cocep2->numerica, 'evaluador'=>$cocep2->grado.' '.$cocep2->nombre.' '.$cocep2->paterno.' '.$cocep2->materno.' - '.$cocep2->cargo];
+            // $proConcep = round(($cocep1->numerica + $cocep2->numerica) / 2, 2);
+            // $conc3 = ['literal'=>'', 'numerica'=>'-', 'evaluador'=>' - '];
             foreach ($nota1 as $key => $value) {
                 $promedio =  ($value->nota +  $nota2[$c]->nota) / 2;
                 $notas[$key] = array('pre' => $value->detalle,'n1' => $value->nota, 'n2' => $nota2[$c]->nota, 'n3' => '-', 'promedio' =>  $promedio);
@@ -182,13 +187,13 @@ class FojaController extends Controller
            $proObjetiva = round($p/$c,2);
         }
         if ($neva == 3) {
-            $cocep1 = $this->NotaConceptual($obj[0]);
-            $cocep2 = $this->NotaConceptual($obj[1]);
-            $cocep3 = $this->NotaConceptual($obj[2]);
-            $conc1 = ['literal'=>$cocep1->literal, 'numerica'=>$cocep1->numerica, 'evaluador'=>$cocep1->grado.' '.$cocep1->nombre.' '.$cocep1->paterno.' '.$cocep1->materno.' - '.$cocep1->cargo];
-            $conc2 = ['literal'=>$cocep2->literal, 'numerica'=>$cocep2->numerica, 'evaluador'=>$cocep2->grado.' '.$cocep2->nombre.' '.$cocep2->paterno.' '.$cocep2->materno.' - '.$cocep2->cargo];
-            $conc3 = ['literal'=>$cocep3->literal, 'numerica'=>$cocep3->numerica, 'evaluador'=>$cocep3->grado.' '.$cocep3->nombre.' '.$cocep3->paterno.' '.$cocep3->materno.' - '.$cocep3->cargo];
-            $proConcep = round(($cocep1->numerica + $cocep2->numerica + $cocep3->numerica) / 3, 2);
+            // $cocep1 = $this->NotaConceptual($obj[0]);
+            // $cocep2 = $this->NotaConceptual($obj[1]);
+            // $cocep3 = $this->NotaConceptual($obj[2]);
+            // $conc1 = ['literal'=>$cocep1->literal, 'numerica'=>$cocep1->numerica, 'evaluador'=>$cocep1->grado.' '.$cocep1->nombre.' '.$cocep1->paterno.' '.$cocep1->materno.' - '.$cocep1->cargo];
+            // $conc2 = ['literal'=>$cocep2->literal, 'numerica'=>$cocep2->numerica, 'evaluador'=>$cocep2->grado.' '.$cocep2->nombre.' '.$cocep2->paterno.' '.$cocep2->materno.' - '.$cocep2->cargo];
+            // $conc3 = ['literal'=>$cocep3->literal, 'numerica'=>$cocep3->numerica, 'evaluador'=>$cocep3->grado.' '.$cocep3->nombre.' '.$cocep3->paterno.' '.$cocep3->materno.' - '.$cocep3->cargo];
+            // $proConcep = round(($cocep1->numerica + $cocep2->numerica + $cocep3->numerica) / 3, 2);
             $nota1 = $this->NotasObjetivasList($obj[0]);
             $nota2 = $this->NotasObjetivasList($obj[1]);
             $nota3 = $this->NotasObjetivasList($obj[2]);
@@ -224,33 +229,33 @@ class FojaController extends Controller
         $fecha = $dia.' de '.$meses[$mes-1].' de '.$año;
         
         
-        $notaFinal = round(($proObjetiva + $proConcep) / 2 ,2);
-
-        $qr = QrCode::format('png')->encoding('UTF-8')->size(100)->merge('../public/img/Sin título-1.png',.55,true)->generate("$personal->graCom $personal->paterno $personal->materno $personal->nombre \n Nota Promedio Objetiva: $proObjetiva \n Nota Promedio Conseptual: $proConcep \n Nota Final: $notaFinal");
+        // $notaFinal = round(($proObjetiva + $proConcep) / 2 ,2);
+        $datoPersonal = json_decode($datoPer->getBody()->getContents());
+        // $qr = QrCode::format('png')->encoding('UTF-8')->size(100)->merge('../public/img/Sin título-1.png',.55,true)->generate("$datoPersonal->graCom $datoPersonal->paterno $datoPersonal->materno $datoPersonal->nombre \n Nota Promedio Objetiva: $proObjetiva \n Nota Promedio Conseptual: $proConcep \n Nota Final: $notaFinal");
+        $qr = QrCode::format('png')->encoding('UTF-8')->size(100)->merge('../public/img/Sin título-1.png',.55,true)->generate("$personal->graCom $datoPersonal->paterno $datoPersonal->materno $datoPersonal->nombre \n ");
         $qrband = $qr;
         $pdf = PDF::loadView( $doc,[
-            'usuario' => $personal,
-            'designaciones' =>$designaciones,
-            'sanciones' => $sanciones,
-            'revistas' => $revistas,
+            'usuario1' => $personal,
+            'usuario2' => $datoPer,
+            // 'designaciones' =>$designaciones,
+            // 'sanciones' => $sanciones,
+            // 'revistas' => $revistas,
             'fechaEvaluacion' => $fechaEvaluacion,
-            // // 'nuemroEvaluaciones' => $neva,
-            // 'evaluCalificadas' => $obj[0]
             'notas' => $notas,
             'promedioObjetiva' => $proObjetiva,
             'conceptual1' => $conc1,
             'conceptual2' => $conc2,
             'conceptual3' => $conc3,
-            'promedioConceptual' => $proConcep,
-            'notaFinal' => $notaFinal,
-            'foto' => 'http://sipefab.fab.bo/img/personal/'.$personal->foto,
+            // 'promedioConceptual' => $proConcep,
+            // 'notaFinal' => $notaFinal,
+            'foto' => 'http://sipefab.fab.bo/img/personal/'.$datoPer['foto'],
             'fecha' => $fecha,
             'depa' => $depa,
             'qrband' => $qrband
         ])->setPaper(array(0, 0, 612.00, 935.433), 'portrait');
 
         return $pdf->stream();
-        // return $per;
+        // return $datoPersonal;
     }
 
     public function listarDesignacionesImp($id, $eva){
@@ -325,11 +330,13 @@ class FojaController extends Controller
         /**
          * Muestra la evaluacioes terminadas
          */
-        $evaluaciones = DB::table('jurado_personals')
-            ->select('id')
-            ->where('idpersonal',$id)
-            ->where('evaluacion',$eva)
-            ->where('estado',0)
+        $evaluaciones = DB::table('jurado_personals as jp')
+            ->join('jurados as j','jp.idjurado','j.id')
+            ->select('jp.id')
+            ->where('jp.idpersonal',$id)
+            ->where('jp.evaluacion',$eva)
+            ->where('jp.estado',0)
+            ->orderBy('j.orden')
             ->get();
         return $evaluaciones;
     }
@@ -355,10 +362,26 @@ class FojaController extends Controller
         $concep = DB::table('conceptual_calificaciones as cc')
                     ->join('jurado_personals as jp', 'cc.idjuradoPersonal','jp.id')
                     ->join('jurados as j','jp.idjurado','j.id')
-                    ->join('personals as p','j.per_cod','p.per_codigo')
-                    ->select('cc.literal','cc.numerica','j.graCom as grado','j.cargo','p.per_nombre as nombre','p.per_paterno as paterno','p.per_materno as materno')
+                    ->select('cc.literal','cc.numerica','j.graCom as grado','j.cargo','j.per_cod')
                     ->where('cc.idjuradoPersonal',$id)
                     ->first();
-        return $concep;
+
+        $datoPer = Http::withHeaders([
+            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+            ])->post(Config::get('nomServidor.web').'/api/nomJud',[
+                'percodigo' => $concep->per_cod,
+            ]);
+        $data = [];
+        $data =[
+            'literal' => $concep->literal,
+            'numerica' => $concep->numerica,
+            'grado' => $concep->grado,
+            'nombre' => $datoPer['nombre'],
+            'paterno' => $datoPer['paterno'],
+            'materno' => $datoPer['materno'],
+            'cargo' => $concep->cargo
+
+        ];
+        return $data;
     }
 }

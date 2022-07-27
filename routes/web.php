@@ -71,8 +71,6 @@ Route::post('/juradoPersonal','PersonalController@juradoPersonal');
 Route::post('/datosEvaluador','PersonalController@datosEvaluador');
 //Ruta para datos del evaluado
 Route::post('/datosEvaluado','PersonalController@datosEvaluado');
-//Lista del personal de la unidad a la cual pertenece el encargado de la impresion de las fojas de concepto
-Route::post('/listaPersonal','PersonalController@listaPersonal');
 
 //**************************DATOS FOJAS DE CONCEPTO************************************/
 //Datos de la Evaluacion

@@ -19,40 +19,6 @@ class DatosFojaController extends Controller
         
         return response()->json($data);
     }
-    public function listarDesignaciones(Request $request){
-        $id = $request->id;
-        
-        $designaciones = DB::table('personal_designaciones')
-            ->select('id','fecha', 'nro_doc as ndoc', 'documento as doc','descripcion as desc')
-            ->where('per_codigo',$id)
-            ->whereYear('fecha', $date->ano)
-            ->orderBy('id')
-            ->orderBy('fecha')
-            ->get();
-        
-        return response()->json($designaciones);
-    }
-    
-    public function listarSanciones(Request $request){
-        $date = DB::table('evaluaciones as e')
-            ->join('periodos as p', 'e.idperiodo','p.id')
-            ->select('p.ano')
-            ->where('e.id',$request->e)
-            ->first();
-        $id = $request->id;
-        
-        $sanciones = DB::table('personal_faltas as pf')
-            ->join('nivel1_faltas as f1','pf.f1_cod','f1.id')
-            ->join('nivel2_faltas as f2','pf.f2_cod','f2.id' )
-            ->join('sanciones as s','pf.san_cod','s.id')
-            ->select('pf.id','pf.per_codigo','pf.ndoc','pf.documento','pf.dias','pf.fecha_sancion as fecha','f1.descripcion as falta1', 'f2.descripcion as falta2','s.descripcion as sancion')
-            ->where('pf.per_codigo',$id)
-            ->whereYear('pf.fecha_sancion',  $date->ano)
-            ->get();
-        
-        return response()->json($sanciones);
-    }
-
     /**
      * Funcion para las notas objetivas
      */

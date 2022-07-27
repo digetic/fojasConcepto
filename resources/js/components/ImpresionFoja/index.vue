@@ -12,12 +12,12 @@
                 </h1>
             </h3>
           </div>
-          <div class="col-sm-6">
+          <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Modals & Alerts</li>
             </ol>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- /.container-fluid -->
@@ -246,10 +246,12 @@ export default {
             } else {
               try {
                 let me = this;
-                axios
-                    .post("/listaPersonal", {
-                        destino: me.dest3.id,
-                        page: page
+                  axios
+                    .post(me.$web+"/api/listaPersonal", {
+                          destino: me.dest3.id,
+                          page: page
+                    },{
+                        headers: {'token': me.$tokenfoja}
                     })
                     .then(function (response) {
                       me.personal = response.data.personal.data
@@ -257,8 +259,8 @@ export default {
                       console.log( response);
                     })
                     .catch(function (error) {
-                    // handle error
-                    console.log(error);
+                        // handle error
+                        console.log(error);
                     })
               } catch (error) {
                 this.personal = []
@@ -293,19 +295,20 @@ export default {
         },
         listardestinos3() {
             let me = this;
-            axios
-                .get('/dest3cal')
+              axios
+                .post(me.$web+"/api/dest3cal", {
+                      id: window.user.user.percod
+                },{
+                    headers: {'token': me.$tokenfoja}
+                })
                 .then(function (response) {
-                me.destinos3 = response.data;
-                console.log(response);
+                  // console.log(response);
+                    me.destinos3 = response.data;
                 })
                 .catch(function (error) {
-                // handle error
-                console.log(error);
+                    // handle error
+                    console.log(error);
                 })
-                .then(function () {
-                // always executed
-                });
         },
         EstadoImpresion(id, d){
           let me = this;
@@ -340,7 +343,7 @@ export default {
         },
         Notas(perCodigo, d, depa, eva){
           
-           window.open('http://fojasconceptov1.test/datosfoja/'+perCodigo+'/'+d+'/'+depa+'/'+eva);
+           window.open('http://fojasconcepto.test/datosfoja/'+perCodigo+'/'+d+'/'+depa+'/'+eva);
         }
         
     },
