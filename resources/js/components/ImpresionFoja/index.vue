@@ -247,7 +247,7 @@ export default {
               try {
                 let me = this;
                   axios
-                    .post(me.$web+"/api/listaPersonal", {
+                    .post(me.$web+"/api/listaPersonal3", {
                           destino: me.dest3.id,
                           page: page
                     },{
