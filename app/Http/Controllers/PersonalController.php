@@ -95,14 +95,14 @@ class PersonalController extends Controller
     public function datosEvaluador(Request $request){
         $id = $request->id;
         $evaluador = DB::table('jurados as j')
-                ->select('j.graCom','j.cargo', 'j.estado','j.evaluacion','j.dest3','j.per_cod')
+                ->select('j.graCom','j.cargo', 'j.estado','j.evaluacion','j.dest3','j.per_cod','j.destJur')
                 ->where('j.id',$id)
                 ->first();
         $dato = Http::withHeaders([
             'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
             ])->post(Config::get('nomServidor.web').'/api/nomdestper3',[
                 'percodigo' => $evaluador->per_cod,
-                'd3' => $evaluador->dest3
+                'd3' => $evaluador->destJur
             ]);
         $data = [
                 'nombre' => $evaluador->graCom.' '.$dato['nombre'].' '.$dato['paterno'].' '.$dato['materno'],

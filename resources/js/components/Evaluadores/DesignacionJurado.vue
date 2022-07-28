@@ -349,6 +349,7 @@ export default {
               headers: {'token': me.$tokenfoja}
           })
           .then(function (response) {
+            console.log(response);
                me.personal = response.data;
           })
           .catch(function (error) {
@@ -367,7 +368,9 @@ export default {
                 orden: this.nuevoEncargado.orden,
                 gradCom: this.nuevoEncargado.gradCom,
                 cargo: this.nuevoEncargado.cargo,
-                nombre: this.nuevoEncargado.text
+                nombre: this.nuevoEncargado.text,
+                promo: this.nuevoEncargado.promo,
+                d3: this.nuevoEncargado.d3
               });
               this.idCalificadores.push(this.nuevoEncargado.id);
               this.nuevoEncargado = [];
@@ -404,7 +407,9 @@ export default {
                 orden: this.perExt.orden,
                 gradCom: this.perExt.gradCom,
                 cargo: this.perExt.cargo,
-                nombre: this.perExt.text
+                nombre: this.perExt.text,
+                promo: this.perExt.promo,
+                d3: this.perExt.d3
               });
               this.idCalificadores.push(this.perExt.id);
               this.perExt = []; 
@@ -543,6 +548,7 @@ export default {
               headers: {'token': me.$tokenfoja}
           })
           .then(function (response) {
+            console.log(response);
               me.ApersoExt = response.data;            
               $('#EvaluadorExterno').modal('show'); 
           })

@@ -33,10 +33,12 @@ class JuradoController extends Controller
                         'graCom' => $e['gradCom'],
                         'cargo' => $e['cargo'],
                         'orden' => $e['orden'],
+                        'promo'=> $e['promo'],
                         'dest1' => $dest1,
                         'dest2' => $dest2,
                         'dest3' => $dest3,
                         'dest4' => $s,
+                        'destJur' => $e['d3'],
                         'evaluacion' => $eva,
                         'estado' => 1,
                         'sysuser' => 'sta'

@@ -169,7 +169,14 @@
                         <strong>ESPECIALIDAD:</strong> <span >{{$usuario2['esp']}} - {{$usuario2['subespe']}}</span> 
                     </td>
                     <td style="width: 60%;">
-                        <strong>PERIODO DE CALIFICACIÓN:</strong> <span >{{$fechaEvaluacion->inicio}} AL {{$fechaEvaluacion->fin}}</span> 
+                        <?php
+                            $date1 = date_create($fechaEvaluacion->inicio);
+                            $fechaasc1 = date_format($date1,"d/m/Y");
+                            $date2 = date_create($fechaEvaluacion->fin);
+                            $fechaasc2 = date_format($date2,"d/m/Y");
+                
+                        ?>
+                        <strong>PERIODO DE CALIFICACIÓN:</strong> <span ><?php echo $fechaasc1; ?> AL <?php echo $fechaasc2; ?></span> 
                     </td>
                 </tr>
             </tbody>
@@ -219,12 +226,12 @@
                 <table id="calconc">{{-- jefe de personal --}}
                     <thead>
                         <tr>
-                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px;">1ra. Calificación del Comando de Escuadrón o Jefe de Sección</th>
+                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px;">1ra. Calificación {{$conceptual1['cargo']}}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            {{-- <td colspan="4" style="height:30px; font-size: 10px; "><i> {{$conceptual1['literal']}} </i></td> --}}
+                            <td colspan="4" style="height:30px; font-size: 10px; "><i> {{$conceptual1['literal']}} </i></td>
                         </tr>
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
@@ -245,21 +252,21 @@
                 <table id="calconc">{{-- 2do comandante --}}
                     <thead>
                         <tr>
-                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px; ">2da. Calificación del Segundo Comandante o Sub-Jefe de Sección de Departamento</th>
+                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px; ">2da. Calificación {{$conceptual2['cargo']}}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            {{-- <td colspan="4" style="height:30px; font-size: 10px; "><i>{{$conceptual2['literal']}}</i></td> --}}
+                            <td colspan="4" style="height:30px; font-size: 10px; "><i>{{$conceptual2['literal']}}</i></td>
                         </tr>
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
-                            {{-- <td style="width: 17%; text-align: center;">{{$conceptual2['numerica']}}</td> --}}
+                            <td style="width: 17%; text-align: center;">{{$conceptual2['numerica']}}</td>
                             <td style="width: 12%; padding: 7px 3px;">Firma</td>
                             <td style="width: 35%;"></td>
                         </tr>
                         <tr>
-                            {{-- <td colspan="4"> {{$conceptual2['evaluador']}}</td> --}}
+                            <td colspan="4"> {{$conceptual2['evaluador']}}</td>
                         </tr>
                         {{-- <tr>
                             <td colspan="4">Grado, Nombre, Apellido y Cargo del Superior Calificador</td>
@@ -269,21 +276,21 @@
                 <table id="calconc">{{-- Comandante --}}
                     <thead>
                         <tr>
-                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px;">3er. Calificación del Comandante o Jefe de Departamento</th>
+                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px;">3er. Calificación {{$conceptual3['cargo']}}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            {{-- <td colspan="4" style="height:30px; font-size: 10px; "><i>{{$conceptual3['literal']}}</i></td> --}}
+                            <td colspan="4" style="height:30px; font-size: 10px; "><i>{{$conceptual3['literal']}}</i></td>
                         </tr>
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
-                            {{-- <td style="width: 17%; text-align: center;">{{$conceptual3['numerica']}}</td> --}}
+                            <td style="width: 17%; text-align: center;">{{$conceptual3['numerica']}}</td>
                             <td style="width: 12%; padding: 7px 3px;">Firma</td>
                             <td style="width: 35%;"></td>
                         </tr>
                         <tr>
-                            {{-- <td colspan="4">{{$conceptual3['evaluador']}}</td> --}}
+                            <td colspan="4">{{$conceptual3['evaluador']}}</td>
                         </tr>
                         {{-- <tr>
                             <td colspan="4">Grado, Nombre, Apellido y Cargo del Superior Calificador</td>
@@ -300,7 +307,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- <tr>
+                        <tr>
                             <td style="border: 1px solid #000;">Primera</td>
                             <td style="border: 1px solid #000;"><center>{{$conceptual1['numerica']}}</center></td>
                             <td ></td>
@@ -327,7 +334,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                        </tr> --}}
+                        </tr>
                         
                     </tbody>
                 </table>
@@ -336,11 +343,11 @@
             <div style="font-size: 13px; padding-top: 10px; padding-bottom:70px;"><u><strong>5. NOTIFICACIÓN</strong></u></div>
             <table style="width: 100%; border-collapse: collapse; border-spacing: 0; border: black 1px ; margin-bottom: 5px;">{{-- promedio conceptual --}}
                 <thead>
-                    {{-- <tr>
-                        <th colspan="2" style="  font-size: 12.5px; padding: 4px 3px; text-align: left; text-align: center;">{{$usuario->graCom}} {{$usuario->paterno}} {{$usuario->materno}} {{$usuario->nombre}}</th>
+                    <tr>
+                        <th colspan="2" style="  font-size: 12.5px; padding: 4px 3px; text-align: left; text-align: center;">{{$usuario1->graCom}} {{$usuario2['paterno']}} {{$usuario2['materno']}} {{$usuario2['nombre']}}</th>
                         <th style="width: 2%;"></th>
                         <th colspan="2" style="  font-size: 12.5px; padding: 4px 3px; text-align: left;"><hr></th>
-                    </tr> --}}
+                    </tr>
                 </thead>
                 <tbody>
                     <tr>
@@ -361,29 +368,34 @@
                 <table id="designa">
                     <thead>
                         <tr>
-                            <th>Fecha</th>
-                            <th>Clase y Nro. de Documento</th>
-                            <th>Detalle</th>
+                            <th style="width: 12%;">Fecha</th>
+                            <th style="width: 28%;">Clase y Nro. de Documento</th>
+                            <th style="width: 60%;">Detalle</th>
                         </tr>
                     </thead>
-                    {{-- <tbody >
+                    <tbody >
                         @if (count($designaciones) > 0)
                             @foreach ($designaciones as $item)
                                 <tr>
-                                    <td style="width: 12%;">{{$item->fecha}}</td>
-                                    <td style="width: 18%;">{{$item->doc}} {{$item->ndoc}}</td>
-                                    <td style="width: 70%; padding-left: 1px;">{{$item->desc}}</td>
+                                    <?php
+                                        $date = date_create($item->fecha);
+                                        $fechaasc = date_format($date,"d/m/Y");
+                            
+                                    ?>
+                                    <td style="text-align: center"><?php echo $fechaasc; ?></td>
+                                    <td style="text-align: center"> {{$item->ndoc}} - {{$item->doc}}</td>
+                                    <td style="padding-left: 10px;">{{$item->desc}}</td>
                                 </tr>
                             @endforeach 
                         @else
                         <tr>
-                            <td style="width: 12%;">&nbsp;    </td>
-                            <td style="width: 18%;">&nbsp;    </td>
-                            <td style="width: 70%; padding-left: 1px;"> &nbsp;  </td>
+                            <td style="">&nbsp;    </td>
+                            <td style="">&nbsp;    </td>
+                            <td style="padding-left: 1px;"> &nbsp;  </td>
                         </tr>
                         @endif              
 
-                    </tbody> --}}
+                    </tbody>
                 </table>
             </div>
         </section>
@@ -394,35 +406,40 @@
                 <table id="sanciona">
                     <thead>
                         <tr>
-                            <th>Fecha</th>
-                            <th>Clase y Nro. de Documento</th>
-                            <th>Tiempo</th>
-                            <th>Sanción</th>
-                            <th>Motivo</th>
+                            <th style="width: 12%;">Fecha</th>
+                            <th style="width: 28%;">Clase y Nro. de Documento</th>
+                            <th style="width: 10%;">Tiempo</th>
+                            <th style="width: 18%;">Sanción</th>
+                            <th style="width: 32%;">Motivo</th>
                         </tr>
                     </thead>
-                    {{-- <tbody>
+                    <tbody>
                         @if (count($sanciones) > 0)
                             @foreach ($sanciones as $item)
                                 <tr>
-                                    <td style="width: 12%;">{{$item->fecha}}</td>
-                                    <td style="width: 18%;">{{$item->documento}} {{$item->ndoc}}</td>
-                                    <td style="width: 10%;">{{$item->dias}}</td>
-                                    <td style="width: 35%; padding-left: 1px;">{{$item->sancion}}</td>
-                                    <td style="width: 25%;">{{$item->falta2}}</td>
+                                    <?php
+                                        $date = date_create($item->fecha);
+                                        $fechaasc = date_format($date,"d/m/Y");
+                            
+                                    ?>
+                                    <td style="text-align: center"><?php echo $fechaasc; ?></td>
+                                    <td style="text-align: center"> {{$item->ndoc}} - {{$item->documento}}</td>
+                                    <td style="text-align: center">{{$item->dias}}</td>
+                                    <td style=" padding-left: 10px;">{{$item->sancion}}</td>
+                                    <td style="">{{$item->falta2}}</td>
                                 </tr> 
                             @endforeach
                         @else
                             <tr>
-                                <td style="width: 12%;">&nbsp;</td>
-                                <td style="width: 18%;">&nbsp;</td>
-                                <td style="width: 10%;">&nbsp;</td>
-                                <td style="width: 35%; padding-left: 1px;">&nbsp;</td>
-                                <td style="width: 25%;">&nbsp;</td>
+                                <td style="">&nbsp;</td>
+                                <td style="">&nbsp;</td>
+                                <td style="">&nbsp;</td>
+                                <td style=" padding-left: 1px;">&nbsp;</td>
+                                <td style="">&nbsp;</td>
                             </tr> 
                         @endif                
 
-                    </tbody> --}}
+                    </tbody>
                 </table>
             </div>
         </section>
@@ -470,7 +487,7 @@
         </section>
         <br>
         <section>{{-- Revistas Militares --}}
-            <div style="padding-bottom: 4px; font-size: 13px;"><u><strong>9. REVISTAS MILITARES</strong></u></div>
+            {{-- <div style="padding-bottom: 4px; font-size: 13px;"><u><strong>9. REVISTAS MILITARES</strong></u></div>
             <div>
                 <table id="sanciona">
                     <thead>
@@ -481,7 +498,7 @@
                             <th>COMPAÑIA / ESCALAFÓN</th>
                         </tr>
                     </thead>
-                    {{-- <tbody>
+                    <tbody>
                         @if (count($revistas) > 0)
                             @foreach ($revistas as $item)
                                 <tr>
@@ -500,9 +517,9 @@
                             </tr> 
                         @endif                                  
 
-                    </tbody> --}}
+                    </tbody>
                 </table>
-            </div>
+            </div> --}}
         </section>
         <br>
         <section>{{-- Guia de interpretacion --}}
