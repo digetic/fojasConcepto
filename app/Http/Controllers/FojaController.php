@@ -29,16 +29,14 @@ class FojaController extends Controller
 
             $preObj = $request->preguntasCal;
             $notObj = $request->notasObje;
-            $cont = 0;
-            while ($cont < count($preObj)) {
 
+            $data = [];
+            foreach ($request->cal as $key => $value) {
                 CalificacionObjetiva::create([
-                    'iddetalleObjetiva' => $preObj[$cont],
+                    'iddetalleObjetiva' => $value['idpregunta'],
                     'idjuradoPersonal' => $request->jpid,
-                    'nota' => $notObj[$cont]
+                    'nota' => $value['nota']
                 ]);
-                
-                $cont++;
             }
             DB::table('jurado_personals')
             ->where('id',$request->jpid)
@@ -47,17 +45,12 @@ class FojaController extends Controller
             ]);
 
             DB::commit();
-            return response()->json([
-                'code' => 200
-            ]);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
                 'code' => 400
             ]);
         }
-
-        // return response()->json($request);
     }
 
     public function EstadoImpresion(Request $request)

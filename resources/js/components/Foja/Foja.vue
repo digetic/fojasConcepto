@@ -463,8 +463,7 @@ export default {
                 juPer: this.id,
                 literal: this.liteConc.toUpperCase(),
                 numerica: this.notaConc,
-                notasObje: this.notasPre,
-                preguntasCal: this.preguntaCali,
+                cal: me.calificacion,
                 jpid: this.jpid
               })
               .then(function (response) {
@@ -481,7 +480,7 @@ export default {
                       id: me.id
                   }
                 });
-                // console.log(response);
+                console.log(response);
               })
               .catch(function (error) {
                 // handle error
