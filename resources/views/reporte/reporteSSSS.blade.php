@@ -207,15 +207,23 @@
                                 <td ><center>{{$item['n1']}}</center></td>
                                 <td ><center>{{$item['n2']}}</center></td>
                                 <td ><center>{{$item['n3']}}</center></td>
-                                <td ><center>{{$item['promedio']}}</center></td>
+                                <?php
+                                        $promedioObjetivoIndividual = number_format($item['promedio'],2);
+                            
+                                    ?>
+                                <td ><center><?php echo $promedioObjetivoIndividual; ?></center></td>
                             </tr>
                         @endforeach
                         <tr>
-                            <td style="background-color: #717171">Promedio Objetivo</td>
+                            <td style="background-color: #d9d0d0">Promedio Objetivo</td>
                             <td ></td>
                             <td ></td>
                             <td ></td>
-                            <td ><center>{{$promedioObjetiva}}</center></td>
+                            <?php
+                                $promedioObjetivo = number_format($promedioObjetiva,2);
+                    
+                            ?>
+                            <td ><center><?php echo $promedioObjetivo; ?></center></td>
                         </tr>
                     </tbody>
                 </table>
@@ -236,11 +244,11 @@
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
                             <td style="width: 17%; text-align: center;">{{$conceptual1['numerica']}}</td>
-                            <td style="width: 12%; padding: 7px 3px;">Firma</td>
-                            <td style="width: 35%;"></td>
+                            <td style="width: 12%; padding: 7px 3px;" rowspan="2">Firma</td>
+                            <td style="width: 35%;" rowspan="2"></td>
                         </tr>
                         <tr>
-                            <td colspan="4">{{$conceptual1['evaluador']}}</td>
+                            <td colspan="2">{{$conceptual1['evaluador']}}</td>
                         </tr>
                         {{-- <tr>
                             <td colspan="4">Grado, Nombre, Apellido y Cargo del Superior Calificador</td>
@@ -262,11 +270,11 @@
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
                             <td style="width: 17%; text-align: center;">{{$conceptual2['numerica']}}</td>
-                            <td style="width: 12%; padding: 7px 3px;">Firma</td>
-                            <td style="width: 35%;"></td>
+                            <td style="width: 12%; padding: 7px 3px;" rowspan="2">Firma</td>
+                            <td style="width: 35%;" rowspan="2"></td>
                         </tr>
                         <tr>
-                            <td colspan="4"> {{$conceptual2['evaluador']}}</td>
+                            <td colspan="2"> {{$conceptual2['evaluador']}}</td>
                         </tr>
                         {{-- <tr>
                             <td colspan="4">Grado, Nombre, Apellido y Cargo del Superior Calificador</td>
@@ -286,11 +294,11 @@
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
                             <td style="width: 17%; text-align: center;">{{$conceptual3['numerica']}}</td>
-                            <td style="width: 12%; padding: 7px 3px;">Firma</td>
-                            <td style="width: 35%;"></td>
+                            <td style="width: 12%; padding: 7px 3px;" rowspan="2">Firma</td>
+                            <td style="width: 35%;" rowspan="2"></td>
                         </tr>
                         <tr>
-                            <td colspan="4">{{$conceptual3['evaluador']}}</td>
+                            <td colspan="2">{{$conceptual3['evaluador']}}</td>
                         </tr>
                         {{-- <tr>
                             <td colspan="4">Grado, Nombre, Apellido y Cargo del Superior Calificador</td>
@@ -307,30 +315,40 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php
+                                $promedioConceptual1 = number_format($promedioConceptual,2);
+                    
+                            ?>
                         <tr>
                             <td style="border: 1px solid #000;">Primera</td>
                             <td style="border: 1px solid #000;"><center>{{$conceptual1['numerica']}}</center></td>
                             <td ></td>
                             <td style="border: 1px solid #000;">Promedio Objetivo</td>
-                            <td style="border: 1px solid #000;"><center>{{$promedioObjetiva}}</center></td>
+                            <td style="border: 1px solid #000;"><center><?php echo $promedioObjetivo; ?></center></td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000;">Segunda</td>
                             <td style="border: 1px solid #000;"><center>{{$conceptual2['numerica']}}</center></td>
                             <td></td>
                             <td style="border: 1px solid #000;">Promedio Conceptual</td>
-                            <td style="border: 1px solid #000;"><center>{{$promedioConceptual}}</center></td>
+
+                            <td style="border: 1px solid #000;"><center><?php echo $promedioConceptual1; ?></center></td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000;">Tercera</td>
                             <td style="border: 1px solid #000;"><center>{{$conceptual3['numerica']}}</center></td>
                             <td></td>
                             <td style="border: 1px solid #000;"><strong>Nota Semestral:</strong></td>
-                            <td style="border: 1px solid #000;"><center>{{$notaFinal}}</center></td>
+                            <?php
+                                $notaFinal1 = number_format($notaFinal,2);
+                    
+                            ?>
+                            <td style="border: 1px solid #000;"><center><?php echo $notaFinal1; ?></center></td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000;"><strong>Promedio Conceptual:</strong></td>
-                            <td style="border: 1px solid #000;"><center>{{$promedioConceptual}}</center></td>
+                            
+                            <td style="border: 1px solid #000;"><center><?php echo $promedioConceptual1; ?></center></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -351,7 +369,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="2" style="text-align: center; font-size: 12px;">Grado, Apelllidos y Nombres</td>
+                        <td colspan="2" style="text-align: center; font-size: 12px;"></td>
                         <td ></td>
                         <td colspan="2" style="text-align: center; font-size: 12px;">FIRMA</td>
                     </tr>
