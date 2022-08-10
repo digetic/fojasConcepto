@@ -207,7 +207,11 @@
                                 <td ><center>{{$item['n1']}}</center></td>
                                 <td ><center>{{$item['n2']}}</center></td>
                                 <td ><center>{{$item['n3']}}</center></td>
-                                <td ><center>{{$item['promedio']}}</center></td>
+                                <?php
+                                        $promedioObjetivoIndividual = number_format($item['promedio'],2);
+                            
+                                    ?>
+                                <td ><center><?php echo $promedioObjetivoIndividual; ?></center></td>
                             </tr>
                         @endforeach
                         <tr>
@@ -215,7 +219,21 @@
                             <td ></td>
                             <td ></td>
                             <td ></td>
-                            <td ><center>{{$promedioObjetiva}}</center></td>
+                            <?php
+                                $promedioObjetivo = number_format($promedioObjetiva,2);
+                    
+                            ?>
+                            <td @php
+                                if ($promedioObjetivo >= 70) {
+                                    echo ' style=" color: green;"';
+                                }
+                                if ( $promedioObjetivo < 70 && $promedioObjetivo >= 50) {
+                                    echo ' style=" color: yellow;"';
+                                }
+                                if ( $promedioObjetivo < 50 && $promedioObjetivo >= 0) {
+                                    echo ' style=" color: red;"';
+                                }
+                            @endphp><center><?php echo $promedioObjetivo; ?></center></td>
                         </tr>
                     </tbody>
                 </table>
@@ -236,8 +254,8 @@
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
                             <td style="width: 17%; text-align: center;">{{$conceptual1['numerica']}}</td>
-                            <td style="width: 12%; padding: 7px 3px;">Firma</td>
-                            <td style="width: 35%;"></td>
+                            <td style="width: 12%; padding: 7px 3px;" rowspan="2">Firma</td>
+                            <td style="width: 35%;" rowspan="2"></td>
                         </tr>
                         <tr>
                             <td colspan="4">{{$conceptual1['evaluador']}}</td>
@@ -262,8 +280,8 @@
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
                             <td style="width: 17%; text-align: center;">{{$conceptual2['numerica']}}</td>
-                            <td style="width: 12%; padding: 7px 3px;">Firma</td>
-                            <td style="width: 35%;"></td>
+                            <td style="width: 12%; padding: 7px 3px;" rowspan="2">Firma</td>
+                            <td style="width: 35%;" rowspan="2"></td>
                         </tr>
                         <tr>
                             <td colspan="4"> {{$conceptual2['evaluador']}}</td>
@@ -286,8 +304,8 @@
                         <tr>
                             <td style="width: 36%;">Calificacion Conceptual Numérica</td>
                             <td style="width: 17%; text-align: center;">{{$conceptual3['numerica']}}</td>
-                            <td style="width: 12%; padding: 7px 3px;">Firma</td>
-                            <td style="width: 35%;"></td>
+                            <td style="width: 12%; padding: 7px 3px;" rowspan="2">Firma</td>
+                            <td style="width: 35%;" rowspan="2"></td>
                         </tr>
                         <tr>
                             <td colspan="4">{{$conceptual3['evaluador']}}</td>
@@ -307,30 +325,58 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php
+                                $promedioConceptual1 = number_format($promedioConceptual,2);
+                    
+                            ?>
                         <tr>
                             <td style="border: 1px solid #000;">Primera</td>
                             <td style="border: 1px solid #000;"><center>{{$conceptual1['numerica']}}</center></td>
                             <td ></td>
                             <td style="border: 1px solid #000;">Promedio Objetivo</td>
-                            <td style="border: 1px solid #000;"><center>{{$promedioObjetiva}}</center></td>
+                            <td style="border: 1px solid #000;"><center><?php echo $promedioObjetivo; ?></center></td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000;">Segunda</td>
                             <td style="border: 1px solid #000;"><center>{{$conceptual2['numerica']}}</center></td>
                             <td></td>
                             <td style="border: 1px solid #000;">Promedio Conceptual</td>
-                            <td style="border: 1px solid #000;"><center>{{$promedioConceptual}}</center></td>
+                            <td style="border: 1px solid #000;"><center><?php echo $promedioConceptual1; ?></center></td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000;">Tercera</td>
                             <td style="border: 1px solid #000;"><center>{{$conceptual3['numerica']}}</center></td>
                             <td></td>
                             <td style="border: 1px solid #000;"><strong>Nota Semestral:</strong></td>
-                            <td style="border: 1px solid #000;"><center>{{$notaFinal}}</center></td>
+                            <?php
+                                $notaFinal1 = number_format($notaFinal,2);
+                    
+                            ?>
+                            <td @php
+                                if ($notaFinal1 >= 70) {
+                                    echo ' style=" border: 1px solid #000; color: green;"';
+                                }
+                                if ( $notaFinal1 < 70 && $notaFinal1 >= 50) {
+                                    echo ' style=" border: 1px solid #000; color: yellow;"';
+                                }
+                                if ( $notaFinal1 < 50 && $notaFinal1 >= 0) {
+                                    echo ' style=" border: 1px solid #000; color: red;"';
+                                }
+                            @endphp><center><?php echo $notaFinal1; ?></center></td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000;"><strong>Promedio Conceptual:</strong></td>
-                            <td style="border: 1px solid #000;"><center>{{$promedioConceptual}}</center></td>
+                            <td  @php
+                                if ($promedioConceptual1 >= 70) {
+                                    echo ' style=" border: 1px solid #000; color: green;"';
+                                }
+                                if ( $promedioConceptual1 < 70 && $promedioConceptual1 >= 50) {
+                                    echo ' style=" border: 1px solid #000; color: yellow;"';
+                                }
+                                if ( $promedioConceptual1 < 50 && $promedioConceptual1 >= 0) {
+                                    echo ' style=" border: 1px solid #000; color: red;"';
+                                }
+                            @endphp><center><?php echo $promedioConceptual1; ?></center></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -351,7 +397,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td colspan="2" style="text-align: center; font-size: 12px;">Grado, Apelllidos y Nombres</td>
+                        <td colspan="2" style="text-align: center; font-size: 12px;"></td>
                         <td ></td>
                         <td colspan="2" style="text-align: center; font-size: 12px;">FIRMA</td>
                     </tr>
@@ -451,44 +497,15 @@
             <table id="escala">
                 <tbody>
                     <tr>
-                        <td style="width: 15%;">100</td>
-                        <td style="width: 23%;">Excepcional</td>
-                        <td style="width: 12%; background-color: blue"></td>
-                        <td style="width: 15%;">50 a 59</td>
-                        <td style="width: 23%;">Deficiente</td>
-                        <td style=" width: 12%;background-color: rgb(255, 81, 0)"></td>
-                    </tr>
-                    <tr>
-                        <td>90 a 99</td>
-                        <td>Excelente</td>
-                        <td style="background-color: rgb(0, 255, 76)"></td>
-                        <td>40 a 49</td>
-                        <td>Malo</td>
-                        <td style="background-color: rgb(255, 102, 0)"></td>
-                    </tr>
-                    <tr>
-                        <td>80 a 89</td>
-                        <td>Muy Bueno</td>
-                        <td style="background-color: green"></td>
-                        <td>30 a 39</td>
-                        <td>Muy Malo</td>
-                        <td style="background-color: rgb(255, 136, 0)"></td>
-                    </tr>
-                    <tr>
-                        <td>70 a 79</td>
-                        <td>Bueno </td>
-                        <td style="background-color: orange"></td>
-                        <td>10 a 29</td>
-                        <td>No apto para el servicio</td>
-                        <td style="background-color: red"></td>
-                    </tr>
-                    <tr>
-                        <td>60 a 69</td>
-                        <td>Regular</td>
-                        <td style="background-color: yellow"></td>
-                        <td>0</td>
-                        <td>Ausente</td>
-                        <td style="background-color: white"></td>
+                        <td style="width: 10%;">70 a 100</td>
+                        <td style="width: 15%;">Excepcional</td>
+                        <td style="width: 8%; background-color: green"></td>
+                        <td style="width: 10%;">50 a 69</td>
+                        <td style="width: 15%;">Deficiente</td>
+                        <td style=" width: 8%;background-color: yellow"></td>
+                        <td style="width: 10%;">0 a 49</td>
+                        <td style="width: 15%;">Excelente</td>
+                        <td style="width: 8%;background-color:  red"></td>
                     </tr>
                 </tbody>
             </table>

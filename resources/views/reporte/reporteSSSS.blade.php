@@ -223,7 +223,17 @@
                                 $promedioObjetivo = number_format($promedioObjetiva,2);
                     
                             ?>
-                            <td ><center><?php echo $promedioObjetivo; ?></center></td>
+                            <td @php
+                                if ($promedioObjetivo >= 70) {
+                                    echo ' style=" color: green;"';
+                                }
+                                if ( $promedioObjetivo < 70 && $promedioObjetivo >= 50) {
+                                    echo ' style=" color: yellow;"';
+                                }
+                                if ( $promedioObjetivo < 50 && $promedioObjetivo >= 0) {
+                                    echo ' style=" color: red;"';
+                                }
+                            @endphp><center><?php echo $promedioObjetivo; ?></center></td>
                         </tr>
                     </tbody>
                 </table>
@@ -332,7 +342,7 @@
                             <td></td>
                             <td style="border: 1px solid #000;">Promedio Conceptual</td>
 
-                            <td style="border: 1px solid #000;"><center><?php echo $promedioConceptual1; ?></center></td>
+                            <td  style="border: 1px solid #000;"><center><?php echo $promedioConceptual1; ?></center></td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000;">Tercera</td>
@@ -343,12 +353,32 @@
                                 $notaFinal1 = number_format($notaFinal,2);
                     
                             ?>
-                            <td style="border: 1px solid #000;"><center><?php echo $notaFinal1; ?></center></td>
+                            <td @php
+                                if ($notaFinal1 >= 70) {
+                                    echo ' style=" border: 1px solid #000; color: green;"';
+                                }
+                                if ( $notaFinal1 < 70 && $notaFinal1 >= 50) {
+                                    echo ' style=" border: 1px solid #000; color: yellow;"';
+                                }
+                                if ( $notaFinal1 < 50 && $notaFinal1 >= 0) {
+                                    echo ' style=" border: 1px solid #000; color: red;"';
+                                }
+                            @endphp><center><?php echo $notaFinal1; ?></center></td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000;"><strong>Promedio Conceptual:</strong></td>
                             
-                            <td style="border: 1px solid #000;"><center><?php echo $promedioConceptual1; ?></center></td>
+                            <td @php
+                                if ($promedioConceptual1 >= 70) {
+                                    echo ' style=" border: 1px solid #000; color: green;"';
+                                }
+                                if ( $promedioConceptual1 < 70 && $promedioConceptual1 >= 50) {
+                                    echo ' style=" border: 1px solid #000; color: yellow;"';
+                                }
+                                if ( $promedioConceptual1 < 50 && $promedioConceptual1 >= 0) {
+                                    echo ' style=" border: 1px solid #000; color: red;"';
+                                }
+                            @endphp><center><?php echo $promedioConceptual1; ?></center></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -463,45 +493,31 @@
         </section>
         <br>
         <section>{{-- Horas de vuelo --}}
-            {{-- <div style="padding-bottom: 4px; font-size: 13px;"><u><strong>8. HORAS DE VUELO ANUAL</strong></u></div>
+            <div style="padding-bottom: 4px; font-size: 13px;"><u><strong>8. HORAS DE VUELO ANUAL</strong></u></div>
             <div>
                 <table id="sanciona">
                     <thead>
                         <tr>
-                            <th rowspan="2" style="width: 12%;">Fecha</th>
-                            <th rowspan="2" style="width: 12%;">Nro. de Documento</th>
-                            <th rowspan="2" style="width: 10%;">Hrs. Total</th>
-                            <th colspan="6" style="width: 20%;">Funcion</th>
-                            <th rowspan="2" style="width: 20%;">Aeronave</th>
-                        </tr>
-                        <tr>
-                            <td style="background-color: #D1D7E3; ">AV</td>
-                            <td style="background-color: #D1D7E3; ">INST</td>
-                            <td style="background-color: #D1D7E3; ">CAV</td>
-                            <td style="background-color: #D1D7E3; ">NAV</td>
-                            <td style="background-color: #D1D7E3; ">SAV</td>
-                            <td style="background-color: #D1D7E3; padding: 1px;">NAV</td>
-                            
-                            
+                            <th  style="width: 20%;">Aeronave</th>
+                            <th  style="width: 20%;">Placa</th>
+                            <th  style="width: 20%;">Hrs. Total</th>
+                            <th  style="width: 20%;">VFR</th>
+                            <th  style="width: 20%;">IFR</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td style="width: 12%;">&nbsp;</td>
-                            <td style="width: 18%;">&nbsp;   </td>
-                            <td style="width: 10%;">&nbsp;   </td>
-                            <td style="width: 5%;">&nbsp;  </td>
-                            <td style="width: 5%;">&nbsp;  </td>
-                            <td style="width: 5%;">&nbsp;  </td>
-                            <td style="width: 5%;">&nbsp;  </td>
-                            <td style="width: 5%;">&nbsp;  </td>
-                            <td style="width: 5%;">&nbsp;  </td>
-                            <td style="width: 10%;">&nbsp; </td>
+                            <td >&nbsp;</td>
+                            <td >&nbsp;   </td>
+                            <td >&nbsp;   </td>
+                            <td >&nbsp;  </td>
+                            <td >&nbsp;  </td>
+                            
                         </tr>                 
 
                     </tbody>
                 </table>
-            </div> --}}
+            </div>
         </section>
         <br>
         <section>{{-- Revistas Militares --}}
@@ -547,45 +563,17 @@
             <table id="escala">
                 <tbody>
                     <tr>
-                        <td style="width: 15%;">100</td>
-                        <td style="width: 23%;">Excepcional</td>
-                        <td style="width: 12%; background-color: blue"></td>
-                        <td style="width: 15%;">50 a 59</td>
-                        <td style="width: 23%;">Deficiente</td>
-                        <td style=" width: 12%;background-color: rgb(255, 81, 0)"></td>
+                        <td style="width: 10%;">70 a 100</td>
+                        <td style="width: 15%;">Excepcional</td>
+                        <td style="width: 8%; background-color: green"></td>
+                        <td style="width: 10%;">50 a 69</td>
+                        <td style="width: 15%;">Deficiente</td>
+                        <td style=" width: 8%;background-color: yellow"></td>
+                        <td style="width: 10%;">0 a 49</td>
+                        <td style="width: 15%;">Excelente</td>
+                        <td style="width: 8%;background-color:  red"></td>
                     </tr>
-                    <tr>
-                        <td>90 a 99</td>
-                        <td>Excelente</td>
-                        <td style="background-color: rgb(0, 255, 76)"></td>
-                        <td>40 a 49</td>
-                        <td>Malo</td>
-                        <td style="background-color: rgb(255, 102, 0)"></td>
-                    </tr>
-                    <tr>
-                        <td>80 a 89</td>
-                        <td>Muy Bueno</td>
-                        <td style="background-color: green"></td>
-                        <td>30 a 39</td>
-                        <td>Muy Malo</td>
-                        <td style="background-color: rgb(255, 136, 0)"></td>
-                    </tr>
-                    <tr>
-                        <td>70 a 79</td>
-                        <td>Bueno </td>
-                        <td style="background-color: orange"></td>
-                        <td>10 a 29</td>
-                        <td>No apto para el servicio</td>
-                        <td style="background-color: red"></td>
-                    </tr>
-                    <tr>
-                        <td>60 a 69</td>
-                        <td>Regular</td>
-                        <td style="background-color: yellow"></td>
-                        <td>0</td>
-                        <td>Ausente</td>
-                        <td style="background-color: white"></td>
-                    </tr>
+                    
                 </tbody>
             </table>
             <div>
