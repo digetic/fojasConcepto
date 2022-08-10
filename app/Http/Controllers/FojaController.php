@@ -237,7 +237,8 @@ class FojaController extends Controller
         $notaFinal = round(($proObjetiva + $proConcep) / 2 ,2);
         $datoPersonal = json_decode($datoPer->getBody()->getContents());
         $nombre = $personal->graCom.' '.$datoPer['paterno'].' '.$datoPer['materno'].' '.$datoPer['nombre'];
-        $qr = QrCode::format('png')->encoding('UTF-8')->size(100)->merge('../public/img/Sin título-1.png',.55,true)->generate("Nombre: $nombre \n Nota Promedio Objetiva: $proObjetiva \n Nota Promedio Conseptual: $proConcep \n Nota Final: $notaFinal");
+        $especialidad = $datoPer['esp'].' - '.$datoPer['subespe'];
+        $qr = QrCode::format('png')->encoding('UTF-8')->size(100)->merge('../public/img/Sin título-1.png',.55,true)->generate("Nombre: $nombre \n Especialidad: $especialidad \n Nota Promedio Objetiva: $proObjetiva \n Nota Promedio Conseptual: $proConcep \n Nota Final: $notaFinal");
         // $qr = QrCode::format('png')->encoding('UTF-8')->size(100)->merge('../public/img/Sin título-1.png',.55,true)->generate("$personal->graCom $datoPersonal->paterno $datoPersonal->materno $datoPersonal->nombre \n ");
         $qrband = $qr;
         $pdf = PDF::loadView( $doc,[
