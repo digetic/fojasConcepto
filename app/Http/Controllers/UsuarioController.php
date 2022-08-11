@@ -6,8 +6,10 @@ use App\Mail\CrearUsuario;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Permission\Models\Permission;
 
@@ -221,23 +223,14 @@ class UsuarioController extends Controller
      */
     public function datosP()
     {
-        $datos = DB::table('personal_escalafones as ep')
-            ->join('personals as p','ep.per_codigo','p.per_codigo')
-            ->join('grados as g','ep.gra_cod','g.id')
-            ->join('personal_estudios as epe','p.per_codigo','epe.per_codigo')
-            ->join('estudios as e','epe.est_cod','e.id')
-            ->join('personal_situaciones as ps','p.per_codigo','ps.per_codigo')
-            ->join('subsituaciones as ss','ps.subsit_cod','ss.id')
-            ->join('personal_destinos as pd','p.per_codigo','pd.per_codigo')
-            ->select('p.per_nombre as nombre','p.per_paterno as paterno','g.abreviatura as grado','e.abreviatura as complemento')
-            ->where('ep.per_codigo',Auth::user()->percod)
-            ->where('ps.estado',1)
-            ->where('ep.estado',1)
-            ->where('epe.estado',1)
-            ->where('pd.estado',1)
-            ->first();
         
-            return response()->json($datos);
+        $datos = Http::withHeaders([
+            'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
+            ])->post(Config::get('nomServidor.web').'/api/datosPersonales',[
+                'percodigo' => Auth::user()->percod
+            ]);
+        
+            return response()->json(json_decode($datos->getBody()->getContents()));
     }
 
     public function EditContrasena(Request $request)

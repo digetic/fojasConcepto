@@ -80,13 +80,7 @@
                                                     <dt class="st">Email</dt>
                                                     <dd class="st">{{ datos.email }}</dd>
                                                 </dl>
-                                            </div>                                          
-                                            <div class="col-md-4">
-                                                <dl>
-                                                    <dt class="st">Nick</dt>
-                                                    <dd class="st">{{datos.nick}}</dd>
-                                                </dl>
-                                            </div>
+                                            </div>    
 
 
                                         </div>
@@ -163,16 +157,22 @@ export default {
     },
     methods: {
         DatosUsuario(){
+
             let me = this;
             axios
-            .get('/datosUsuario')
-            .then(function (response) {
-                me.datos = response.data;
-            })
-            .catch(function (error) {
-            // handle error
-            console.log(error);
-            });
+                .post(me.$web+"/api/datosPersonales", {
+                        percodigo: window.user.user.percod
+                },{
+                    headers: {'token': me.$tokensipefab}
+                })
+                .then(function (response) {
+                    console.log(response);
+                    me.datos = response.data;
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
 
         },
         EditarContraseña(){            

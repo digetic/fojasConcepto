@@ -92,7 +92,6 @@
           success: function(data){
               var nombre = data.grado+' '+data.complemento+' '+data.paterno;
               $('#nombre').text(nombre);
-              console.log(data);
           },
           error: function(data){
               console.log(data);
