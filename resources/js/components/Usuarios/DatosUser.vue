@@ -39,8 +39,12 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <div class="row">                                
-                                <div class="col-md-12 d-flex align-items-center">
+                            <div class="row">
+                                <div class="col-2">
+                                    
+                                    <img :src="'https://sipefab.fab.bo/img/personal/'+datos.foto" width="100%" height="100%" class="rounded float-left img-fluid">
+                                </div>                            
+                                <div class="col-md-10 d-flex align-items-center">
                                     <div style="" class="col-md-12 d-flex flex-column bd-highlight mb-3">
                                         <!-- FILA 1 -->
                                         <div class="row p-2 bd-highlight">
