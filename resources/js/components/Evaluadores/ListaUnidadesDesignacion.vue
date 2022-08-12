@@ -253,6 +253,7 @@ export default {
     },
     mounted() {
       this.ListarEvaluUnidades(1);
+      this.MostrarUnidades();
     },
     computed:{
       isActived: function(){
@@ -312,26 +313,21 @@ export default {
         ListarEvaluUnidades(page){
           let me = this;
           axios
-          .post(me.$web+"/api/uniAsig", {
+            .post("/desgUni", {
               page: page,
               buscar: me.buscar.toUpperCase(),
               criterio: me.criterio,
               eva: me.evaluacion
-          },{
-                  headers: {'token': me.$tokenfoja}
-              })
-          .then(function (response) {
+            })
+            .then(function (response) {
               console.log(response);
               me.asigEvaUni = response.data.destinos.data;
               me.pagination =response.data.pagination
-          })
-          .catch(function (error) {
+            })
+            .catch(function (error) {
               // handle error
               console.log(error);
-          })
-        
-
-
+            }) 
         },
         BuscarEvaluacion(){
             clearTimeout(this.setTiemoutBuscador);
@@ -354,7 +350,6 @@ export default {
                     headers: {'token': me.$tokensipefab}
                 })
                 .then(function (response) {
-                    console.log(response);
                     me.Adestinos2 = response.data;
                 })
                 .catch(function (error) {
@@ -374,7 +369,6 @@ export default {
                 headers: {'token': me.$tokensipefab}
             })
             .then(function (response) {
-                console.log(response);
                 me.Adestinos3 = response.data;
             })
             .catch(function (error) {
@@ -421,7 +415,6 @@ export default {
               eva: me.evaluacion
             })
             .then(function (response) {
-              console.log(response);
               me.listaEvaluadores = response.data;
             })
             .catch(function (error) {

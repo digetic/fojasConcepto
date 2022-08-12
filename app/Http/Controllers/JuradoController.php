@@ -173,4 +173,35 @@ class JuradoController extends Controller
         }
         return $count;
     }
+
+    /**
+     * Lista de Unidades designadasa
+     */
+
+    public function ListarUnidadesAsignadas(Request $request)
+    {
+        $data = DB::table('jurados')
+            ->select('dest4')
+            ->where('evaluacion',$request->eva)
+            ->groupBy(
+                'dest4'
+            )
+            ->get();
+        $datos = [];
+        foreach ($data as $key => $value) {
+            $datos[] = $value->dest4;
+        }
+
+        $dato = Http::withHeaders([
+            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+            ])->post(Config::get('nomServidor.web').'/api/uniAsig',[
+                'buscar' => $request->buscar,
+                'criterio' => $request->criterio,
+                'page' => $request->page,
+                'array' => $datos
+            ]);
+
+
+        return response()->json(json_decode($dato->getBody()->getContents()));
+    }
 }

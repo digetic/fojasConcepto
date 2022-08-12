@@ -31,6 +31,10 @@ Route::put('/finalizararEvaluacion', 'EvaluacionController@FinalizarEvaluacion')
 
 Route::get('/ultEvalActiva','EvaluacionController@EvaluacionActiva');
 
+//Lista unidades designadas con evaluadores
+
+Route::post('/desgUni','JuradoController@ListarUnidadesAsignadas');
+
 
 /**
  * Autor: Hidalgo Miranda Ariel Wilson
@@ -75,10 +79,6 @@ Route::post('/datosEvaluado','PersonalController@datosEvaluado');
 //**************************DATOS FOJAS DE CONCEPTO************************************/
 //Datos de la Evaluacion
 Route::post('/evaDat','DatosFojaController@EvaluacionDatos');
-//Ruta para las desiganciones del evaluado
-Route::post('/listarDesignaciones','DatosFojaController@listarDesignaciones');
-//Ruta para las sanciones del evaluado
-Route::post('/listarSanciones', 'DatosFojaController@listarSanciones');
 //Ruta para guardar las notas del evaluado
 Route::post('/guardarNota', 'FojaController@guardarNota');
 //Ver Nota Objetiva
