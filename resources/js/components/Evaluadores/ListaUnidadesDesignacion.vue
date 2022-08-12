@@ -253,7 +253,7 @@ export default {
     },
     mounted() {
       this.ListarEvaluUnidades(1);
-      this.MostrarUnidades();
+      // this.MostrarUnidades();
     },
     computed:{
       isActived: function(){
