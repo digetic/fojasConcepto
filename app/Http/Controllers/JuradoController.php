@@ -204,4 +204,35 @@ class JuradoController extends Controller
 
         return response()->json(json_decode($dato->getBody()->getContents()));
     }
+
+
+    /**
+     * Lista de no Unidades designadas con evaluador
+     */
+    
+
+    public function ListarUnidadesNoAsignadas(Request $request)
+    {
+        $data = DB::table('jurados')
+            ->select('dest4')
+            ->where('evaluacion',$request->eva)
+            ->groupBy(
+                'dest4'
+            )
+            ->get();
+        $datos = [];
+        foreach ($data as $key => $value) {
+            $datos[] = $value->dest4;
+        }
+
+        $dato = Http::withHeaders([
+            'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
+            ])->post(Config::get('nomServidor.web').'/api/destino4ComboFoja',[
+                'dest3' => $request->dest3,
+                'array' => $datos
+            ]);
+
+
+        return response()->json(json_decode($dato->getBody()->getContents()));
+    }
 }

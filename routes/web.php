@@ -35,6 +35,8 @@ Route::get('/ultEvalActiva','EvaluacionController@EvaluacionActiva');
 
 Route::post('/desgUni','JuradoController@ListarUnidadesAsignadas');
 
+//Lista destinos 4 no asignados con evaluador
+Route::post('/noDesgUni','JuradoController@ListarUnidadesNoAsignadas');
 
 /**
  * Autor: Hidalgo Miranda Ariel Wilson

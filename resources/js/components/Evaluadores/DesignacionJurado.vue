@@ -6,15 +6,15 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <h1>
-              Designacion de Jurados
+              Designacion de Evaluadores
             </h1>
           </div>
-          <div class="col-sm-6">
+          <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Modals & Alerts</li>
             </ol>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- /.container-fluid -->
@@ -317,26 +317,24 @@ export default {
           .catch(function (error) {
               // handle error
               console.log(error);
-          })
+          }) 
 
     },    
     Destino4(){
-
+          
           let me = this;
-            axios
-          .post(me.$web+"/api/destino4ComboFoja", {
+          axios
+            .post("/noDesgUni", {
+              eva: me.evaluacion,
               dest3: me.de3
-          },{
-              headers: {'token': me.$tokensipefab}
-          })
-          .then(function (response) {
-               me.destinos4 = response.data;
-               console.log(response);
-          })
-          .catch(function (error) {
+            })
+            .then(function (response) {
+              me.destinos4 = response.data;
+            })
+            .catch(function (error) {
               // handle error
               console.log(error);
-          })
+            })
     },
     ListarPersonal(){
       let me = this;
