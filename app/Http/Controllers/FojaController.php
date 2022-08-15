@@ -237,8 +237,9 @@ class FojaController extends Controller
         $notaFinal = round(($proObjetiva + $proConcep) / 2 ,2);
         $datoPersonal = json_decode($datoPer->getBody()->getContents());
         $nombre = $personal->graCom.' '.$datoPer['paterno'].' '.$datoPer['materno'].' '.$datoPer['nombre'];
-        $especialidad = $datoPer['esp'].' - '.$datoPer['subespe'];
-        $qr = QrCode::format('png')->encoding('UTF-8')->size(100)->merge('../public/img/Sin título-1.png',.55,true)->generate("Nombre: $nombre \n Especialidad: $especialidad \n Nota Promedio Objetiva: $proObjetiva \n Nota Promedio Conseptual: $proConcep \n Nota Final: $notaFinal");
+        $especialidad = $datoPer['esp'];
+        $subespecialidad = $datoPer['subespe'];
+        $qr = QrCode::format('png')->encoding('UTF-8')->size(100)->merge('../public/img/Sin título-1.png',.55,true)->generate("Nombre: $nombre \n Especialidad: $especialidad \n Subespecialidad: $subespecialidad\n Nota Promedio Objetiva: $proObjetiva \n Nota Promedio Conceptual: $proConcep \n Nota Final: $notaFinal\n Gestión: $fechaEvaluacion->ano \n Periodo Evaluacion: $fechaEvaluacion->inicio al $fechaEvaluacion->fin");
         // $qr = QrCode::format('png')->encoding('UTF-8')->size(100)->merge('../public/img/Sin título-1.png',.55,true)->generate("$personal->graCom $datoPersonal->paterno $datoPersonal->materno $datoPersonal->nombre \n ");
         $qrband = $qr;
         $pdf = PDF::loadView( $doc,[

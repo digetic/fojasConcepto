@@ -161,14 +161,6 @@
                         <strong>CARNET MILITAR:</strong> <span >{{$usuario2['cm']}}</span> 
                     </td>
                     <td style="width: 60%;">
-                        <strong>DESTINO:</strong> <span >{{$usuario2['destino']}}</span> 
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 40%;">
-                        <strong>ESPECIALIDAD:</strong> <span >{{$usuario2['esp']}} - {{$usuario2['subespe']}}</span> 
-                    </td>
-                    <td style="width: 60%;">
                         <?php
                             $date1 = date_create($fechaEvaluacion->inicio);
                             $fechaasc1 = date_format($date1,"d/m/Y");
@@ -177,6 +169,21 @@
                 
                         ?>
                         <strong>PERIODO DE CALIFICACIÓN:</strong> <span ><?php echo $fechaasc1; ?> AL <?php echo $fechaasc2; ?></span> 
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td style="width: 40%;">
+                        <strong>ESPECIALIDAD:</strong> <span >{{$usuario2['esp']}} </span> 
+                    </td>
+                    <td style="width: 60%;">
+                        <strong>SUBESPECIALIDAD:</strong> <span >{{$usuario2['subespe']}}</span> 
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td colspan="2" style="width: 100%;">
+                        <strong>DESTINO:</strong> <span >{{$usuario2['destino']}}</span> 
                     </td>
                 </tr>
             </tbody>
@@ -252,13 +259,13 @@
                             <td colspan="4" style="height:30px; font-size: 10px; "><i> {{$conceptual1['literal']}} </i></td>
                         </tr>
                         <tr>
-                            <td style="width: 36%;">Calificacion Conceptual Numérica</td>
-                            <td style="width: 17%; text-align: center;">{{$conceptual1['numerica']}}</td>
-                            <td style="width: 12%; padding: 7px 3px;" rowspan="2">Firma</td>
-                            <td style="width: 35%;" rowspan="2"></td>
+                            <td style="width: 37%;">Calificacion Conceptual Numérica</td>
+                            <td style="width: 35%; text-align: center;">{{$conceptual1['numerica']}}</td>
+                            <td style="width: 8%; padding: 7px 3px;" rowspan="2">Firma</td>
+                            <td style="width: 20%;" rowspan="2"></td>
                         </tr>
                         <tr>
-                            <td colspan="4">{{$conceptual1['evaluador']}}</td>
+                            <td colspan="2">{{$conceptual1['evaluador']}}</td>
                         </tr>
                         {{-- <tr>
                             <td colspan="4">Grado, Nombre, Apellido y Cargo del Superior Calificador</td>
@@ -278,13 +285,13 @@
                             <td colspan="4" style="height:30px; font-size: 10px; "><i>{{$conceptual2['literal']}}</i></td>
                         </tr>
                         <tr>
-                            <td style="width: 36%;">Calificacion Conceptual Numérica</td>
-                            <td style="width: 17%; text-align: center;">{{$conceptual2['numerica']}}</td>
-                            <td style="width: 12%; padding: 7px 3px;" rowspan="2">Firma</td>
-                            <td style="width: 35%;" rowspan="2"></td>
+                            <td style="width: 37%;">Calificacion Conceptual Numérica</td>
+                            <td style="width: 35%; text-align: center;">{{$conceptual2['numerica']}}</td>
+                            <td style="width: 8%; padding: 7px 3px;" rowspan="2">Firma</td>
+                            <td style="width: 20%;" rowspan="2"></td>
                         </tr>
                         <tr>
-                            <td colspan="4"> {{$conceptual2['evaluador']}}</td>
+                            <td colspan="2"> {{$conceptual2['evaluador']}}</td>
                         </tr>
                         {{-- <tr>
                             <td colspan="4">Grado, Nombre, Apellido y Cargo del Superior Calificador</td>
@@ -302,13 +309,13 @@
                             <td colspan="4" style="height:30px; font-size: 10px; "><i>{{$conceptual3['literal']}}</i></td>
                         </tr>
                         <tr>
-                            <td style="width: 36%;">Calificacion Conceptual Numérica</td>
-                            <td style="width: 17%; text-align: center;">{{$conceptual3['numerica']}}</td>
-                            <td style="width: 12%; padding: 7px 3px;" rowspan="2">Firma</td>
-                            <td style="width: 35%;" rowspan="2"></td>
+                            <td style="width: 37%;">Calificacion Conceptual Numérica</td>
+                            <td style="width: 35%; text-align: center;">{{$conceptual3['numerica']}}</td>
+                            <td style="width: 8%; padding: 7px 3px;" rowspan="2">Firma</td>
+                            <td style="width: 20%;" rowspan="2"></td>
                         </tr>
                         <tr>
-                            <td colspan="4">{{$conceptual3['evaluador']}}</td>
+                            <td colspan="2">{{$conceptual3['evaluador']}}</td>
                         </tr>
                         {{-- <tr>
                             <td colspan="4">Grado, Nombre, Apellido y Cargo del Superior Calificador</td>
@@ -472,7 +479,7 @@
                                     <td style="text-align: center"> {{$item->ndoc}} - {{$item->documento}}</td>
                                     <td style="text-align: center">{{$item->dias}}</td>
                                     <td style=" padding-left: 10px;">{{$item->sancion}}</td>
-                                    <td style="">{{$item->falta2}}</td>
+                                    <td style="font-size: 8px;">{{$item->falta2}}</td>
                                 </tr> 
                             @endforeach
                         @else
@@ -497,10 +504,10 @@
                     <thead>
                         <tr>
                             <th  style="width: 20%;">Aeronave</th>
-                            <th  style="width: 20%;">Placa</th>
-                            <th  style="width: 20%;">Hrs. Total</th>
+                            <th  style="width: 20%;">Matricula</th>
                             <th  style="width: 20%;">VFR</th>
                             <th  style="width: 20%;">IFR</th>
+                            <th  style="width: 20%;">Hrs. Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -561,13 +568,13 @@
                 <tbody>
                     <tr>
                         <td style="width: 10%;">70 a 100</td>
-                        <td style="width: 15%;">Excepcional</td>
+                        <td style="width: 15%;">Bueno</td>
                         <td style="width: 8%; background-color: green"></td>
                         <td style="width: 10%;">50 a 69</td>
-                        <td style="width: 15%;">Deficiente</td>
+                        <td style="width: 15%;">Regular</td>
                         <td style=" width: 8%;background-color: yellow"></td>
                         <td style="width: 10%;">0 a 49</td>
-                        <td style="width: 15%;">Excelente</td>
+                        <td style="width: 15%;">Malo</td>
                         <td style="width: 8%;background-color:  red"></td>
                     </tr>
                 </tbody>
