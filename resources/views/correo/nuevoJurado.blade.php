@@ -45,9 +45,9 @@ width: 100% !important;
   <h1 style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; color: #3d4852; font-size: 18px; font-weight: bold; margin-top: 0; text-align: left;">
   Credenciales para acceder a TARIPAÑAJOB</h1>
   <span style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 3em; margin-top: 5px; text-align: left;">
-  Sr(a).  {{$info->grado}} {{$info->complemento}} {{$info->per_nombre}} {{$info->paterno}} {{$info->materno}}</span> <br>
+  Sr(a).  {{$info->grado}} {{$info->complemento}} {{$info->nombre}} {{$info->paterno}} {{$info->materno}}</span> <br>
   <span style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 16px; line-height: 3em; margin-top: 5px; text-align: left;">
-    Unidad:  {{$info->destino}}</span>
+    Unidad:  {{$info->des3}}</span>
   <p style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative; font-size: 18px; line-height: 1.5em; margin-top: 0; text-align: center; color: #000000;">
   Utiliza estas credenciales para acceder al sistema.</p>
   <div class="table" style="box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; position: relative;">

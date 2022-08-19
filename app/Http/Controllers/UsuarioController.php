@@ -59,23 +59,11 @@ class UsuarioController extends Controller
             try {
                 DB::beginTransaction();
 
-                $datos = DB::table('personal_escalafones as ep')
-                    ->join('personals as p','ep.per_codigo','p.per_codigo')
-                    ->join('grados as g','ep.gra_cod','g.id')
-                    ->join('personal_estudios as epe','p.per_codigo','epe.per_codigo')
-                    ->join('estudios as e','epe.est_cod','e.id')
-                    ->join('personal_situaciones as ps','p.per_codigo','ps.per_codigo')
-                    ->join('subsituaciones as ss','ps.subsit_cod','ss.id')
-                    ->join('personal_destinos as pd','p.per_codigo','pd.per_codigo')
-                    ->join('nivel3_destinos as nd3','pd.d3_cod','nd3.id')
-                    ->join('nivel2_destinos as nd2','pd.d2_cod','nd2.id')
-                    ->select('p.per_nombre','p.per_paterno as paterno','p.per_materno as materno', 'p.per_mail as email','g.abreviatura as grado','e.abreviatura as complemento','nd3.descripcion as destino')
-                    ->where('ep.per_codigo', $request->percodigo)
-                    ->where('ps.estado',1)
-                    ->where('ep.estado',1)
-                    ->where('epe.estado',1)
-                    ->where('pd.estado',1)
-                    ->first();
+                $datos = Http::withHeaders([
+                    'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
+                    ])->post(Config::get('nomServidor.web').'/api/datosPersonales',[
+                        'percodigo' => $request->percodigo
+                    ]);
                 $user = User::create([
                     'percod' => $request->percodigo,
                     'nick' => $request->nick,
@@ -86,8 +74,8 @@ class UsuarioController extends Controller
         
                 $user->assignRole($request->rol);
                 DB::commit();
-                Mail::to($request->email)
-                    ->send(new CrearUsuario($datos, $randomString));
+                // Mail::to($request->email)
+                //     ->send(new CrearUsuario(json_decode($datos->getBody()->getContents()), $randomString));
             } catch (\Exception $e) {
                 DB::rollBack();
                 return response()->json(['code' => $verificacion, 'mensaje' => 'Ocurrio un error al momento de registra al usuario.','tipo' => 'error']);
@@ -98,58 +86,67 @@ class UsuarioController extends Controller
     }
     public function ListarUsuarios(Request $request)
     {
-        $buscar = $request->buscar;
-        if ($buscar == '') {
-            $usuarios = DB::table('users as u')
-            ->join('personals as p','u.percod','p.per_codigo')
-            ->join('personal_escalafones as pe','u.percod','pe.per_codigo')
-            ->join('grados as g','pe.gra_cod','g.id')
-            ->join('personal_estudios as epe','u.percod','epe.per_codigo')
-            ->join('estudios as e','epe.est_cod','e.id')
-            ->select('u.id','u.nick','u.estado','p.per_nombre as nombre',
-                    'p.per_paterno as paterno','p.per_materno as materno',
-                    'p.per_cm as cm','g.abreviatura as grado',
-                    'e.abreviatura as complemento',
-                    )
-            ->where('pe.estado',1)
-            ->where('epe.estado',1)
-            ->orderBy('u.id','desc')
-            ->paginate(10);
-        } else {
-            $usuarios = DB::table('users as u')
-            ->join('personals as p','u.percod','p.per_codigo')
-            ->join('personal_escalafones as pe','u.percod','pe.per_codigo')
-            ->join('grados as g','pe.gra_cod','g.id')
-            ->join('personal_estudios as epe','u.percod','epe.per_codigo')
-            ->join('estudios as e','epe.est_cod','e.id')
-            ->select('u.id','u.nick','u.estado','p.per_nombre as nombre','p.per_paterno as paterno',
-                    'p.per_materno as materno','p.per_cm as cm','g.abreviatura as grado','e.abreviatura as complemento'
-                    )
-            ->where(function($q) use ($buscar){
-                $q->where('p.per_paterno','LIKE','%'.$buscar.'%')
-                ->orWhere('p.per_cm','LIKE','%'.$buscar.'%')
-                ->orWhere('p.per_nombre','LIKE','%'.$buscar.'%')
-                ->orWhere('p.per_materno','LIKE','%'.$buscar.'%');
-            })
-            ->where('pe.estado',1)
-            ->where('epe.estado',1)
-            ->orderBy('u.id','desc')
-            ->paginate(10);
+
+        $usuarios = DB::table('users')
+                // ->selectRaw( ")
+                ->get();
+
+        $usuarios = Http::withHeaders(['token' => Config::get('nomServidor.token')])->post(Config::get('nomServidor.web').'/api/datosPersonales',['percodigo' => 5499 ]);
+
+        return response()->json(json_decode($usuarios->getBody()->getContents()));
+
+        // $buscar = $request->buscar;
+        // if ($buscar == '') {
+        //     $usuarios = DB::table('users as u')
+        //     ->join('personals as p','u.percod','p.per_codigo')
+        //     ->join('personal_escalafones as pe','u.percod','pe.per_codigo')
+        //     ->join('grados as g','pe.gra_cod','g.id')
+        //     ->join('personal_estudios as epe','u.percod','epe.per_codigo')
+        //     ->join('estudios as e','epe.est_cod','e.id')
+        //     ->select('u.id','u.nick','u.estado','p.per_nombre as nombre',
+        //             'p.per_paterno as paterno','p.per_materno as materno',
+        //             'p.per_cm as cm','g.abreviatura as grado',
+        //             'e.abreviatura as complemento',
+        //             )
+        //     ->where('pe.estado',1)
+        //     ->where('epe.estado',1)
+        //     ->orderBy('u.id','desc')
+        //     ->paginate(10);
+        // } else {
+        //     $usuarios = DB::table('users as u')
+        //     ->join('personals as p','u.percod','p.per_codigo')
+        //     ->join('personal_escalafones as pe','u.percod','pe.per_codigo')
+        //     ->join('grados as g','pe.gra_cod','g.id')
+        //     ->join('personal_estudios as epe','u.percod','epe.per_codigo')
+        //     ->join('estudios as e','epe.est_cod','e.id')
+        //     ->select('u.id','u.nick','u.estado','p.per_nombre as nombre','p.per_paterno as paterno',
+        //             'p.per_materno as materno','p.per_cm as cm','g.abreviatura as grado','e.abreviatura as complemento'
+        //             )
+        //     ->where(function($q) use ($buscar){
+        //         $q->where('p.per_paterno','LIKE','%'.$buscar.'%')
+        //         ->orWhere('p.per_cm','LIKE','%'.$buscar.'%')
+        //         ->orWhere('p.per_nombre','LIKE','%'.$buscar.'%')
+        //         ->orWhere('p.per_materno','LIKE','%'.$buscar.'%');
+        //     })
+        //     ->where('pe.estado',1)
+        //     ->where('epe.estado',1)
+        //     ->orderBy('u.id','desc')
+        //     ->paginate(10);
             
-        }
+        // }
         
-        return response()->json([
-            'pagination' => [
-                'total'         => $usuarios->total(),
-                'current_page'  => $usuarios->currentPage(),
-                'per_page'      => $usuarios->perPage(),
-                'last_page'     => $usuarios->lastPage(),
-                'from'          => $usuarios->firstItem(),
-                'to'            => $usuarios->lastItem(),
+        // return response()->json([
+        //     'pagination' => [
+        //         'total'         => $usuarios->total(),
+        //         'current_page'  => $usuarios->currentPage(),
+        //         'per_page'      => $usuarios->perPage(),
+        //         'last_page'     => $usuarios->lastPage(),
+        //         'from'          => $usuarios->firstItem(),
+        //         'to'            => $usuarios->lastItem(),
             
-            ],
-            'usuarios' => $usuarios
-        ]);       
+        //     ],
+        //     'usuarios' => $usuarios
+        // ]);       
     }
 
     public function DatosUsuarios(Request $request)

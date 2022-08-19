@@ -83,13 +83,13 @@ class JuradoController extends Controller
                         'percod' => $e['id'],
                         'nick' => $nick,
                         'email' => $datos['email'],
-                        // 'password' => Hash::make($randomString),
+                        'password' => Hash::make($randomString),
                         'password' => Hash::make('12345678'),
                         'tipo' => 2
                     ]);
                     $user->assignRole('CALIFICADOR');
-                    // Mail::to($datos->email)
-                    // ->send(new CrearJurador($datos, $randomString));
+                    // Mail::to($datos['email'])
+                    // ->send(new CrearJurador(json_decode($datos->getBody()->getContents()), $randomString));
                 }
             }
             DB::commit();

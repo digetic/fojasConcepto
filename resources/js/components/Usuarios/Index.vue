@@ -10,12 +10,12 @@
               USUARIOS
             </h1>
           </div>
-          <div class="col-sm-6">
+          <!-- <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
               <li class="breadcrumb-item active">Modals & Alerts</li>
             </ol>
-          </div>
+          </div> -->
         </div>
       </div>
       <!-- /.container-fluid -->
@@ -494,15 +494,16 @@ export default {
         ListarPersonal(){
             let me = this;
             axios
-            .get('/listPer')
+            .get(me.$web+"/api/listarPersonal2",{
+                headers: {'token': me.$tokensipefab}
+            })
             .then(function (response) {
-                
                 me.Apersonal = response.data;
             })
             .catch(function (error) {
-            // handle error
-            console.log(error);
-            });
+                // handle error
+                console.log(error);
+            })
         },
         ListarRoles(){
             let me = this;
@@ -521,14 +522,16 @@ export default {
         NuevoUsuarioModal(){
             try {
                 if (this.per.id) {
+
                     let me = this;
                     me.ListarRoles();
                     axios
-                    .post("/datPer", {
-                        percodigo: me.per.id
+                    .post(me.$web+"/api/datosPersonales", {
+                            percodigo: me.per.id
+                    },{
+                        headers: {'token': me.$tokensipefab}
                     })
                     .then(function (response) {
-                        
                         me.datos = response.data;
                         me.nick = me.datos.nombre.substring(0,1)+ me.datos.paterno.substring(0,1)+ me.datos.materno.substring(0,1)+me.datos.percodigo+me.datos.cm.substring(0,3);
                         $('#NuevoUsuario').modal('show');
@@ -718,9 +721,9 @@ export default {
                 page: page
             })
             .then(function (response) {
-                
-                me.Ausuarios = response.data.usuarios.data;
-                me.pagination = response.data.pagination;
+                console.log(response);
+                // me.Ausuarios = response.data.usuarios.data;
+                // me.pagination = response.data.pagination;
             })
             .catch(function (error) {
                 // handle error

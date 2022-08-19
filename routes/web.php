@@ -96,11 +96,6 @@ Route::get('/datosfoja/{id}/{d}/{depa}/{eva}', 'FojaController@DatosFoja');
 
 //**************************RUTAS DE ACCESO AL SISTEMA******************************* */
 
-/**
- * Rutas para personal
- */
-Route::get('/listPer','PersonalController@ListPersonal');
-Route::post('/datPer','PersonalController@DatosPersonalesAcceso');
 
 /**
  * RUTAS PARA CREACION DE USUARIOS
