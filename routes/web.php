@@ -112,6 +112,7 @@ Route::get('/datosP','UsuarioController@datosP');
 Route::post('/editContrasena','UsuarioController@EditContrasena');
 
 
+
 /**
  * Autor: Hidalgo Miranda Ariel Wilson
  * Fecha: 20/09/2020

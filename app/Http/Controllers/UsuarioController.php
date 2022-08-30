@@ -88,65 +88,27 @@ class UsuarioController extends Controller
     {
 
         $usuarios = DB::table('users')
-                // ->selectRaw( ")
+                ->select('percod')
+                ->where('estado',$request->estado)
                 ->get();
+                
+        $datos = [];
+        foreach ($usuarios as $key => $value) {
+            $datos[] = $value->percod;
+        }
 
-        $usuarios = Http::withHeaders(['token' => Config::get('nomServidor.token')])->post(Config::get('nomServidor.web').'/api/datosPersonales',['percodigo' => 5499 ]);
-
-        return response()->json(json_decode($usuarios->getBody()->getContents()));
-
-        // $buscar = $request->buscar;
-        // if ($buscar == '') {
-        //     $usuarios = DB::table('users as u')
-        //     ->join('personals as p','u.percod','p.per_codigo')
-        //     ->join('personal_escalafones as pe','u.percod','pe.per_codigo')
-        //     ->join('grados as g','pe.gra_cod','g.id')
-        //     ->join('personal_estudios as epe','u.percod','epe.per_codigo')
-        //     ->join('estudios as e','epe.est_cod','e.id')
-        //     ->select('u.id','u.nick','u.estado','p.per_nombre as nombre',
-        //             'p.per_paterno as paterno','p.per_materno as materno',
-        //             'p.per_cm as cm','g.abreviatura as grado',
-        //             'e.abreviatura as complemento',
-        //             )
-        //     ->where('pe.estado',1)
-        //     ->where('epe.estado',1)
-        //     ->orderBy('u.id','desc')
-        //     ->paginate(10);
-        // } else {
-        //     $usuarios = DB::table('users as u')
-        //     ->join('personals as p','u.percod','p.per_codigo')
-        //     ->join('personal_escalafones as pe','u.percod','pe.per_codigo')
-        //     ->join('grados as g','pe.gra_cod','g.id')
-        //     ->join('personal_estudios as epe','u.percod','epe.per_codigo')
-        //     ->join('estudios as e','epe.est_cod','e.id')
-        //     ->select('u.id','u.nick','u.estado','p.per_nombre as nombre','p.per_paterno as paterno',
-        //             'p.per_materno as materno','p.per_cm as cm','g.abreviatura as grado','e.abreviatura as complemento'
-        //             )
-        //     ->where(function($q) use ($buscar){
-        //         $q->where('p.per_paterno','LIKE','%'.$buscar.'%')
-        //         ->orWhere('p.per_cm','LIKE','%'.$buscar.'%')
-        //         ->orWhere('p.per_nombre','LIKE','%'.$buscar.'%')
-        //         ->orWhere('p.per_materno','LIKE','%'.$buscar.'%');
-        //     })
-        //     ->where('pe.estado',1)
-        //     ->where('epe.estado',1)
-        //     ->orderBy('u.id','desc')
-        //     ->paginate(10);
-            
-        // }
+        $dato = Http::withHeaders([
+            'token' => Config::get('nomServidor.tokensipefab')
+            ])->post(Config::get('nomServidor.web').'/api/listPerArray',[
+                'buscar' => $request->buscar,
+                'page' => $request->page,
+                'array' => $datos
+            ]);
         
-        // return response()->json([
-        //     'pagination' => [
-        //         'total'         => $usuarios->total(),
-        //         'current_page'  => $usuarios->currentPage(),
-        //         'per_page'      => $usuarios->perPage(),
-        //         'last_page'     => $usuarios->lastPage(),
-        //         'from'          => $usuarios->firstItem(),
-        //         'to'            => $usuarios->lastItem(),
-            
-        //     ],
-        //     'usuarios' => $usuarios
-        // ]);       
+
+        return response()->json(json_decode($dato->getBody()->getContents()));
+
+        
     }
 
     public function DatosUsuarios(Request $request)
@@ -208,11 +170,15 @@ class UsuarioController extends Controller
     public function CambiarEstadoUsuario(Request $request)
     {
         $estado = 1 - $request->estado;
-        $usuario = User::find($request->id);
-        $usuario->estado = $estado;
-        $usuario->save();
+        User::where('percod',$request->id)
+            ->update([
+                'estado' => $estado
+            ]);
+        // $usuario = User::find($request->id);
+        // $usuario->estado = $estado;
+        // $usuario->save();
 
-         return response()->json($estado);
+         return response()->json($request);
     }
 
     /**

@@ -70,86 +70,152 @@
             <!-- /.col -->
             </div>
             <!-- ./row -->
+            <!-- USUARIOS ACTIVO -->
             <div class="row">
-            <div class="col-md-12">
-                <div class="card card-dark card-outline">
-                <div class="card-header">
-                    <h3 class="card-title">
-                    <i class="far fa-list-alt"></i>&nbsp;
-                    LISTA DE USUARIOS
-                    </h3>
-                </div>
-                <div class="card-body">
-                    <div class="row d-flex justify-content-center"> 
-                        <div class="col-md-4">
-                            <label for="">BUSCAR:</label>
-                            <input type="text" style="text-transform:uppercase;" class="form-control" @keyup="BuscarUsuario(1)" v-model="buscar">
+                <div class="col-md-12">
+                    <div class="card card-dark collapsed-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                        <i class="far fa-list-alt"></i>&nbsp;
+                        LISTA DE USUARIOS ACTIVOS
+                        </h3>
+                        <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button> -->
                         </div>
                     </div>
-                    <br>
-                    <div class="row">
-                        <table class="table table-bordered table-striped table-sm">
-                            <thead>
-                                <tr>
-                                    <th style="width: 20%" class="text-center">OPCIONES</th>
-                                    <th style="width: 40%" class="text-center">NOMBRE</th>
-                                    <th style="width: 20%" class="text-center">CARNET MILITAR</th>
-                                    <th style="width: 20%" class="text-center">ESTADO</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="u in Ausuarios">
-                                    <td class="text-center">
-                                        <button  type="button" class="btn btn-success btn-sm" @click="ModalRoles(u.id)">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                        <button  type="button" class="btn btn-primary btn-sm" @click="EditarModal(u.id)">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button v-if="u.estado === 1" type="button" class="btn btn-danger btn-sm" @click="CambioEstado(u.estado, u.id)">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                        <button v-else type="button" class="btn btn-success btn-sm" @click="CambioEstado(u.estado, u.id)">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                    </td>
-                                    <td>{{u.grado}} {{u.complemento}} {{u.nombre}} {{u.paterno}} {{u.materno}}</td>
-                                    <td class="text-center">{{u.cm}}</td>
-                                    <td class="text-center" style="vertical-align: middle;">
-                                        <div v-if="u.estado === 1">
-                                        <span class="badge badge-success">Habilitado</span>
-                                        </div>
-                                        <div v-else>
-                                        <span class="badge badge-danger">Desabilitado</span>                                            
-                                        </div>                            
-                                    </td> 
-                                </tr>
-                            </tbody>
-                            
-                        </table> 
-                        <nav>
-                            <ul class="pagination">
-                                <li class="page-item" v-if="pagination.current_page > 1">
-                                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1)">Ant</a>
-                                </li>
-                                <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
-                                <a class="page-link" href="#" @click.prevent="cambiarPagina(page)" v-text="page"></a>
-                                </li>
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center"> 
+                            <div class="col-md-4">
+                                <label for="">BUSCAR:</label>
+                                <input type="text" style="text-transform:uppercase;" class="form-control" @keyup="BuscarUsuario(1)" v-model="buscar">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <table class="table table-bordered table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%" class="text-center">OPCIONES</th>
+                                        <th style="width: 40%" class="text-center">NOMBRE</th>
+                                        <th style="width: 20%" class="text-center">CARNET MILITAR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="u in Ausuarios">
+                                        <td class="text-center">
+                                            <button  type="button" class="btn btn-success btn-sm" @click="ModalRoles(u.id)">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                            <button  type="button" class="btn btn-primary btn-sm" @click="EditarModal(u.id)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm" @click="CambioEstado(1, u.per_codigo)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                        <td>{{u.grado}} {{u.complemento}} {{u.nombre}} {{u.paterno}} {{u.materno}}</td>
+                                        <td class="text-center">{{u.cm}}</td>
+                                    </tr>
+                                </tbody>
                                 
-                                <li class="page-item" v-if="pagination.current_page < pagination.last_page">
-                                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1)">Sig</a>
-                                </li>
-                            </ul>
-                        </nav>
+                            </table> 
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item" v-if="pagination.current_page > 1">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1)">Ant</a>
+                                    </li>
+                                    <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(page)" v-text="page"></a>
+                                    </li>
+                                    
+                                    <li class="page-item" v-if="pagination.current_page < pagination.last_page">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1)">Sig</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>          
                     </div>
-                    
+                    <!-- /.card -->
+                    </div>
                 </div>
-                <!-- /.card -->
-                </div>
-            </div>
-            <!-- /.col -->
+                <!-- /.col -->
             </div>
             <!-- ./row -->
+
+            <!-- USUARIOS INACTIVOS -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card card-dark collapsed-card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                        <i class="far fa-list-alt"></i>&nbsp;
+                        LISTA DE USUARIOS INACTIVOS
+                        </h3>
+                        <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <!-- <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button> -->
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row d-flex justify-content-center"> 
+                            <div class="col-md-4">
+                                <label for="">BUSCAR:</label>
+                                <input type="text" style="text-transform:uppercase;" class="form-control" @keyup="BuscarUsuarioIn(1)" v-model="buscarIn">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <table class="table table-bordered table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 20%" class="text-center">OPCIONES</th>
+                                        <th style="width: 40%" class="text-center">NOMBRE</th>
+                                        <th style="width: 20%" class="text-center">CARNET MILITAR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="u in AusuariosIn">
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-danger btn-sm" @click="CambioEstado(0, u.per_codigo)">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                        <td>{{u.grado}} {{u.complemento}} {{u.nombre}} {{u.paterno}} {{u.materno}}</td>
+                                        <td class="text-center">{{u.cm}}</td>
+                                    </tr>
+                                </tbody>
+                                
+                            </table> 
+                            <nav>
+                                <ul class="pagination">
+                                    <li class="page-item" v-if="pagination2.current_page > 1">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina2(pagination2.current_page - 1)">Ant</a>
+                                    </li>
+                                    <li class="page-item" v-for="page in pagesNumber2" :key="page" :class="[page == isActived2 ? 'active' : '']">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina2(page)" v-text="page"></a>
+                                    </li>
+                                    
+                                    <li class="page-item" v-if="pagination2.current_page < pagination2.last_page">
+                                    <a class="page-link" href="#" @click.prevent="cambiarPagina2(pagination2.current_page + 1)">Sig</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>          
+                    </div>
+                    <!-- /.card -->
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
         </div>
         <!-- /.container-fluid -->
       
@@ -430,6 +496,7 @@ export default {
              */
             Apersonal: [],
             Ausuarios: [],
+            AusuariosIn: [],
             Aroles: [],
             datos: [],
             Edatos: [],
@@ -451,6 +518,14 @@ export default {
                 'from' : 0,
                 'to' : 0,
             },
+            pagination2 : {
+                'total' : 0,
+                'current_page' : 0,
+                'per_page' : 0,
+                'last_page' : 0,
+                'from' : 0,
+                'to' : 0,
+            },
             offset : 3,
             code: "",
             /**
@@ -458,12 +533,15 @@ export default {
              */
 
             buscar: '',
+            buscarIn: '',
             setTiemoutBuscador: '',
+            estado: ''
         }
     },
     mounted() {
         this.ListarPersonal();
         this.ListarUsuarios(1);
+        this.ListarUsuariosIn(1);
     },
     computed:{
         isActived: function(){
@@ -471,23 +549,46 @@ export default {
         },
         //Calcuar los elementos de la paginacion
         pagesNumber: function() {
-        if(!this.pagination.to){
-            return [];
-        }
-        var from = this.pagination.current_page - this.offset;
-        if(from < 1){
-            from = 1;
-        }
-        var to = from + (this.offset *2);
-        if( to >= this.pagination.last_page){
-            to = this.pagination.last_page;
-        }
-        var pagesArray = [];
-        while( from <= to){
-            pagesArray.push(from);
-            from ++;
-        }
-        return pagesArray;
+            if(!this.pagination.to){
+                return [];
+            }
+            var from = this.pagination.current_page - this.offset;
+            if(from < 1){
+                from = 1;
+            }
+            var to = from + (this.offset *2);
+            if( to >= this.pagination.last_page){
+                to = this.pagination.last_page;
+            }
+            var pagesArray = [];
+            while( from <= to){
+                pagesArray.push(from);
+                from ++;
+            }
+            return pagesArray;
+        },
+        isActived2: function(){
+            return this.pagination2.current_page;
+        },
+        //Calcuar los elementos de la paginacion
+        pagesNumber2: function() {
+            if(!this.pagination2.to){
+                return [];
+            }
+            var from = this.pagination2.current_page - this.offset;
+            if(from < 1){
+                from = 1;
+            }
+            var to = from + (this.offset *2);
+            if( to >= this.pagination2.last_page){
+                to = this.pagination2.last_page;
+            }
+            var pagesArray = [];
+            while( from <= to){
+                pagesArray.push(from);
+                from ++;
+            }
+            return pagesArray;
         },
     },
     methods: {
@@ -708,6 +809,7 @@ export default {
             
 
         },
+        // USUARIOS ACTIVOS
         cambiarPagina(page){
             let me = this;
             me.pagination.current_page = page;
@@ -718,12 +820,13 @@ export default {
             axios
             .post("/listarUsuarios", {
                 buscar: me.buscar.toUpperCase(),
+                estado: 1,
                 page: page
             })
             .then(function (response) {
                 console.log(response);
-                // me.Ausuarios = response.data.usuarios.data;
-                // me.pagination = response.data.pagination;
+                me.Ausuarios = response.data.usuarios.data;
+                me.pagination = response.data.pagination;
             })
             .catch(function (error) {
                 // handle error
@@ -737,6 +840,37 @@ export default {
                 this.ListarUsuarios(1)
             }, 360)
         },
+    // USUARIOS INACTIVOS
+        cambiarPagina2(page){
+            let me = this;
+            me.pagination2.current_page = page;
+            me.ListarUsuariosIn(page);
+        },
+        ListarUsuariosIn(page){
+            let me = this;
+            axios
+            .post("/listarUsuarios", {
+                buscar: me.buscarIn.toUpperCase(),
+                estado: 0,
+                page: page
+            })
+            .then(function (response) {
+                me.AusuariosIn = response.data.usuarios.data;
+                me.pagination2 = response.data.pagination;
+            })
+            .catch(function (error) {
+                // handle error
+                console.log(error);
+            })
+            
+        },
+        BuscarUsuarioIn(){
+            clearTimeout(this.setTiemoutBuscador);
+            this.setTiemoutBuscador = setTimeout(() => {
+                this.ListarUsuariosIn(1)
+            }, 360)
+        },
+        // FIN USUARIOS LISTAR
         EditarModal(id){
             let me = this;
             me.Eid = id;
@@ -803,6 +937,7 @@ export default {
                 }
             })
         },
+        // CAMBIO DE ESTADO USUARIO
         CambioEstado(estado, id){
             if (estado == 1) {
                 var titulo = '¿Desea deshabilitar este usuario?';
@@ -833,6 +968,7 @@ export default {
                         
                         console.log(response);
                         me.ListarUsuarios(1);
+                        me.ListarUsuariosIn(1);
                         swal.fire(
                             "Informacion", //TITULO
                             titulo2, //TEXTO DE MENSAJE
@@ -852,7 +988,8 @@ export default {
                     );
                 }
             })
-        }
+        },
+        
     },
 };
 </script>
