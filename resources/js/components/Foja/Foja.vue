@@ -111,6 +111,7 @@
                                 v-model="liteConc"
                                 id="eliteral"
                                 rows="4"
+                                maxlength="500"
                                 ></textarea>
                             </div>
                             <div class="form-group">
