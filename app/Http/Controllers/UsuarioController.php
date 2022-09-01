@@ -15,6 +15,11 @@ use Spatie\Permission\Models\Permission;
 
 class UsuarioController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('authSis');
+    }
+    
     public function DatosUsuario()
     {
         $usuario = DB::table('users as u')

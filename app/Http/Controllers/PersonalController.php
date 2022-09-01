@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Http;
 
 class PersonalController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('authSis');
+    }
+    
     public function ListaPersonalDesignacion(Request $request)
     {
         $destino1 = $request->destino1;

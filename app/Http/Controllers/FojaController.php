@@ -16,6 +16,12 @@ use stdClass;
 
 class FojaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('authSis');
+    }
+
+
     public function guardarNota(Request $request)
     {
         try {

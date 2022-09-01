@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class PreguntasController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('authSis');
+    }
+    
     public function preguntasObjetivas(Request $request){
 
         switch ($request->division) {

@@ -15,6 +15,11 @@ use Illuminate\Support\Facades\Http;
 
 class JuradoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('authSis');
+    }
+    
     public function GuardarJurados(Request $request)
     {
         $dest1 = $request->dest1;

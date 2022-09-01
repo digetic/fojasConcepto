@@ -9,6 +9,11 @@ use Spatie\Permission\Models\Permission;
 
 class PermisoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('authSis');
+    }
+    
     public function ListarPermisos(Request $request)
     {
         if ($request->buscar == '') {

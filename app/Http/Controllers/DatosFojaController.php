@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class DatosFojaController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('authSis');
+    }
+    
     public function EvaluacionDatos(Request $request)
     {
         $data = DB::table('evaluaciones as e')

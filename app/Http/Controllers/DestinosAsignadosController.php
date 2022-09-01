@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Http;
 
 class DestinosAsignadosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('authSis');
+    }
 
     public function JuradosAsignados(Request $request)
     {
