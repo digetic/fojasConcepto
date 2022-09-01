@@ -260,9 +260,9 @@
                         </tr>
                         <tr>
                             <td style="width: 37%;">Calificacion Conceptual Numérica</td>
-                            <td style="width: 35%; text-align: center;">{{$conceptual1['numerica']}}</td>
-                            <td style="width: 8%; padding: 7px 3px;" rowspan="2">Firma</td>
-                            <td style="width: 20%;" rowspan="2"></td>
+                            <td style="width: 25%; text-align: center;">{{$conceptual1['numerica']}}</td>
+                            <td style="width: 8%; padding: 7px 3px; text-align: center" rowspan="2">Firma</td>
+                            <td style="width: 30%;" rowspan="2"></td>
                         </tr>
                         <tr>
                             <td colspan="2">{{$conceptual1['evaluador']}}</td>
@@ -286,9 +286,9 @@
                         </tr>
                         <tr>
                             <td style="width: 37%;">Calificacion Conceptual Numérica</td>
-                            <td style="width: 35%; text-align: center;">{{$conceptual2['numerica']}}</td>
-                            <td style="width: 8%; padding: 7px 3px;" rowspan="2">Firma</td>
-                            <td style="width: 20%;" rowspan="2"></td>
+                            <td style="width: 25%; text-align: center;">{{$conceptual2['numerica']}}</td>
+                            <td style="width: 8%; padding: 7px 3px; text-align: center" rowspan="2">Firma</td>
+                            <td style="width: 30%;" rowspan="2"></td>
                         </tr>
                         <tr>
                             <td colspan="2"> {{$conceptual2['evaluador']}}</td>
@@ -310,9 +310,9 @@
                         </tr>
                         <tr>
                             <td style="width: 37%;">Calificacion Conceptual Numérica</td>
-                            <td style="width: 35%; text-align: center;">{{$conceptual3['numerica']}}</td>
-                            <td style="width: 8%; padding: 7px 3px;" rowspan="2">Firma</td>
-                            <td style="width: 20%;" rowspan="2"></td>
+                            <td style="width: 25%; text-align: center;">{{$conceptual3['numerica']}}</td>
+                            <td style="width: 8%; padding: 7px 3px; text-align: center" rowspan="2">Firma</td>
+                            <td style="width: 30%;" rowspan="2"></td>
                         </tr>
                         <tr>
                             <td colspan="2">{{$conceptual3['evaluador']}}</td>
@@ -393,7 +393,7 @@
                 </table>
         </section>
         <section>{{-- Notificacion firma --}}
-            <div style="font-size: 13px; padding-top: 10px; padding-bottom:70px;"><u><strong>5. NOTIFICACIÓN</strong></u></div>
+            <div style="font-size: 13px; padding-top: 10px; padding-bottom:20px;"><u><strong>5. NOTIFICACIÓN</strong></u></div>
             <table style="width: 100%; border-collapse: collapse; border-spacing: 0; border: black 1px ; margin-bottom: 5px;">{{-- promedio conceptual --}}
                 <thead>
                     <tr>
@@ -410,7 +410,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div style="font-size: 12px; padding-top: 20px; text-align: right;"><i><strong>Lugar y Fecha:</strong>  {{$depa}}, {{$fecha}}</i></div>
+            <div style="font-size: 12px; padding-top: 0px; text-align: right;"><i><strong>Lugar y Fecha:</strong>  {{$depa}}, {{$fecha}}</i></div>
         </section>
         <div class="page-break"></div> {{-- SALTO DE PAGINA --}}
 

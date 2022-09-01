@@ -83,7 +83,7 @@ class JuradoController extends Controller
                         'percod' => $e['id'],
                         'nick' => $nick,
                         'email' => $datos['email'],
-                        'password' => Hash::make($randomString),
+                        // 'password' => Hash::make($randomString),
                         'password' => Hash::make('12345678'),
                         'tipo' => 2
                     ]);
@@ -93,13 +93,6 @@ class JuradoController extends Controller
                 }
             }
             DB::commit();
-            foreach ($secciones as $s) {
-               Http::withHeaders([
-                    'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-                    ])->post(Config::get('nomServidor.web').'/api/destDesginado',[
-                        'id' => $s
-                    ]);
-            }
             return response()->json(['titulo' => 'Asignado', 'mensaje' => 'Los evaluadores fueron asignados correctamente.','tipo' => 'success']);
         } catch (\Exception $e) {
             DB::rollBack();

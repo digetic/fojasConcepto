@@ -64,9 +64,10 @@ class RoleController extends Controller
     public function ListarRoleUsuario(Request $request)
     {
         $roles = DB::table('model_has_roles as rm')
+        ->join('users as u','u.id','rm.model_id')
         ->join('roles as r','rm.role_id', 'r.id')
         ->select('r.id','r.name')
-        ->where('rm.model_id', $request->per_cod)
+        ->where('u.percod', $request->per_cod)
         ->get();
 
         return response()->json($roles);
@@ -150,16 +151,16 @@ class RoleController extends Controller
 
     public function AgregarRol(Request $request)
     {
-        $user = User::find($request->id);
+        $user = User::where('percod',$request->id)->first();
         $user->assignRole($request->rol);
-        return response()->json($request);
+        return response()->json($user);
 ;    }
 
     public function QuitarRol(Request $request)
     {
-        $user = User::find($request->id);
+        $user = User::where('percod',$request->id)->first();
         $user->removeRole($request->rol);
-        return response()->json($request);
+        return response()->json($user);
         # code...
     }
 }

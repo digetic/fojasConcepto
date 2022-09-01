@@ -108,12 +108,12 @@
                                 <tbody>
                                     <tr v-for="u in Ausuarios">
                                         <td class="text-center">
-                                            <button  type="button" class="btn btn-success btn-sm" @click="ModalRoles(u.id)">
+                                            <button  type="button" class="btn btn-success btn-sm" @click="ModalRoles(u.per_codigo)">
                                                 <i class="fas fa-plus"></i>
                                             </button>
-                                            <button  type="button" class="btn btn-primary btn-sm" @click="EditarModal(u.id)">
+                                            <!-- <button  type="button" class="btn btn-primary btn-sm" @click="EditarModal(u.id)">
                                                 <i class="fas fa-edit"></i>
-                                            </button>
+                                            </button> -->
                                             <button type="button" class="btn btn-danger btn-sm" @click="CambioEstado(1, u.per_codigo)">
                                                 <i class="fas fa-trash"></i>
                                             </button>
@@ -764,13 +764,14 @@ export default {
                 rol: name
             })
             .then(function (response) {
-                swal.fire(
-                    "Aceptado", //TITULO
-                    "Se elimino correctamente el rol.", //TEXTO DE MENSAJE
-                    "success" // TIPO DE MODAL (success, warning, error, info)
-                );
-                me.role = [];
-                $('#AgregarRoles').modal('hide');       
+                // swal.fire(
+                //     "Aceptado", //TITULO
+                //     "Se elimino correctamente el rol.", //TEXTO DE MENSAJE
+                //     "success" // TIPO DE MODAL (success, warning, error, info)
+                // );
+                // me.role = [];
+                // $('#AgregarRoles').modal('hide'); 
+                console.log(response);      
             })
             .catch(function (error) {
                 // handle error

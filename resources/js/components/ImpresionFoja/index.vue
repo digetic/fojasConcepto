@@ -84,7 +84,7 @@
                   <div class="row">
                     <div class="col-sm-4"></div>
                     <div class="col-sm-4">
-                      <button type="button" @click="listarPersonal" class="btn btn-primary btn-block btn-sm">
+                      <button type="button" @click="listarPersonalTable" class="btn btn-primary btn-block btn-sm">
                         <i class="fa fa-users" aria-hidden="true"></i> &nbsp; Listar Personal
                       </button>
                     </div>
@@ -101,7 +101,14 @@
                 </h3>
               </div>
               <div class="card-body">
-                <template v-if="personal.length > 0">
+                <template v-if="table > 0">
+                  <div class="row d-flex justify-content-center"> 
+                      <div class="col-md-4">
+                          <label for="">BUSCAR:</label>
+                          <input type="text" style="text-transform:uppercase;" class="form-control" @keyup="BuscarPersona(1)" v-model="buscar">
+                      </div>
+                  </div>
+                  <br>
                   <table class="table table-bordered table-striped table-sm">
                     <thead>
                         <tr>
@@ -179,7 +186,9 @@ export default {
             offset : 3,
             $depa: '',
             evaluaciones: [],
-            eva: null
+            eva: null,
+            buscar: '',
+            table: 0,
         }
     },
     mounted() {
@@ -217,7 +226,9 @@ export default {
     },
     methods: {
         limpiar(){
+          this.table = 0;
           this.personal = [];
+          this.buscar = '';
         },
         /**
          * FUNCIONES LISTADOR UNIDADES CON EVALUADORES DESIGNADOS
@@ -228,7 +239,7 @@ export default {
           me.pagination.current_page = page;
           me.listarPersonal(page);
         },
-        listarPersonal(page){
+        listarPersonalTable(page){
 
           if (this.eva == "" || this.dest3 == "") {
               swal.fire(
@@ -245,23 +256,8 @@ export default {
               );
             } else {
               try {
-                let me = this;
-                  axios
-                    .post(me.$web+"/api/listaPersonal3", {
-                          destino: me.dest3.id,
-                          page: page
-                    },{
-                        headers: {'token': me.$tokenfoja}
-                    })
-                    .then(function (response) {
-                      me.personal = response.data.personal.data
-                      me.pagination = response.data.pagination
-                      console.log( response);
-                    })
-                    .catch(function (error) {
-                        // handle error
-                        console.log(error);
-                    })
+                this.listarPersonal(1);
+                this.table = 1;
               } catch (error) {
                 this.personal = []
                 // console.log(this.des3);
@@ -270,6 +266,32 @@ export default {
             
           }
             
+        },
+        listarPersonal(page){
+          let me = this;
+            axios
+              .post(me.$web+"/api/listaPersonal3", {
+                    destino: me.dest3.id,
+                    buscar: me.buscar.toUpperCase(),
+                    page: page
+              },{
+                  headers: {'token': me.$tokenfoja}
+              })
+              .then(function (response) {
+                me.personal = response.data.personal.data
+                me.pagination = response.data.pagination
+                console.log( response);
+              })
+              .catch(function (error) {
+                  // handle error
+                  console.log(error);
+              })
+        },
+        BuscarPersona(){
+            clearTimeout(this.setTiemoutBuscador);
+            this.setTiemoutBuscador = setTimeout(() => {
+                this.listarPersonal(1)
+            }, 360)
         },
         listarEvalauciones(){
           try {
