@@ -148,5 +148,69 @@ class PersonalController extends Controller
         return response()->json($data);
     }
 
+
+    /**
+     * MUESTRA LOS DATOS PERSONAL DE UNA PERSONA ->usuarios
+     */
+    public function DatosPersonales(Request $request)
+    {
+        $percodigo = $request->percodigo;
+        $datos = DB::connection('pgsql2')->table('personal_escalafones as ep')
+            ->join('personals as p','ep.per_codigo','p.per_codigo')
+            ->join('grados as g','ep.gra_cod','g.id')
+            ->join('personal_estudios as epe','p.per_codigo','epe.per_codigo')
+            ->join('estudios as e','epe.est_cod','e.id')
+            ->join('personal_situaciones as ps','p.per_codigo','ps.per_codigo')
+            ->join('subsituaciones as ss','ps.subsit_cod','ss.id')
+            ->join('personal_destinos as pd','p.per_codigo','pd.per_codigo')
+            ->join('nivel3_destinos as nd3','pd.d3_cod','nd3.id')
+            ->join('nivel2_destinos as nd2','pd.d2_cod','nd2.id')
+            ->join('personal_especialidades as pesp', 'p.per_codigo', 'pesp.per_codigo')
+            ->join('especialidades as esp', 'pesp.espe_cod','esp.id')
+            ->join('subespecialidades as subesp', 'pesp.subespe_cod','subesp.id')
+            ->select('p.per_codigo as percodigo','p.per_foto as foto','p.per_nombre as nombre','p.per_paterno as paterno','p.per_materno as materno','p.per_cm as cm','p.per_ci as ci', 'p.per_expedido as expedido', 'p.per_mail as email','g.id as gid','g.abreviatura as grado','g.division','e.abreviatura as complemento','nd2.descripcion as des2','nd3.descripcion as des3','ss.nombre as situacion','p.per_sexo as sexo', 'esp.nombre as especialidad','subesp.nombre as subespecialidad')
+            ->where('ep.per_codigo',$percodigo)
+            ->where('ps.estado',1)
+            ->where('ep.estado',1)
+            ->where('epe.estado',1)
+            ->where('pesp.estado',1)
+            ->where('pd.estado',1)
+            ->first();
+        
+            return response()->json($datos);
+    }
+
+    //Listador para combo
+    public function ListarPersonal2()
+    {
+        $datos = DB::connection('pgsql2')->table('personal_escalafones as ep')
+        ->join('personals as p','ep.per_codigo','p.per_codigo')
+        ->join('grados as g','ep.gra_cod','g.id')
+        ->join('personal_estudios as epe','p.per_codigo','epe.per_codigo')
+        ->join('estudios as e','epe.est_cod','e.id')
+        ->join('personal_situaciones as ps', 'p.per_codigo','ps.per_codigo')
+        ->select('p.per_codigo as codigo','p.per_nombre as nombre','p.per_paterno as paterno','p.per_materno as materno', 'g.abreviatura as grado','e.abreviatura as complemento')
+        ->where('ep.estado',1)
+        ->where('epe.estado',1)
+        ->where('ps.estado',1)
+        ->whereIn('ps.detsit_cod',[1,2,4,5,29,30,31,32,33])
+        ->where('g.fuerza','FAB')
+        ->orderBy('ep.esca_cod')  
+        ->orderBy('ep.subesc_cod')        
+        ->orderBy('g.orden')
+        ->get();
+
+        $data = [];
+
+        foreach ($datos as $key => $value) {
+            $data[$key] = [
+                'id' => $value->codigo,
+                'text' => $value->grado.' '.$value->complemento.' '.$value->nombre.' '.$value->paterno.' '.$value->materno,
+            ];
+        }
+
+        return response()->json($data);
+
+    }
     
 }

@@ -595,9 +595,7 @@ export default {
         ListarPersonal(){
             let me = this;
             axios
-            .get(me.$web+"/api/listarPersonal2",{
-                headers: {'token': me.$tokensipefab}
-            })
+            .get("/listarPersonal2")
             .then(function (response) {
                 me.Apersonal = response.data;
             })
@@ -627,10 +625,8 @@ export default {
                     let me = this;
                     me.ListarRoles();
                     axios
-                    .post(me.$web+"/api/datosPersonales", {
+                    .post("/datosPersonales", {
                             percodigo: me.per.id
-                    },{
-                        headers: {'token': me.$tokensipefab}
                     })
                     .then(function (response) {
                         me.datos = response.data;

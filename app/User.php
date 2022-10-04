@@ -37,4 +37,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function datos(){
+        return $this->hasOne('App\Personal','per_codigo','percod');
+    }
 }

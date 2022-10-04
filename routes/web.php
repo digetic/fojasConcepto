@@ -110,6 +110,9 @@ Route::get('/datosUsuario','UsuarioController@DatosUsuario');
 //NOMBRE DEL USUARIO
 Route::get('/datosP','UsuarioController@datosP');
 Route::post('/editContrasena','UsuarioController@EditContrasena');
+//DATOS PARA PARA MUESTRA DE NUEVO USUARIO
+Route::post('/datosPersonales','PersonalController@DatosPersonales');
+Route::get('/listarPersonal2','PersonalController@ListarPersonal2');//Lista combo usuarios
 
 
 

@@ -164,11 +164,7 @@ export default {
 
             let me = this;
             axios
-                .post(me.$web+"/api/datosPersonales", {
-                        percodigo: window.user.user.percod
-                },{
-                    headers: {'token': me.$tokensipefab}
-                })
+                .get("/datosP")
                 .then(function (response) {
                     console.log(response);
                     me.datos = response.data;
