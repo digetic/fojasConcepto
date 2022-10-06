@@ -28,7 +28,6 @@ class JuradoController extends Controller
         $eva = $request->eva;
         $evaluadores = $request->calificadores;
         $secciones = $request->seccion;
-        
         try {
             DB::beginTransaction();
             foreach ($evaluadores as $e) {
@@ -77,17 +76,13 @@ class JuradoController extends Controller
                     for ($i=0; $i < 10; $i++) {
                         $randomString .= $characters[rand(0,$charactersLength - 1)];
                     }
-
-                    $datos = Http::withHeaders([
-                                'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
-                                ])->post(Config::get('nomServidor.web').'/api/datosPersonales',[
-                                    'percodigo' => $e['id']
-                                ]);
+                    $func = new FuncionesGlobalesController();
+                    $datos = $func->DatosPersonales($e['id']);
                     $nick = $e['id'];
                     $user = User::create([
                         'percod' => $e['id'],
                         'nick' => $nick,
-                        'email' => $datos['email'],
+                        'email' => $datos->email,
                         // 'password' => Hash::make($randomString),
                         'password' => Hash::make('12345678'),
                         'tipo' => 2
@@ -190,17 +185,63 @@ class JuradoController extends Controller
             $datos[] = $value->dest4;
         }
 
-        $dato = Http::withHeaders([
-            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-            ])->post(Config::get('nomServidor.web').'/api/uniAsig',[
-                'buscar' => $request->buscar,
-                'criterio' => $request->criterio,
-                'page' => $request->page,
-                'array' => $datos
-            ]);
+        // $dato = Http::withHeaders([
+        //     'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+        //     ])->post(Config::get('nomServidor.web').'/api/uniAsig',[
+        //         'buscar' => $request->buscar,
+        //         'criterio' => $request->criterio,
+        //         'page' => $request->page,
+        //         'array' => $datos
+        //     ]);
+            if ($request->buscar == '') {
+                $destinos = DB::connection('pgsql2')->table('nivel1_destinos as n1')
+                ->join('nivel2_destinos as n2','n1.id','n2.d1_cod')
+                ->join('nivel3_destinos as n3','n2.id','n3.d2_cod')
+                ->join('nivel4_destinos as n4','n3.id','n4.d3_cod')
+                ->select('n1.descripcion as d1','n2.descripcion as d2','n3.descripcion as d3','n4.descripcion as d4','n4.id as id4')
+                ->whereIn('n4.id',$datos)
+                ->orderBy('n1.id')
+                ->orderBy('n2.prioridad')
+                ->orderBy('n2.id')
+                ->orderBy('n3.prioridad')
+                ->orderBy('n3.d2_cod')
+                ->orderBy('n4.orden')
+                ->orderBy('n4.d3_cod')
+                ->paginate(15);
+            } else {
+                $destinos = DB::connection('pgsql2')->table('nivel1_destinos as n1')
+                ->join('nivel2_destinos as n2','n1.id','n2.d1_cod')
+                ->join('nivel3_destinos as n3','n2.id','n3.d2_cod')
+                ->join('nivel4_destinos as n4','n3.id','n4.d3_cod')
+                ->select('n1.descripcion as d1','n2.descripcion as d2','n3.descripcion as d3','n4.descripcion as d4','n4.id as id4')
+                ->whereIn('n4.id',$datos)
+                ->where($request->criterio,'like', '%'.$request->buscar.'%')
+                ->orderBy('n1.id')
+                ->orderBy('n2.prioridad')
+                ->orderBy('n2.id')
+                ->orderBy('n3.prioridad')
+                ->orderBy('n3.d2_cod')
+                ->orderBy('n4.orden')
+                ->orderBy('n4.d3_cod')
+                ->paginate(15);
+            }
 
-
-        return response()->json(json_decode($dato->getBody()->getContents()));
+        
+        
+       
+        
+            return [
+                'pagination' => [
+                    'total'         => $destinos->total(),
+                    'current_page'  => $destinos->currentPage(),
+                    'per_page'      => $destinos->perPage(),
+                    'last_page'     => $destinos->lastPage(),
+                    'from'          => $destinos->firstItem(),
+                    'to'            => $destinos->lastItem(),
+                
+                ],
+                'destinos' => $destinos
+            ];
     }
 
 
@@ -223,14 +264,15 @@ class JuradoController extends Controller
             $datos[] = $value->dest4;
         }
 
-        $dato = Http::withHeaders([
-            'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
-            ])->post(Config::get('nomServidor.web').'/api/destino4ComboFoja',[
-                'dest3' => $request->dest3,
-                'array' => $datos
-            ]);
+        $dest4 = DB::connection('pgsql2')->table('nivel4_destinos')
+            ->select('id','descripcion')
+            ->whereNotIn('id',$datos)
+            ->where('d3_cod',$request->dest3)
+            ->where('estado',1)
+            ->orderBy('descripcion')
+            ->get();
 
 
-        return response()->json(json_decode($dato->getBody()->getContents()));
+        return response()->json($dest4);
     }
 }

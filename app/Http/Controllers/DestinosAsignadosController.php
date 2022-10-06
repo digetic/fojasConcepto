@@ -29,13 +29,16 @@ class DestinosAsignadosController extends Controller
         $data = [];
         foreach ($jurado as $key => $value) {
             
-            $dato = Http::withHeaders([
-                'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-                ])->post(Config::get('nomServidor.web').'/api/nomJud',[
-                    'percodigo' => $value->per_cod
-                ]);
+            // $dato = Http::withHeaders([
+            //     'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+            //     ])->post(Config::get('nomServidor.web').'/api/nomJud',[
+            //         'percodigo' => $value->per_cod
+            //     ]);
 
-            $data[$key]['nombre'] = $value->graCom.' '.$dato['nombre'].' '.$dato['paterno'].' '.$dato['materno'];
+            $func = new FuncionesGlobalesController();
+            $dato = $func->DatosMinimos($value->per_cod); 
+
+            $data[$key]['nombre'] = $value->graCom.' '.$dato->nombre.' '.$dato->paterno.' '.$dato->materno;
         }
         return response()->json($data);
     }

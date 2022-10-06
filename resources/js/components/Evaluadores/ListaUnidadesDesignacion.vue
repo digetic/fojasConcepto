@@ -344,10 +344,8 @@ export default {
             try {
                 let me = this;
                  axios
-                .post(me.$web+"/api/destino2Combo", {
+                .post("/destino2Combo", {
                     dest1: 5
-                },{
-                    headers: {'token': me.$tokensipefab}
                 })
                 .then(function (response) {
                     me.Adestinos2 = response.data;
@@ -363,10 +361,8 @@ export default {
         Destino3(){
             let me = this;
               axios
-            .post(me.$web+"/api/destino3Combo", {
+            .post("/destino3Combo", {
                 dest2: me.dest2
-            },{
-                headers: {'token': me.$tokensipefab}
             })
             .then(function (response) {
                 me.Adestinos3 = response.data;

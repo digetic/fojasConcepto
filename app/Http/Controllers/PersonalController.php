@@ -20,7 +20,7 @@ class PersonalController extends Controller
         $destino1 = $request->destino1;
         $destino2 = $request->destino2;
         $destino3 = $request->destino3;
-        $personal = DB::table('personal_destinos as pd')
+        $personal = DB::connection('pgsql2')->table('personal_destinos as pd')
             ->join('personals as p','pd.per_codigo','p.per_codigo')
             ->join('personal_escalafones as ep','p.per_codigo','ep.per_codigo')
             ->join('grados as g','ep.gra_cod','g.id')
@@ -28,7 +28,7 @@ class PersonalController extends Controller
             ->join('estudios as e','sp.est_cod','e.id')
             ->join('personal_cargos as pc','p.per_codigo','pc.per_codigo')
             ->join('cargos as c','pc.car_cod','c.id')
-            ->select('p.per_codigo','p.per_paterno as paterno','p.per_materno as materno', 'p.per_nombre as nombre', 'g.abreviatura as grado', 'e.abreviatura as complemento','c.descripcion as cargo','g.orden')
+            ->select('p.per_codigo','p.per_promo','p.per_paterno as paterno','p.per_materno as materno', 'p.per_nombre as nombre', 'g.abreviatura as grado', 'e.abreviatura as complemento','c.descripcion as cargo','g.divGra','pd.d3_cod as d3')
             ->where('pd.d1_cod','=',$destino1)
             ->where('pd.d2_cod','=',$destino2)
             ->where('pd.d3_cod','=',$destino3)
@@ -41,7 +41,7 @@ class PersonalController extends Controller
             ->orderBy('ep.esca_cod')
             ->orderBy('ep.subesc_cod')
             ->orderBy('g.orden')
-            ->orderBy('p.per_cm')
+            ->orderBy('p.per_promo')
             ->get();
         
             $data = [];
@@ -50,14 +50,16 @@ class PersonalController extends Controller
                 $data[$key] = [
                     'id' => $value->per_codigo,
                     'text' => $value->grado.' '.$value->complemento.' '.$value->paterno.' '.$value->materno.', '.$value->nombre.' - '.$value->cargo,
-                    'orden' => $value->orden,
+                    'orden' => $value->divGra,
                     'gradCom' => $value->grado.' '.$value->complemento,
-                    'cargo' => $value->cargo
+                    'cargo' => $value->cargo,
+                    'promo' => $value->per_promo,
+                    'd3' => $value->d3
                 ];
             }
 
     
-        return response()->json($data);  
+        return response()->json($data);   
     }
 
     /**

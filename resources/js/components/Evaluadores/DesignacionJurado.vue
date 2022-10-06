@@ -306,10 +306,8 @@ export default {
 
         let me = this;
             axios
-          .post(me.$web+"/api/nomUni", {
+          .post("/nomUni", {
               id: me.de3
-          },{
-              headers: {'token': me.$tokensipefab}
           })
           .then(function (response) {
                me.nomUnidad = response.data.descripcion
@@ -339,15 +337,12 @@ export default {
     ListarPersonal(){
       let me = this;
             axios
-          .post(me.$web+"/api/listaPersonalDesignacion", {
+          .post("/listaPersonalDesignacion", {
               destino1: me.de1,
                 destino2: me.de2,
                 destino3: me.de3
-          },{
-              headers: {'token': me.$tokenfoja}
           })
           .then(function (response) {
-            console.log(response);
                me.personal = response.data;
           })
           .catch(function (error) {

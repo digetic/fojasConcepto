@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*********************************RUTAS PARA DATOS DEL PERSONAL***************** */
+
+//PERSONAL PARA SELECCION DE JURADOS
+Route::post('/listaPersonalDesignacion','PersonalController@ListaPersonalDesignacion');
+
+
 //***********************************EVALUACION********************************* */
 //DATOS DE LA ULTIMA EVALUAION REGISTRADA
 Route::get('/ultFechEva','EvaluacionController@ultimaEvaluacion');
@@ -114,7 +120,17 @@ Route::post('/editContrasena','UsuarioController@EditContrasena');
 Route::post('/datosPersonales','PersonalController@DatosPersonales');
 Route::get('/listarPersonal2','PersonalController@ListarPersonal2');//Lista combo usuarios
 
+/***************FUNCIONES PARA DESTINOS *************************/
+/**
+ * RUTAS PARA LOS COMBOS DE DESTINOS
+ */
+//DESTINO 2
+Route::post('/destino2Combo','DestinosController@Destinos2');
+//DESTINO 3
+Route::post('/destino3Combo','DestinosController@Destinos3');
 
+//NOMBRE DE UNIDAD
+Route::post('/nomUni','DestinosController@NombreUnidad');
 
 /**
  * Autor: Hidalgo Miranda Ariel Wilson
