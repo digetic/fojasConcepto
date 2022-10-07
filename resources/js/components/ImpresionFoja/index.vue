@@ -360,7 +360,7 @@ export default {
         },
         Notas(perCodigo, d, depa, eva){
           
-           window.open('http://fojasconcepto.test/datosfoja/'+perCodigo+'/'+d+'/'+depa+'/'+eva);
+           window.open(this.$web+'/datosfoja/'+perCodigo+'/'+d+'/'+depa+'/'+eva);
         }
         
     },
