@@ -130,12 +130,16 @@ class FojaController extends Controller
                 ->where('jp.evaluacion',$eva)
                 ->first();
         
-        $datoPer = Http::withHeaders([
-            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-            ])->post(Config::get('nomServidor.web').'/api/nomdestper4',[
-                'percodigo' => $personal->per_cod,
-                'd4' => $personal->dest4
-            ]);
+        // $datoPer = Http::withHeaders([
+        //     'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+        //     ])->post(Config::get('nomServidor.web').'/api/nomdestper4',[
+        //         'percodigo' => $personal->per_cod,
+        //         'd4' => $personal->dest4
+        //     ]);
+        
+        $func = new FuncionesGlobalesController();
+
+        $datoPer = $func->DatosPersonalDestino4($personal->dest4,$personal->per_cod);
 
         
         
@@ -144,20 +148,26 @@ class FojaController extends Controller
         //Fecahs del Periodo de Evaluacion
         $fechaEvaluacion = $this->FechaEvalaucion($eva);
         //Desginaciones del Evaluado
-        $designaciones = Http::withHeaders([
-            'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
-            ])->post(Config::get('nomServidor.web').'/api/listDesgAño',[
-                'id' => $personal->per_cod,
-                'date' => $fechaEvaluacion->ano
-            ]);
+        // $designaciones = Http::withHeaders([
+        //     'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
+        //     ])->post(Config::get('nomServidor.web').'/api/listDesgAño',[
+        //         'id' => $personal->per_cod,
+        //         'date' => $fechaEvaluacion->ano
+        //     ]);
+        $designaciones = $this->listarDesignacionesImp($personal->per_cod,$fechaEvaluacion->ano);
+        
         //Sanciones del Evaluado
-        // $sanciones = $this->listarSancionesImp($id, $eva);
-        $sanciones = Http::withHeaders([
-            'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
-            ])->post(Config::get('nomServidor.web').'/api/listDemgAño',[
-                'id' => $personal->per_cod,
-                'date' => $fechaEvaluacion->ano
-            ]);
+        $sanciones = $this->listarSancionesImp($personal->per_cod,$fechaEvaluacion->ano);
+        // $sanciones = Http::withHeaders([
+        //     'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
+        //     ])->post(Config::get('nomServidor.web').'/api/listDemgAño',[
+        //         'id' => $personal->per_cod,
+        //         'date' => $fechaEvaluacion->ano
+        //     ]);
+
+        
+
+
         //Evaluaciones calificadas
         $evalu = $this->EvaluacionCalificada($id, $eva);
         foreach ($evalu as $key => $value) { //Array con las evaluaciones termiandas  
@@ -241,18 +251,17 @@ class FojaController extends Controller
         
         
         $notaFinal = round(($proObjetiva + $proConcep) / 2 ,2);
-        $datoPersonal = json_decode($datoPer->getBody()->getContents());
-        $nombre = $personal->graCom.' '.$datoPer['paterno'].' '.$datoPer['materno'].' '.$datoPer['nombre'];
-        $especialidad = $datoPer['esp'];
-        $subespecialidad = $datoPer['subespe'];
+        $nombre = $personal->graCom.' '.$datoPer->paterno.' '.$datoPer->materno.' '.$datoPer->nombre;
+        $especialidad = $datoPer->esp;
+        $subespecialidad = $datoPer->subespe;
         $qr = QrCode::format('png')->encoding('UTF-8')->size(100)->merge('../public/img/Sin título-1.png',.55,true)->generate("Nombre: $nombre \n Especialidad: $especialidad \n Subespecialidad: $subespecialidad\n Nota Promedio Objetiva: $proObjetiva \n Nota Promedio Conceptual: $proConcep \n Nota Final: $notaFinal\n Gestión: $fechaEvaluacion->ano \n Periodo Evaluacion: $fechaEvaluacion->inicio al $fechaEvaluacion->fin");
         // $qr = QrCode::format('png')->encoding('UTF-8')->size(100)->merge('../public/img/Sin título-1.png',.55,true)->generate("$personal->graCom $datoPersonal->paterno $datoPersonal->materno $datoPersonal->nombre \n ");
         $qrband = $qr;
         $pdf = PDF::loadView( $doc,[
             'usuario1' => $personal,
             'usuario2' => $datoPer,
-            'designaciones' =>json_decode($designaciones->getBody()->getContents()),
-            'sanciones' =>json_decode($sanciones->getBody()->getContents()),
+            'designaciones' =>$designaciones,
+            'sanciones' =>$sanciones,
             // 'revistas' => $revistas,
             'fechaEvaluacion' => $fechaEvaluacion,
             'notas' => $notas,
@@ -262,7 +271,7 @@ class FojaController extends Controller
             'conceptual3' => $conc3,
             'promedioConceptual' => $proConcep,
             'notaFinal' => $notaFinal,
-            'foto' => 'http://sipefab.fab.bo/img/personal/'.$datoPer['foto'],
+            'foto' => 'http://sipefab.fab.bo/img/personal/'.$datoPer->foto,
             'fecha' => $fecha,
             'depa' => $depa,
             'qrband' => $qrband
@@ -272,16 +281,12 @@ class FojaController extends Controller
         // return json_decode($designaciones->getBody()->getContents());
     }
 
-    public function listarDesignacionesImp($id, $eva){
-        $date = DB::table('evaluaciones as e')
-            ->join('periodos as p', 'e.idperiodo','p.id')
-            ->select('p.ano')
-            ->where('e.id',$eva)
-            ->first();
-        $designaciones = DB::table('personal_designaciones')
+    public function listarDesignacionesImp($id, $fecha){
+        
+        $designaciones = DB::connection('pgsql2')->table('personal_designaciones')
             ->select('id','fecha', 'nro_doc as ndoc', 'documento as doc','descripcion as desc')
             ->where('per_codigo',$id)
-            ->whereYear('fecha', $date->ano)
+            ->whereYear('fecha', $fecha)
             ->orderBy('id')
             ->orderBy('fecha')
             ->get();
@@ -289,20 +294,15 @@ class FojaController extends Controller
         return $designaciones;
     }
     
-    public function listarSancionesImp($id, $eva){
-        $date = DB::table('evaluaciones as e')
-            ->join('periodos as p', 'e.idperiodo','p.id')
-            ->select('p.ano')
-            ->where('e.id',$eva)
-            ->first();
-        
-        $sanciones = DB::table('personal_faltas as pf')
+    public function listarSancionesImp($id, $fecha){
+                
+        $sanciones = DB::connection('pgsql2')->table('personal_faltas as pf')
             ->join('nivel1_faltas as f1','pf.f1_cod','f1.id')
             ->join('nivel2_faltas as f2','pf.f2_cod','f2.id' )
             ->join('sanciones as s','pf.san_cod','s.id')
             ->select('pf.id','pf.per_codigo','pf.ndoc','pf.documento','pf.dias','pf.fecha_sancion as fecha','f1.descripcion as falta1', 'f2.descripcion as falta2','s.descripcion as sancion')
             ->where('pf.per_codigo',$id)
-            ->whereYear('pf.fecha_sancion',  $date->ano)
+            ->whereYear('pf.fecha_sancion', $fecha)
             ->get();
         
         return $sanciones;
@@ -381,19 +381,21 @@ class FojaController extends Controller
                     ->where('cc.idjuradoPersonal',$id)
                     ->first();
 
-        $datoPer = Http::withHeaders([
-            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-            ])->post(Config::get('nomServidor.web').'/api/nomJud',[
-                'percodigo' => $concep->per_cod,
-            ]);
+        // $datoPer = Http::withHeaders([
+        //     'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
+        //     ])->post(Config::get('nomServidor.web').'/api/nomJud',[
+        //         'percodigo' => $concep->per_cod,
+        //     ]);
+        $func = new FuncionesGlobalesController();
+        $datoPer = $func->DatosMinimos($concep->per_cod);
         $data = [];
         $data =[
             'literal' => $concep->literal,
             'numerica' => $concep->numerica,
             'grado' => $concep->grado,
-            'nombre' => $datoPer['nombre'],
-            'paterno' => $datoPer['paterno'],
-            'materno' => $datoPer['materno'],
+            'nombre' => $datoPer->nombre,
+            'paterno' => $datoPer->paterno,
+            'materno' => $datoPer->materno,
             'cargo' => $concep->cargo
 
         ];

@@ -43,4 +43,23 @@ class DestinosController extends Controller
         
             return response()->json($nomUnidad);
     }
+
+    public function dest3cal(Request $request)
+    {
+        $destino = DB::connection('pgsql2')->table('personal_destinos')
+         ->where('estado',1)
+        ->where('per_codigo',$request->id)
+        ->first();
+
+        $dest3 = DB::connection('pgsql2')->table('nivel3_destinos as n3')
+            ->join('departamentos as d','n3.depa_cod','d.id')
+            ->select('n3.id','n3.descripcion','d.nombre')
+            ->where('n3.d2_cod',$destino->d2_cod)
+            ->where('n3.estado',1)
+            ->orderBy('n3.descripcion')
+            ->get();
+        return response()->json($dest3);
+    }
+
+    
 }

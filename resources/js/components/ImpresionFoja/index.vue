@@ -270,17 +270,14 @@ export default {
         listarPersonal(page){
           let me = this;
             axios
-              .post(me.$web+"/api/listaPersonal3", {
+              .post("/listaPersonal3", {
                     destino: me.dest3.id,
                     buscar: me.buscar.toUpperCase(),
                     page: page
-              },{
-                  headers: {'token': me.$tokenfoja}
               })
               .then(function (response) {
                 me.personal = response.data.personal.data
                 me.pagination = response.data.pagination
-                console.log( response);
               })
               .catch(function (error) {
                   // handle error
@@ -318,10 +315,8 @@ export default {
         listardestinos3() {
             let me = this;
               axios
-                .post(me.$web+"/api/dest3cal", {
+                .post("/dest3cal", {
                       id: window.user.user.percod
-                },{
-                    headers: {'token': me.$tokenfoja}
                 })
                 .then(function (response) {
                   // console.log(response);

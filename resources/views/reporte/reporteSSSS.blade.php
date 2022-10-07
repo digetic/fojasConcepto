@@ -153,12 +153,12 @@
                                 <strong>GRADO: </strong> <span >{{$usuario1->graCom}}</span> 
                             </td>
                             <td style="width: 60%;">
-                                <strong>APELLIDOS Y NOMBRES: </strong> <span>{{$usuario2['paterno']}} {{$usuario2['materno']}} {{$usuario2['nombre']}}</span> 
+                                <strong>APELLIDOS Y NOMBRES: </strong> <span>{{$usuario2->paterno}} {{$usuario2->materno}} {{$usuario2->nombre}}</span> 
                             </td>
                         </tr>
                         <tr>
                             <td style="width: 40%;">
-                                <strong>CARNET MILITAR:</strong> <span >{{$usuario2['cm']}}</span> 
+                                <strong>CARNET MILITAR:</strong> <span >{{$usuario2->cm}}</span> 
                             </td>
                             <td style="width: 60%;">
                                 <?php
@@ -174,16 +174,16 @@
                         </tr>
                         <tr>
                             <td style="width: 40%;">
-                                <strong>ESPECIALIDAD:</strong> <span >{{$usuario2['esp']}} </span> 
+                                <strong>ESPECIALIDAD:</strong> <span >{{$usuario2->esp}} </span> 
                             </td>
                             <td style="width: 60%;">
-                                <strong>SUBESPECIALIDAD:</strong> <span >{{$usuario2['subespe']}}</span> 
+                                <strong>SUBESPECIALIDAD:</strong> <span >{{$usuario2->subespe}}</span> 
                             </td>
                             
                         </tr>
                         <tr>
                             <td colspan="2" style="width: 100%;">
-                                <strong>DESTINO:</strong> <span >{{$usuario2['destino']}}</span> 
+                                <strong>DESTINO:</strong> <span >{{$usuario2->destino}}</span> 
                             </td>
                         </tr>
                     </tbody>
@@ -399,7 +399,7 @@
             <table style="width: 100%; border-collapse: collapse; border-spacing: 0; border: black 1px ; margin-bottom: 5px;">{{-- promedio conceptual --}}
                 <thead>
                     <tr>
-                        <th colspan="2" style="  font-size: 12.5px; padding: 4px 3px; text-align: left; text-align: center;">{{$usuario1->graCom}} {{$usuario2['paterno']}} {{$usuario2['materno']}} {{$usuario2['nombre']}}</th>
+                        <th colspan="2" style="  font-size: 12.5px; padding: 4px 3px; text-align: left; text-align: center;">{{$usuario1->graCom}} {{$usuario2->paterno}} {{$usuario2->materno}} {{$usuario2->nombre}}</th>
                         <th style="width: 2%;"></th>
                         <th colspan="2" style="  font-size: 12.5px; padding: 4px 3px; text-align: left;"><hr></th>
                     </tr>

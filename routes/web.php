@@ -23,6 +23,9 @@ Route::post('/listDesgAño','DatosCurricularesControlller@ListarDesignaciones');
 //FALTAS DISCIPLINARIAS DE UNA PERSONA DE UN AÑO EN ESPECIFICO
 Route::post('/listDemgAño','DatosCurricularesControlller@ListarSanciones');
 
+//Lista del personal de la unidad a la cual pertenece el encargado de la impresion de las fojas de concepto
+Route::post('/listaPersonal3','PersonalController@listaPersonal');
+
 
 //***********************************EVALUACION********************************* */
 //DATOS DE LA ULTIMA EVALUAION REGISTRADA
@@ -136,6 +139,8 @@ Route::post('/destino3Combo','DestinosController@Destinos3');
 
 //NOMBRE DE UNIDAD
 Route::post('/nomUni','DestinosController@NombreUnidad');
+//LISTA DESTINO LAS UNIDADES DEL ENCARGADO DE IMPRIMIR LAS FOJAS DE CONCEPTO
+Route::post('/dest3cal','DestinosController@dest3cal');
 
 /**
  * Autor: Hidalgo Miranda Ariel Wilson

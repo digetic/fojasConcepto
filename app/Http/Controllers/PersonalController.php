@@ -202,5 +202,87 @@ class PersonalController extends Controller
         return response()->json($data);
 
     }
+
+
+    //Lista personal de la unidad (DESTINO 3)
+    public function listaPersonal(Request $request)
+    {
+        $destino = $request->destino;
+        $buscar = $request->buscar;
+        if ($buscar == "") {
+            $personal = DB::connection('pgsql2')->table('personal_destinos as pd')
+            ->join('personals as p','pd.per_codigo','p.per_codigo')
+            ->join('personal_escalafones as ep','p.per_codigo','ep.per_codigo')
+            ->join('grados as g','ep.gra_cod','g.id')
+            ->join('personal_estudios as sp','p.per_codigo','sp.per_codigo')
+            ->join('estudios as e','sp.est_cod','e.id')
+            ->join('personal_cargos as pc','p.per_codigo','pc.per_codigo')
+            ->join('cargos as c','pc.car_cod','c.id')
+            ->join('nivel4_destinos as d4','pd.d4_cod','d4.id')
+            ->join('personal_situaciones as ps', 'p.per_codigo','ps.per_codigo')
+            ->select('p.per_codigo','p.per_paterno as paterno','p.per_cm','p.per_materno as materno', 'p.per_nombre as nombre', 'g.abreviatura as grado', 'e.abreviatura as complemento','c.descripcion as cargo','g.orden','g.division','d4.descripcion as destino','pd.d4_cod as id4')
+            ->where('pd.d3_cod','=',$destino)
+            ->where('pd.estado','=',1)
+            ->where('ep.estado','=',1)
+            ->where('sp.estado','=',1)
+            ->where('pc.estado','=',1)
+            ->where('pc.flag','=',1)
+            ->where('pc.nivel_cargo','=',1)
+            ->where('ps.estado',1)
+            ->whereIn('ps.detsit_cod',[1,2,4,5,8,9,11,13,14,16,17,29,30,31,32,33])
+            ->orderBy('ep.esca_cod')
+            ->orderBy('ep.subesc_cod')
+            ->orderBy('g.orden')
+            ->orderBy('p.per_cm')
+            ->paginate(10);
+        } else {
+            $personal = DB::connection('pgsql2')->table('personal_destinos as pd')
+            ->join('personals as p','pd.per_codigo','p.per_codigo')
+            ->join('personal_escalafones as ep','p.per_codigo','ep.per_codigo')
+            ->join('grados as g','ep.gra_cod','g.id')
+            ->join('personal_estudios as sp','p.per_codigo','sp.per_codigo')
+            ->join('estudios as e','sp.est_cod','e.id')
+            ->join('personal_cargos as pc','p.per_codigo','pc.per_codigo')
+            ->join('cargos as c','pc.car_cod','c.id')
+            ->join('nivel4_destinos as d4','pd.d4_cod','d4.id')
+            ->join('personal_situaciones as ps', 'p.per_codigo','ps.per_codigo')
+            ->select('p.per_codigo','p.per_paterno as paterno','p.per_cm','p.per_materno as materno', 'p.per_nombre as nombre', 'g.abreviatura as grado', 'e.abreviatura as complemento','c.descripcion as cargo','g.orden','g.division','d4.descripcion as destino','pd.d4_cod as id4')
+            ->where('pd.d3_cod','=',$destino)
+            ->where(function($q) use ($buscar){
+                $q->where('p.per_paterno','LIKE','%'.$buscar.'%')
+                ->orWhere('p.per_cm','LIKE','%'.$buscar.'%')
+                ->orWhere('p.per_nombre','LIKE','%'.$buscar.'%')
+                ->orWhere('p.per_materno','LIKE','%'.$buscar.'%');
+            })
+            ->where('pd.estado','=',1)
+            ->where('ep.estado','=',1)
+            ->where('sp.estado','=',1)
+            ->where('pc.estado','=',1)
+            ->where('pc.flag','=',1)
+            ->where('pc.nivel_cargo','=',1)
+            ->where('ps.estado',1)
+            ->whereIn('ps.detsit_cod',[1,2,4,5,8,9,11,13,14,16,17,29,30,31,32,33])
+            ->orderBy('ep.esca_cod')
+            ->orderBy('ep.subesc_cod')
+            ->orderBy('g.orden')
+            ->orderBy('p.per_cm')
+            ->paginate(10);
+        }
+        
+        
+
+            return [
+                'pagination' => [
+                    'total'         => $personal->total(),
+                    'current_page'  => $personal->currentPage(),
+                    'per_page'      => $personal->perPage(),
+                    'last_page'     => $personal->lastPage(),
+                    'from'          => $personal->firstItem(),
+                    'to'            => $personal->lastItem(),
+                
+                ],
+                'personal' => $personal
+            ];
+    }
     
 }
