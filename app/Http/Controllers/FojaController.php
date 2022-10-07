@@ -129,14 +129,7 @@ class FojaController extends Controller
                 ->where('jp.idpersonal',$id)
                 ->where('jp.evaluacion',$eva)
                 ->first();
-        
-        // $datoPer = Http::withHeaders([
-        //     'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-        //     ])->post(Config::get('nomServidor.web').'/api/nomdestper4',[
-        //         'percodigo' => $personal->per_cod,
-        //         'd4' => $personal->dest4
-        //     ]);
-        
+                
         $func = new FuncionesGlobalesController();
 
         $datoPer = $func->DatosPersonalDestino4($personal->dest4,$personal->per_cod);
@@ -148,23 +141,10 @@ class FojaController extends Controller
         //Fecahs del Periodo de Evaluacion
         $fechaEvaluacion = $this->FechaEvalaucion($eva);
         //Desginaciones del Evaluado
-        // $designaciones = Http::withHeaders([
-        //     'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
-        //     ])->post(Config::get('nomServidor.web').'/api/listDesgAño',[
-        //         'id' => $personal->per_cod,
-        //         'date' => $fechaEvaluacion->ano
-        //     ]);
         $designaciones = $this->listarDesignacionesImp($personal->per_cod,$fechaEvaluacion->ano);
         
         //Sanciones del Evaluado
         $sanciones = $this->listarSancionesImp($personal->per_cod,$fechaEvaluacion->ano);
-        // $sanciones = Http::withHeaders([
-        //     'token' => '$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK'
-        //     ])->post(Config::get('nomServidor.web').'/api/listDemgAño',[
-        //         'id' => $personal->per_cod,
-        //         'date' => $fechaEvaluacion->ano
-        //     ]);
-
         
 
 
