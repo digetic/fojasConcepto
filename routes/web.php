@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 
 //PERSONAL PARA SELECCION DE JURADOS
 Route::post('/listaPersonalDesignacion','PersonalController@ListaPersonalDesignacion');
+//DESIGNACIONES DE UNA PERSONA DE UN AÑO EN ESPECIFICO
+Route::post('/listDesgAño','DatosCurricularesControlller@ListarDesignaciones');
+
+//FALTAS DISCIPLINARIAS DE UNA PERSONA DE UN AÑO EN ESPECIFICO
+Route::post('/listDemgAño','DatosCurricularesControlller@ListarSanciones');
 
 
 //***********************************EVALUACION********************************* */

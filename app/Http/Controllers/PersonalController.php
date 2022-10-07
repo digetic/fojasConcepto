@@ -75,15 +75,11 @@ class PersonalController extends Controller
                 
         $data = [];
         foreach ($perjur as $key => $value) {
-            
-            $dato = Http::withHeaders([
-                'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-                ])->post(Config::get('nomServidor.web').'/api/nomJud',[
-                    'percodigo' => $value->percod
-                ]);
+            $func = new FuncionesGlobalesController();
+            $dato = $func->DatosMinimos($value->percod);
 
             $data[$key] = [
-                'nombre' => $value->graCom.' '.$dato['nombre'].' '.$dato['paterno'].' '.$dato['materno'],
+                'nombre' => $value->graCom.' '.$dato->nombre.' '.$dato->paterno.' '.$dato->materno,
                 'jpid' => $value->jpid,
                 'per_codigo' => $value->percod,
                 'cargo' => $value->cargo,
@@ -105,15 +101,11 @@ class PersonalController extends Controller
                 ->select('j.graCom','j.cargo', 'j.estado','j.evaluacion','j.dest3','j.per_cod','j.destJur')
                 ->where('j.id',$id)
                 ->first();
-        $dato = Http::withHeaders([
-            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-            ])->post(Config::get('nomServidor.web').'/api/nomdestper3',[
-                'percodigo' => $evaluador->per_cod,
-                'd3' => $evaluador->destJur
-            ]);
+        $func = new FuncionesGlobalesController();
+        $dato = $func->DatosPersonalDestino3($evaluador->destJur,$evaluador->per_cod);
         $data = [
-                'nombre' => $evaluador->graCom.' '.$dato['nombre'].' '.$dato['paterno'].' '.$dato['materno'],
-                'd3' => $dato['dest3'],
+                'nombre' => $evaluador->graCom.' '.$dato->nombre.' '.$dato->paterno.' '.$dato->materno,
+                'd3' => $dato->dest3,
                 'cargo' => $evaluador->cargo
             ];
         return response()->json($data);
@@ -134,16 +126,12 @@ class PersonalController extends Controller
                 ->where('jp.idjurado',$id)
                 ->where('jp.evaluacion',$eva)
                 ->first();
-        $dato = Http::withHeaders([
-            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-            ])->post(Config::get('nomServidor.web').'/api/nomdestper4',[
-                'percodigo' => $perCod,
-                'd4' => $evaluado->dest4
-            ]);
+        $func = new FuncionesGlobalesController();
+        $dato = $func->DatosPersonalDestino4($evaluado->dest4,$perCod);
         $data = [
-            'nombre' => $evaluado->graCom.' '.$dato['nombre'].' '.$dato['paterno'].' '.$dato['materno'],
+            'nombre' => $evaluado->graCom.' '.$dato->nombre.' '.$dato->paterno.' '.$dato->materno,
             'division' => $evaluado->division,
-            'd4' => $dato['dest4'],
+            'd4' => $dato->dest4,
             'cargo' => $evaluado->cargo
         ];
 

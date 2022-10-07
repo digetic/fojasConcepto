@@ -583,11 +583,9 @@ export default {
       const today = new Date();
         let me = this;
             axios
-          .post(me.$web+"/api/listDesgAño", {
+          .post("/listDesgAño", {
                 id: me.perCod,
                 date:today.getFullYear()
-          },{
-              headers: {'token': me.$tokensipefab}
           })
           .then(function (response) {
             console.log(response);
@@ -628,11 +626,9 @@ export default {
         const today = new Date();
         let me = this;
             axios
-          .post(me.$web+"/api/listDemgAño", {
+          .post("/listDemgAño", {
                 id: me.perCod,
                 date:today.getFullYear()
-          },{
-              headers: {'token': me.$tokensipefab}
           })
           .then(function (response) {
             console.log(response);

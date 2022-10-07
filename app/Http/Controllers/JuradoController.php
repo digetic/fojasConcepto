@@ -110,18 +110,10 @@ class JuradoController extends Controller
         $destino4 = $request->dest4;
         $evaluacion = $request->eva;
         $id = $request->id;
-        
-        // // $per = new PersonalController();
-        // // $person = $per->listarPersonalD4($destino4);
-        
-        $dato = Http::withHeaders([
-            'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-            ])->post(Config::get('nomServidor.web').'/api/permenran',[
-                'percod' => Auth::user()->percod,
-                'dest4' => $destino4
-            ]);
+        $func = new FuncionesGlobalesController();
+        $dato = $func->PersonalMenorRango($destino4);
         $data = [];
-        foreach (json_decode($dato->getBody()->getContents()) as $key => $value) {
+        foreach ($dato as $key => $value) {
             $data[$key]= [
                 'percod' => $value->per_codigo
             ];
@@ -184,15 +176,6 @@ class JuradoController extends Controller
         foreach ($data as $key => $value) {
             $datos[] = $value->dest4;
         }
-
-        // $dato = Http::withHeaders([
-        //     'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-        //     ])->post(Config::get('nomServidor.web').'/api/uniAsig',[
-        //         'buscar' => $request->buscar,
-        //         'criterio' => $request->criterio,
-        //         'page' => $request->page,
-        //         'array' => $datos
-        //     ]);
             if ($request->buscar == '') {
                 $destinos = DB::connection('pgsql2')->table('nivel1_destinos as n1')
                 ->join('nivel2_destinos as n2','n1.id','n2.d1_cod')

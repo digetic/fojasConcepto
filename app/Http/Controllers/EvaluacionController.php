@@ -267,16 +267,14 @@ class EvaluacionController extends Controller
         $data = [];
         foreach ($secciones as $key => $value) {
 
-            $dato = Http::withHeaders([
-                'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-                ])->post(Config::get('nomServidor.web').'/api/nomUnidad',[
-                    'd4' => $value->dest4
-                ]);
+            $func = new FuncionesGlobalesController();
+            $dato = $func->NombreDestinoPersonal($value->dest4);
+
             $data[$key] = [
                 'id' => $value->id,
-                'd2' =>$dato['n2'], 
-                'd3' =>$dato['n3'], 
-                'd4' =>$dato['n4'],
+                'd2' =>$dato->n2, 
+                'd3' =>$dato->n3, 
+                'd4' =>$dato->n4,
                 'd4c'=> $value->dest4,
                 'eva'=> $value->eva,
                 'estado' => $value->estado                 
