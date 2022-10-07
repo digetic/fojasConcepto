@@ -66,11 +66,7 @@ Vue.use(SimpleVueValidation);
  */
 import router from './routes'
 
-Vue.prototype.$tokenfoja= "$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q";
-Vue.prototype.$tokensipefab= "$2a$10$KjELHfB0eP.Jq4bKwAi52OGe2/jA8OCIbtD31TQd5FZtPHs2PHGAK";
-// Vue.prototype.$web ='http://apifab.test:81';
-// Vue.prototype.$web ='http://apifab.test';
-// Vue.prototype.$web ='http://api.fab.bo';
+
 /**
  * ELEMENT-UI
  */

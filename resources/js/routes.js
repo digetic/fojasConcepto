@@ -135,7 +135,7 @@ export default new Router ({
          {
             path: '/foja/:perCod/:d4/:e/:id/:jpid',
             name: 'Foja',
-            component: require('./components/foja/Foja.vue').default,
+            component: require('./components/Foja/Foja.vue').default,
             beforeEnter: (to, from, next) => {
                 let per = window.user.permissions.map(permission=>permission.name);
                 if (per.includes('vist-cali') && per.includes('index-cali')) {
@@ -151,7 +151,7 @@ export default new Router ({
           {
             path: '/reporte',
             name: 'Reporte',
-            component: require('./components/ImpresionFoja/Index.vue').default,
+            component: require('./components/ImpresionFoja/index.vue').default,
             beforeEnter: (to, from, next) => {
                 let per = window.user.permissions.map(permission=>permission.name);
                 if (per.includes('vist-cali') && per.includes('index-cali')) {
