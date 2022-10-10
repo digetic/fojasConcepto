@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\DB;
 
 class DestinosController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('authSis');
+    }
     public function Destinos2(Request $request)
     {
         $dest1 = $request->dest1;

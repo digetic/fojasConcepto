@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\DB;
 
 class DatosCurricularesControlller extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('authSis');
+    }
     /**
      * Lista faltas disciplinarias de una persona de un año especifico
      */

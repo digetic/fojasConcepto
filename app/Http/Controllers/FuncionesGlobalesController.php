@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class FuncionesGlobalesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('authSis');
+    }
     /**
      * FUNCIONES DATOS PERSONALES DEL PERSONAL DE LA FAB
      */
