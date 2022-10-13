@@ -26,6 +26,9 @@ Route::post('/listDemgAño','DatosCurricularesControlller@ListarSanciones');
 //Lista del personal de la unidad a la cual pertenece el encargado de la impresion de las fojas de concepto
 Route::post('/listaPersonal3','PersonalController@listaPersonal');
 
+//Lista de personal externo a la unidad para evaluar
+Route::post('/listperext','PersonalController@ListaPerExt');
+
 
 //***********************************EVALUACION********************************* */
 //DATOS DE LA ULTIMA EVALUAION REGISTRADA

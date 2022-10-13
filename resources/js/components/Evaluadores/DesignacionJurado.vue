@@ -534,11 +534,9 @@ export default {
     ModalExterno(){
       let me = this;
             axios
-          .post(me.$web+"/api/listperext", {
+          .post("/listperext", {
                 dest2: me.de2,
                 dest3: me.de3
-          },{
-              headers: {'token': me.$tokenfoja}
           })
           .then(function (response) {
             console.log(response);
