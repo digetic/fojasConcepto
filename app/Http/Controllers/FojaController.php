@@ -158,7 +158,7 @@ class FojaController extends Controller
         $p = 0;
         if ($neva == 1) {
             $cocep1 = $this->NotaConceptual($obj[0]);
-            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' del '.$cocep1['cargo']];
+            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' del '.$cocep1['cargo'].' '.$cocep1['destino']];
             $conc2 = ['literal'=>'', 'numerica'=>'-', 'evaluador'=>' - ','cargo'=>'  '];
             $conc3 = ['literal'=>'', 'numerica'=>'-', 'evaluador'=>' - ','cargo'=>'  '];
             $proConcep = $cocep1['numerica'];
@@ -175,7 +175,7 @@ class FojaController extends Controller
             $cocep2 = $this->NotaConceptual($obj[1]);
             $nota1 = $this->NotasObjetivasList($obj[0]);
             $nota2 = $this->NotasObjetivasList($obj[1]);
-            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' del '.$cocep1['cargo']];
+            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' del '.$cocep1['cargo'].' '.$cocep1['destino']];
             $conc2 = ['literal'=>$cocep2['literal'], 'numerica'=>$cocep2['numerica'], 'evaluador'=>$cocep2['grado'].' '.$cocep2['nombre'].' '.$cocep2['paterno'].' '.$cocep2['materno'], 'cargo'=>' del '.$cocep2['cargo']];
             $proConcep = round(($cocep1['numerica'] + $cocep2['numerica']) / 2, 2);
             $conc3 = ['literal'=>'', 'numerica'=>'-', 'evaluador'=>' - ','cargo'=>' - '];
@@ -191,9 +191,9 @@ class FojaController extends Controller
             $cocep1 = $this->NotaConceptual($obj[0]);
             $cocep2 = $this->NotaConceptual($obj[1]);
             $cocep3 = $this->NotaConceptual($obj[2]);
-            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' del '.$cocep1['cargo']];
+            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' del '.$cocep1['cargo'].' '.$cocep1['destino']];
             $conc2 = ['literal'=>$cocep2['literal'], 'numerica'=>$cocep2['numerica'], 'evaluador'=>$cocep2['grado'].' '.$cocep2['nombre'].' '.$cocep2['paterno'].' '.$cocep2['materno'], 'cargo'=>' del '.$cocep2['cargo']];
-            $conc3 = ['literal'=>$cocep3['literal'], 'numerica'=>$cocep3['numerica'], 'evaluador'=>$cocep3['grado'].' '.$cocep3['nombre'].' '.$cocep3['paterno'].' '.$cocep3['materno'],'cargo'=>' del '.$cocep3['cargo']];
+            $conc3 = ['literal'=>$cocep3['literal'], 'numerica'=>$cocep3['numerica'], 'evaluador'=>$cocep3['grado'].' '.$cocep3['nombre'].' '.$cocep3['paterno'].' '.$cocep3['materno'], 'cargo'=>' del '.$cocep3['cargo']];
             $nota1 = $this->NotasObjetivasList($obj[0]);
             $nota2 = $this->NotasObjetivasList($obj[1]);
             $nota3 = $this->NotasObjetivasList($obj[2]);
@@ -357,17 +357,20 @@ class FojaController extends Controller
         $concep = DB::table('conceptual_calificaciones as cc')
                     ->join('jurado_personals as jp', 'cc.idjuradoPersonal','jp.id')
                     ->join('jurados as j','jp.idjurado','j.id')
-                    ->select('cc.literal','cc.numerica','j.graCom as grado','j.cargo','j.per_cod')
+                    ->select('cc.literal','cc.numerica','j.graCom as grado','j.cargo','j.per_cod','j.dest1','j.dest2','j.dest3','j.dest4')
                     ->where('cc.idjuradoPersonal',$id)
                     ->first();
 
-        // $datoPer = Http::withHeaders([
-        //     'token' => '$2a$10$R1GqvPTF6aRmn4yO3/lSk.k7uy3pG5kmSLdbIzN2BXm.8NVyUZk9q'
-        //     ])->post(Config::get('nomServidor.web').'/api/nomJud',[
-        //         'percodigo' => $concep->per_cod,
-        //     ]);
         $func = new FuncionesGlobalesController();
         $datoPer = $func->DatosMinimos($concep->per_cod);
+        $arrayDest = ['SUB DIRECCION','SUBGERENCIA','2DO COMANDO','SUBJEFATURA','SUB_DIRECCION','SUBDIRECCION','SUB GERENCIA','COMANDO','JEFATURA','GERENCIA','DIRECCION'];
+        $destino = $func->DestinoJuradoCalificacion($concep->dest1,$concep->dest2,$concep->dest3,$concep->dest4);
+        // if (in_array($destino->d4,$arrayDest)) {
+        //     $dest = $destino->d3;
+        // }else{
+        //     $dest = $destino->d4;
+        // }
+        $dest = $concep->dest4;
         $data = [];
         $data =[
             'literal' => $concep->literal,
@@ -376,7 +379,8 @@ class FojaController extends Controller
             'nombre' => $datoPer->nombre,
             'paterno' => $datoPer->paterno,
             'materno' => $datoPer->materno,
-            'cargo' => $concep->cargo
+            'cargo' => $concep->cargo,
+            'destino' => $concep->dest4
 
         ];
         return $data;

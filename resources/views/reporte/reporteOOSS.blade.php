@@ -230,7 +230,8 @@
                                 $promedioObjetivo = number_format($promedioObjetiva,2);
                     
                             ?>
-                            <td @php
+                            <td 
+                            {{-- @php
                                 if ($promedioObjetivo >= 70) {
                                     echo ' style=" color: green;"';
                                 }
@@ -240,7 +241,8 @@
                                 if ( $promedioObjetivo < 50 && $promedioObjetivo >= 0) {
                                     echo ' style=" color: red;"';
                                 }
-                            @endphp><center><?php echo $promedioObjetivo; ?></center></td>
+                            @endphp --}}
+                            ><center><?php echo $promedioObjetivo; ?></center></td>
                         </tr>
                     </tbody>
                 </table>
@@ -359,7 +361,8 @@
                                 $notaFinal1 = number_format($notaFinal,2);
                     
                             ?>
-                            <td @php
+                            <td 
+                            {{-- @php
                                 if ($notaFinal1 >= 70) {
                                     echo ' style=" border: 1px solid #000; color: green;"';
                                 }
@@ -369,11 +372,13 @@
                                 if ( $notaFinal1 < 50 && $notaFinal1 >= 0) {
                                     echo ' style=" border: 1px solid #000; color: red;"';
                                 }
-                            @endphp><center><?php echo $notaFinal1; ?></center></td>
+                            @endphp --}}
+                            style=" border: 1px solid #000;" ><center><?php echo $notaFinal1; ?></center></td>
                         </tr>
                         <tr>
                             <td style="border: 1px solid #000;"><strong>Promedio Conceptual:</strong></td>
-                            <td  @php
+                            <td 
+                             {{-- @php
                                 if ($promedioConceptual1 >= 70) {
                                     echo ' style=" border: 1px solid #000; color: green;"';
                                 }
@@ -383,7 +388,8 @@
                                 if ( $promedioConceptual1 < 50 && $promedioConceptual1 >= 0) {
                                     echo ' style=" border: 1px solid #000; color: red;"';
                                 }
-                            @endphp><center><?php echo $promedioConceptual1; ?></center></td>
+                            @endphp --}}
+                            style=" border: 1px solid #000;"><center><?php echo $promedioConceptual1; ?></center></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -567,15 +573,37 @@
             <table id="escala">
                 <tbody>
                     <tr>
-                        <td style="width: 10%;">70 a 100</td>
-                        <td style="width: 15%;">Bueno</td>
-                        <td style="width: 8%; background-color: green"></td>
-                        <td style="width: 10%;">50 a 69</td>
-                        <td style="width: 15%;">Regular</td>
-                        <td style=" width: 8%;background-color: yellow"></td>
-                        <td style="width: 10%;">0 a 49</td>
-                        <td style="width: 15%;">Malo</td>
-                        <td style="width: 8%;background-color:  red"></td>
+                        <td style="width: 15%;">100</td>
+                        <td style="width: 23%;">Excepcional</td>
+                        <td style="width: 15%;">70 a 79</td>
+                        <td style="width: 15%;">Bueno </td>
+                        <td style="width: 15%;">40 a 49</td>
+                        <td style="width: 23%;">Malo</td>
+                    </tr>
+                    <tr>
+                        <td>90 a 99</td>
+                        <td>Excelente</td>
+                        <td>60 a 69</td>
+                        <td>Regular</td>
+                        <td>30 a 39</td>
+                        <td>Muy Malo</td>
+                    </tr>
+                    <tr>
+                        <td>80 a 89</td>
+                        <td>Muy Bueno</td>
+                        <td>50 a 59</td>
+                        <td >Deficiente</td>
+                        <td>10 a 29</td>
+                        <td>No apto para el servicio</td>
+                        
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td> </td>
+                        <td>0</td>
+                        <td>Ausente</td>
+                        <td></td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>

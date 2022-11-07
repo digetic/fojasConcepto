@@ -185,4 +185,30 @@ class FuncionesGlobalesController extends Controller
         return $data;
     }
 
+    /**
+     * Devuelve el destino en el cual estaba el jurado al momento de la calificacion
+     * parametros:
+     *  d1 -> id destinos nivel 1
+     *  d2 -> id destinos nivel 2
+     *  d3 -> id destinos nivel 3
+     *  d4 -> id destinos nivel 4
+     * 
+     */
+
+    public function DestinoJuradoCalificacion($d1, $d2, $d3, $d4)
+    {
+        $destino = DB::connection('pgsql2')->table('nivel4_destinos as n4')
+                        ->join('nivel3_destinos as n3','n4.d3_cod','n3.id')
+                        ->join('nivel2_destinos as n2','n3.d2_cod','n2.id')
+                        ->join('nivel1_destinos as n1','n2.d1_cod','n1.id')
+                        ->select('n3.descripcion as d3','n4.descripcion as d4')
+                        // ->where('n1.id',$d1)
+                        // ->where('n2.id',$d2)
+                        // ->where('n3.id',$d3)
+                        ->where('n4.id',$d4)
+                        ->first();
+                    
+        return $destino;
+    }
+
 }
