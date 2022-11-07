@@ -363,7 +363,8 @@ export default {
                 cargo: this.nuevoEncargado.cargo,
                 nombre: this.nuevoEncargado.text,
                 promo: this.nuevoEncargado.promo,
-                d3: this.nuevoEncargado.d3
+                d3: this.nuevoEncargado.d3,
+                d4: this.nuevoEncargado.d4
               });
               this.idCalificadores.push(this.nuevoEncargado.id);
               this.nuevoEncargado = [];
@@ -402,7 +403,8 @@ export default {
                 cargo: this.perExt.cargo,
                 nombre: this.perExt.text,
                 promo: this.perExt.promo,
-                d3: this.perExt.d3
+                d3: this.perExt.d3,
+                d4: this.perExt.d4,
               });
               this.idCalificadores.push(this.perExt.id);
               this.perExt = []; 

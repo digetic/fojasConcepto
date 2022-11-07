@@ -28,6 +28,7 @@ class JuradoController extends Controller
         $eva = $request->eva;
         $evaluadores = $request->calificadores;
         $secciones = $request->seccion;
+        // return response()->json($evaluadores);
         try {
             DB::beginTransaction();
             foreach ($evaluadores as $e) {
@@ -42,7 +43,8 @@ class JuradoController extends Controller
                         'dest2' => $dest2,
                         'dest3' => $dest3,
                         'dest4' => $s,
-                        'destJur' => $e['d3'],
+                        'destJur3' => $e['d3'],
+                        'destJur4' => $e['d4'],
                         'evaluacion' => $eva,
                         'estado' => 1,
                         'sysuser' => 'sta'

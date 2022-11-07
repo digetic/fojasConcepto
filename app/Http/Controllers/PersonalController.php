@@ -28,7 +28,7 @@ class PersonalController extends Controller
             ->join('estudios as e','sp.est_cod','e.id')
             ->join('personal_cargos as pc','p.per_codigo','pc.per_codigo')
             ->join('cargos as c','pc.car_cod','c.id')
-            ->select('p.per_codigo','p.per_promo','p.per_paterno as paterno','p.per_materno as materno', 'p.per_nombre as nombre', 'g.abreviatura as grado', 'e.abreviatura as complemento','c.descripcion as cargo','g.divGra','pd.d3_cod as d3')
+            ->select('p.per_codigo','p.per_promo','p.per_paterno as paterno','p.per_materno as materno', 'p.per_nombre as nombre', 'g.abreviatura as grado', 'e.abreviatura as complemento','c.descripcion as cargo','g.divGra','pd.d3_cod as d3','pd.d4_cod as d4')
             ->where('pd.d1_cod','=',$destino1)
             ->where('pd.d2_cod','=',$destino2)
             ->where('pd.d3_cod','=',$destino3)
@@ -54,7 +54,8 @@ class PersonalController extends Controller
                     'gradCom' => $value->grado.' '.$value->complemento,
                     'cargo' => $value->cargo,
                     'promo' => $value->per_promo,
-                    'd3' => $value->d3
+                    'd3' => $value->d3,
+                    'd4' => $value->d4
                 ];
             }
 
@@ -302,7 +303,7 @@ class PersonalController extends Controller
             ->join('personal_cargos as pc','p.per_codigo','pc.per_codigo')
             ->join('cargos as c','pc.car_cod','c.id')
             ->join('personal_situaciones as ps', 'p.per_codigo','ps.per_codigo')
-            ->select('p.per_codigo','p.per_promo','p.per_paterno as paterno','p.per_materno as materno', 'p.per_nombre as nombre', 'g.abreviatura as grado', 'e.abreviatura as complemento','c.descripcion as cargo','g.orden','pd.d3_cod as d3')
+            ->select('p.per_codigo','p.per_promo','p.per_paterno as paterno','p.per_materno as materno', 'p.per_nombre as nombre', 'g.abreviatura as grado', 'e.abreviatura as complemento','c.descripcion as cargo','g.orden','pd.d3_cod as d3','pd.d4_cod as d4')
             ->where('pd.d3_cod','<>',$destino)
             ->where('pd.estado','=',1)
             ->where('ep.estado','=',1)
@@ -328,7 +329,8 @@ class PersonalController extends Controller
                     'gradCom' => $value->grado.' '.$value->complemento,
                     'cargo' => $value->cargo,
                     'promo' => $value->per_promo,
-                    'd3' => $value->d3
+                    'd3' => $value->d3,
+                    'd4' => $value->d4
                 ];
             }
 
