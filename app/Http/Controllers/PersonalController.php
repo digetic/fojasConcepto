@@ -99,11 +99,11 @@ class PersonalController extends Controller
     public function datosEvaluador(Request $request){
         $id = $request->id;
         $evaluador = DB::table('jurados as j')
-                ->select('j.graCom','j.cargo', 'j.estado','j.evaluacion','j.dest3','j.per_cod','j.destJur')
+                ->select('j.graCom','j.cargo', 'j.estado','j.evaluacion','j.dest3','j.per_cod','j.destJur3')
                 ->where('j.id',$id)
                 ->first();
         $func = new FuncionesGlobalesController();
-        $dato = $func->DatosPersonalDestino3($evaluador->destJur,$evaluador->per_cod);
+        $dato = $func->DatosPersonalDestino3($evaluador->destJur3,$evaluador->per_cod);
         $data = [
                 'nombre' => $evaluador->graCom.' '.$dato->nombre.' '.$dato->paterno.' '.$dato->materno,
                 'd3' => $dato->dest3,
