@@ -158,7 +158,7 @@ class FojaController extends Controller
         $p = 0;
         if ($neva == 1) {
             $cocep1 = $this->NotaConceptual($obj[0]);
-            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' del '.$cocep1['cargo'].' - '.$cocep1['destino']];
+            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' DEL '.$cocep1['cargo'].' - '.$cocep1['destino']];
             $conc2 = ['literal'=>'', 'numerica'=>'-', 'evaluador'=>' - ','cargo'=>'  '];
             $conc3 = ['literal'=>'', 'numerica'=>'-', 'evaluador'=>' - ','cargo'=>'  '];
             $proConcep = $cocep1['numerica'];
@@ -175,8 +175,8 @@ class FojaController extends Controller
             $cocep2 = $this->NotaConceptual($obj[1]);
             $nota1 = $this->NotasObjetivasList($obj[0]);
             $nota2 = $this->NotasObjetivasList($obj[1]);
-            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' del '.$cocep1['cargo'].' - '.$cocep1['destino']];
-            $conc2 = ['literal'=>$cocep2['literal'], 'numerica'=>$cocep2['numerica'], 'evaluador'=>$cocep2['grado'].' '.$cocep2['nombre'].' '.$cocep2['paterno'].' '.$cocep2['materno'], 'cargo'=>' del '.$cocep2['cargo'].' - '.$cocep2['destino']];
+            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' DEL '.$cocep1['cargo'].' - '.$cocep1['destino']];
+            $conc2 = ['literal'=>$cocep2['literal'], 'numerica'=>$cocep2['numerica'], 'evaluador'=>$cocep2['grado'].' '.$cocep2['nombre'].' '.$cocep2['paterno'].' '.$cocep2['materno'], 'cargo'=>' DEL '.$cocep2['cargo'].' - '.$cocep2['destino']];
             $proConcep = round(($cocep1['numerica'] + $cocep2['numerica']) / 2, 2);
             $conc3 = ['literal'=>'', 'numerica'=>'-', 'evaluador'=>' - ','cargo'=>' - '];
             foreach ($nota1 as $key => $value) {
@@ -191,9 +191,9 @@ class FojaController extends Controller
             $cocep1 = $this->NotaConceptual($obj[0]);
             $cocep2 = $this->NotaConceptual($obj[1]);
             $cocep3 = $this->NotaConceptual($obj[2]);
-            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' del '.$cocep1['cargo'].' - '.$cocep1['destino']];
-            $conc2 = ['literal'=>$cocep2['literal'], 'numerica'=>$cocep2['numerica'], 'evaluador'=>$cocep2['grado'].' '.$cocep2['nombre'].' '.$cocep2['paterno'].' '.$cocep2['materno'], 'cargo'=>' del '.$cocep2['cargo'].' - '.$cocep2['destino']];
-            $conc3 = ['literal'=>$cocep3['literal'], 'numerica'=>$cocep3['numerica'], 'evaluador'=>$cocep3['grado'].' '.$cocep3['nombre'].' '.$cocep3['paterno'].' '.$cocep3['materno'], 'cargo'=>' del '.$cocep3['cargo'].' - '.$cocep3['destino']];
+            $conc1 = ['literal'=>$cocep1['literal'], 'numerica'=>$cocep1['numerica'], 'evaluador'=>$cocep1['grado'].' '.$cocep1['nombre'].' '.$cocep1['paterno'].' '.$cocep1['materno'], 'cargo'=>' DEL '.$cocep1['cargo'].' - '.$cocep1['destino']];
+            $conc2 = ['literal'=>$cocep2['literal'], 'numerica'=>$cocep2['numerica'], 'evaluador'=>$cocep2['grado'].' '.$cocep2['nombre'].' '.$cocep2['paterno'].' '.$cocep2['materno'], 'cargo'=>' DEL '.$cocep2['cargo'].' - '.$cocep2['destino']];
+            $conc3 = ['literal'=>$cocep3['literal'], 'numerica'=>$cocep3['numerica'], 'evaluador'=>$cocep3['grado'].' '.$cocep3['nombre'].' '.$cocep3['paterno'].' '.$cocep3['materno'], 'cargo'=>' DEL '.$cocep3['cargo'].' - '.$cocep3['destino']];
             $nota1 = $this->NotasObjetivasList($obj[0]);
             $nota2 = $this->NotasObjetivasList($obj[1]);
             $nota3 = $this->NotasObjetivasList($obj[2]);

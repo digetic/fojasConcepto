@@ -253,7 +253,7 @@
                 <table id="calconc">{{-- jefe de personal --}}
                     <thead>
                         <tr>
-                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px;">1ra. Calificación {{$conceptual1['cargo']}} </th>
+                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px;">1ra. CALIFICACIÓN {{$conceptual1['cargo']}} </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -279,7 +279,7 @@
                 <table id="calconc">{{-- 2do comandante --}}
                     <thead>
                         <tr>
-                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px; ">2da. Calificación {{$conceptual2['cargo']}} </th>
+                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px; ">2da. CALIFICACIÓN {{$conceptual2['cargo']}} </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -303,7 +303,7 @@
                 <table id="calconc">{{-- Comandante --}}
                     <thead>
                         <tr>
-                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px;">3er. Calificación {{$conceptual3['cargo']}} </th>
+                            <th colspan="4" style="background-color: #D1D7E3; text-align: left; padding: 4px 3px;">3er. CALIFICACIÓN {{$conceptual3['cargo']}} </th>
                         </tr>
                     </thead>
                     <tbody>
