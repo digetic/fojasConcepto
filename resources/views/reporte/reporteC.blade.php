@@ -506,44 +506,7 @@
         <section>{{-- Guia de interpretacion --}}
             <div style="padding-bottom: 5px; font-size: 14px;"><strong><center>GUIA DE INTERPRETACION Y CALIFICACION</center></strong></div>
             <div style="padding-bottom: 4px; font-size: 13px;"><u><strong>1. CALIFICACIÓN OBJETIVA:</strong></u></div>
-            <p>ESCALA DE CALIFICACIONES (LOS COLORES SON NETAMENTE REFERENCIALES)</p>
-            <table id="escala">
-                <tbody>
-                    <tr>
-                        <td style="width: 15%;">100</td>
-                        <td style="width: 23%;">Excepcional</td>
-                        <td style="width: 15%;">70 a 79</td>
-                        <td style="width: 15%;">Bueno </td>
-                        <td style="width: 15%;">40 a 49</td>
-                        <td style="width: 23%;">Malo</td>
-                    </tr>
-                    <tr>
-                        <td>90 a 99</td>
-                        <td>Excelente</td>
-                        <td>60 a 69</td>
-                        <td>Regular</td>
-                        <td>30 a 39</td>
-                        <td>Muy Malo</td>
-                    </tr>
-                    <tr>
-                        <td>80 a 89</td>
-                        <td>Muy Bueno</td>
-                        <td>50 a 59</td>
-                        <td >Deficiente</td>
-                        <td>10 a 29</td>
-                        <td>No apto para el servicio</td>
-                        
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td> </td>
-                        <td>0</td>
-                        <td>Ausente</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            <p>ESCALA DE CALIFICACIONES (en escala de 0 a 100): 100 Excepcional; 90 a 99 Excelente; 80 a 89 Muy Bueno; 70 a 79 Bueno; 60 a 69 Regular; 50 a 59 Deficiente; 40 a 49 Malo; 30 a 39 Muy Malo; 10 a 29 No apto para el servicio; 0 Ausente.</p>
             <div>
                 <span>Se califica el desempeño anual en las siguientes áreas:</span>
                 <div><strong>- Formacion para el trabajo:</strong>Si tiene los conocimientos necesarios para el desempeño de sus actuales funciones.</div>
