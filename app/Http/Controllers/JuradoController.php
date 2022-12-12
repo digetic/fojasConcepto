@@ -90,8 +90,8 @@ class JuradoController extends Controller
                         'tipo' => 2
                     ]);
                     $user->assignRole('CALIFICADOR');
-                    Mail::to($datos['email'])
-                    ->send(new CrearJurador(json_decode($datos->getBody()->getContents()), $randomString));
+                    Mail::to($datos->email)
+                    ->send(new CrearJurador($datos, $randomString));
                 }
             }
             DB::commit();

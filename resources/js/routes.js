@@ -154,7 +154,7 @@ export default new Router ({
             component: require('./components/ImpresionFoja/index.vue').default,
             beforeEnter: (to, from, next) => {
                 let per = window.user.permissions.map(permission=>permission.name);
-                if (per.includes('vist-cali') && per.includes('index-cali')) {
+                if (per.includes('vist-impre')) {
                     next();
                 } else {
                     next(from.path);
