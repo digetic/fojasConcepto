@@ -327,6 +327,18 @@ class EvaluacionController extends Controller
         return $personal;
     }
 
+    /**
+     * Funcion cuentas evaluaciones
+     */
+    public function NumEvaluaciones($id, $eva)
+    {
+        $personal = DB::table('jurado_personals')
+            ->where('idpersonal',$id)
+            ->where('evaluacion',$eva)
+            ->count();
+        return $personal;
+    }
+
     public function EvaluacionActiva()
     {
         $data = DB::table('evaluaciones')

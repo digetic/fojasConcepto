@@ -331,27 +331,28 @@ export default {
           let me = this;
           axios
             .post("/estadoimpresion", {
-              per_codigo: id
+              per_codigo: id,
+              eva: me.eva.eva
             })
             .then(function (response) {
               console.log(response);
-              if (response.data.code == 200) {
-                if (response.data.estado == 1) {
-                  me.Notas(id, d, me.dest3.nombre, me.eva.eva)
-                } else {
-                  swal.fire(
-                    "Advertencia",
-                    "Aun tiene evaluaciones pendientes.",
-                    "warning"
-                  );
-                }
-              } else {
-                swal.fire(
-                  "Advertencia",
-                  "No tiene evaluaciones designadas o evaluadas.",
-                  "warning"
-                );
-              }
+              // if (response.data.code == 200) {
+              //   // if (response.data.estado == 1) {
+              //   //   me.Notas(id, d, me.dest3.nombre, me.eva.eva)
+              //   // } else {
+              //   //   swal.fire(
+              //   //     "Advertencia",
+              //   //     "Aun tiene evaluaciones pendientes.",
+              //   //     "warning"
+              //   //   );
+              //   // }
+              // } else {
+              //   swal.fire(
+              //     "Advertencia",
+              //     "No tiene evaluaciones designadas o evaluadas.",
+              //     "warning"
+              //   );
+              // }
             })
             .catch(function (error) {
               // handle error
