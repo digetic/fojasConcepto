@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
         <img src="/img/fabprueba.png" class="brand-image-xl">
-        <span class="brand-text font-weight-light">SIPEFAB - 21</span>
+        <span class="brand-text font-weight-light">TARIPAÑAJOB</span>
     </a>
 
     <!-- Sidebar -->
