@@ -37,7 +37,7 @@
                     <table border="1" style="width: 100%">
                         <tr>
                             <td colspan="2" class="text-center sb" style="width: 50%">CALIFICACIONES</td>
-                            <td colspan="2" class="text-center sb" style="width: 50%">EVALUACION ACTUAL</td>
+                            <td colspan="2" class="text-center sb" style="width: 50%">CALIFICACION ACTUAL</td>
                         </tr>
                         <tr>
                             <td colspan="2" class="espmarg">

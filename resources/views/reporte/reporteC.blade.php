@@ -222,10 +222,7 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td style="background-color: #d9d0d0">Promedio Objetivo</td>
-                            <td ></td>
-                            <td ></td>
-                            <td ></td>
+                            <td colspan="4" style="background-color: #d9d0d0">Promedio Objetivo</td>
                             <?php
                                 $promedioObjetivo = number_format($promedioObjetiva,2);
                     
@@ -553,8 +550,7 @@
             <div style="text-align: justify; width: 80%;">
                 <span>Nota:</span>
                 <ul>
-                    <li>Las notas mayores de 90 y menores de 30 se justificaran en la Calificacion Conceptual. (numeral 2)</li>
-                    <li>La Calificacion de 100 Excecpcional deberá justificar con un informe.</li>
+                    <li>Las Calificaciones de 100 y menores de 30 se deberá justificar con un informe.</li>
                 </ul>
             </div>
             

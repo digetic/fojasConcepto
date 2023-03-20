@@ -111,7 +111,7 @@
                             </div>
                         </fieldset>     
                         <fieldset class="scheduler-border">
-                            <legend class="scheduler-border">FECHA DE EVALUACION</legend>
+                            <legend class="scheduler-border">FECHA DE CALIFICACIÓN</legend>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
@@ -172,7 +172,7 @@
                                 <dd class="st">{{formData.semestre}}° Semestre</dd>
                                 </template>
                                 <dd class="st">{{pinicio}} al {{pfinal}}</dd>                                    
-                                <dt class="st">Fecha de Evaluación</dt>
+                                <dt class="st">Fecha de Calificación</dt>
                                 <dd class="st">{{formData.evinicio | moment("DD/MM/YYYY")}} al {{formData.evfinal | moment("DD/MM/YYYY")}}</dd> 
                                 <dt class="st">Año</dt>
                                 <dd class="st">{{nuevoaño}}</dd>    

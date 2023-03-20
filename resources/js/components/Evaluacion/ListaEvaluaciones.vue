@@ -66,7 +66,7 @@
                                     <th class="text-center">Opciones</th>                                 
                                     <th class="text-center">Año</th>
                                     <th class="text-center">Periodo</th>
-                                    <th class="text-center">Fecha de Evaluacion</th>
+                                    <th class="text-center">Fecha de Calificación</th>
                                     <th class="text-center">Fecha de Periodo</th>
                                     <th class="text-center">Estado</th>
                                 </tr>
