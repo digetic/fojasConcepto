@@ -197,14 +197,14 @@
                 <table id="calobj">
                     <thead>
                         <tr>
-                            <th rowspan="2" style="width: 65%;"><center>DETALLE</center> </th>
-                            <th colspan="4" style="width: 45%;"><center>CALIFICACIONES</center></th>
+                            <th rowspan="2" style="width: 65%; background-color: #D1D7E3;"><center>DETALLE</center> </th>
+                            <th colspan="4" style="width: 45%; background-color: #D1D7E3;"><center>CALIFICACIONES</center></th>
                         </tr>
                         <tr>
-                            <td style="text-align: center;">1ra.</td>
-                            <td style="text-align: center;">2da.</td>
-                            <td style="text-align: center;">3ra.</td>
-                            <td style="text-align: center;">Promedio</td>
+                            <td style="text-align: center; background-color: #D1D7E3;">1ra.</td>
+                            <td style="text-align: center; background-color: #D1D7E3;">2da.</td>
+                            <td style="text-align: center; background-color: #D1D7E3;">3ra.</td>
+                            <td style="text-align: center; background-color: #D1D7E3;">Promedio</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -222,7 +222,7 @@
                             </tr>
                         @endforeach
                         <tr>
-                            <td colspan="4" style="background-color: #d9d0d0">Promedio Objetivo</td>
+                            <td colspan="4" style="background-color: #D1D7E3;">Promedio Objetivo</td>
                             <?php
                                 $promedioObjetivo = number_format($promedioObjetiva,2);
                     
@@ -325,9 +325,9 @@
                 <table style="width: 100%; border-collapse: collapse; border-spacing: 0; border: black 1px ; margin-bottom: 5px;">{{-- promedio conceptual --}}
                     <thead>
                         <tr>
-                            <th colspan="2" style="background-color: #D1D7E3; border: 1px solid #000; font-size: 13px; padding: 4px 3px; text-align: left;">3. Promedio Conceptual</th>
+                            <th colspan="2" style="background-color: #D1D7E3; border: 1px solid #000; font-size: 13px; padding: 4px 3px; text-align: left;">3. PROMEDIO CONCEPTUAL</th>
                             <th style="width: 20%;"></th>
-                            <th colspan="2" style="background-color: #D1D7E3; border: 1px solid #000; font-size: 13px; padding: 4px 3px; text-align: left;">4. Promedio General</th>
+                            <th colspan="2" style="background-color: #D1D7E3; border: 1px solid #000; font-size: 13px; padding: 4px 3px; text-align: left;">4. PROMEDIO GENERAL</th>
                         </tr>
                     </thead>
                     <tbody>
