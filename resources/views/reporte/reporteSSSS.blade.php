@@ -135,9 +135,9 @@
                 <p style="margin: -2px 0px">DEPARTAMENTO I - PERSONAL EMGFAB</p>
                 <p style="margin: -2px 0px;"><u><strong>BOLIVIA</strong></u></p>
             </div>
-            <div style="position: absolute; top: 20px; right: 40px; width: 113.4px; height: 113.4px; border: 1px solid;">
+            <!-- <div style="position: absolute; top: 20px; right: 40px; width: 113.4px; height: 113.4px; border: 1px solid;">
                 <img src={{$foto}} width="100%" height="100%">
-            </div>
+            </div> -->
             <div style="padding-top: 30px; padding-bottom: 10px; text-align: center; font-size: 14.5px; font-weight: bold;">
                 <p style="margin: 1px">FOJAS DE CONCEPTO</p>
                 <p style="margin: -2px 8px 4px 0px">(ESCALAFÓN: SUBOFICIALES Y SARGENTOS)</p>

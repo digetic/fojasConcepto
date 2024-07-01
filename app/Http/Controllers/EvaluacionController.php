@@ -6,6 +6,7 @@ use App\Evaluacion;
 use App\FechaEvaluacion;
 use App\Periodo;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -49,30 +50,39 @@ class EvaluacionController extends Controller
 
     public function GuardarEvaluacion(Request $request)
     {
-        $periodo = Periodo::create([
-            'inicio' => $request->get('pinicio'),
-            'fin' => $request->get('pfinal'),
-            'estado' => 1,
-            'periodo' => $request->get('semestre'),
-            'ano' => $request->get('ano'),
-            'sysuser' => 'ADMIN'
-        ]);
-
-        $fechaEvaluacion = FechaEvaluacion::create([
-            'idperiodo' => $periodo->id,
-            'inicio' => $request->get('einicio'),
-            'final' => $request->get('efinal'),
-            'estado' => 1,
-            'sysuser' => 'ADMIN'
-        ]);
-
-        $evaluaciones = Evaluacion::create([
-            'idperiodo' => $periodo->id,
-            'idfechaEvaluacion' => $fechaEvaluacion->id,
-            'estado' => 1,
-            'sysuser' => 'ADMIN'
-        ]);
-        return response()->json($request);
+        $Pincio = new DateTime($request->get('pinicio'));
+        $Pfinal = new DateTime($request->get('pfinal'));
+        try {
+            DB::beginTransaction();
+            $periodo = Periodo::create([
+                'inicio' => $Pincio->format('d/m/Y'),
+                'fin' => $Pfinal->format('d/m/Y'),
+                'estado' => 1,
+                'periodo' => $request->get('semestre'),
+                'ano' => $request->get('ano'),
+                'sysuser' => 'ADMIN'
+            ]);
+    
+            $fechaEvaluacion = FechaEvaluacion::create([
+                'idperiodo' => $periodo->id,
+                'inicio' => $request->get('einicio'),
+                'final' => $request->get('efinal'),
+                'estado' => 1,
+                'sysuser' => 'ADMIN'
+            ]);
+    
+            $evaluaciones = Evaluacion::create([
+                'idperiodo' => $periodo->id,
+                'idfechaEvaluacion' => $fechaEvaluacion->id,
+                'estado' => 1,
+                'sysuser' => 'ADMIN'
+            ]);
+            DB::commit();
+            return response()->json($request);
+            
+        } catch (\Exception $th) {
+            DB::rollBack();
+        }
     }
 
     public function ListarEvaluaciones(Request $request)

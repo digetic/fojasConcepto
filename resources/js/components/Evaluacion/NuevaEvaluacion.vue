@@ -304,7 +304,7 @@ export default {
         GuardarEvaluacion(){
             const today = new Date();
             console.log(today.getFullYear());
-            console.log(this.sigeva.ano);
+            console.log(this.formData.evfinal);
             if (this.sigeva.periodo == this.formData.semestre && this.sigeva.periodo == 1 && this.sigeva.ano == today.getFullYear() ) {
                 Swal.fire({
                     icon: 'warning',

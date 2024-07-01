@@ -108,14 +108,14 @@ class UsuarioController extends Controller
                     'percod' => $request->percodigo,
                     'nick' => $request->nick,
                     'email' => $request->email,
-                    'password' => Hash::make($randomString),
+                    'password' => Hash::make('123456789'),
                     'tipo' => 1
                 ]);
         
                 $user->assignRole($request->rol);
                 DB::commit();
-                Mail::to($request->email)
-                    ->send(new CrearUsuario($datos, $randomString));
+                /*Mail::to($request->email)
+                    ->send(new CrearUsuario($datos, $randomString));*/
             } catch (\Exception $e) {
                 DB::rollBack();
                 return response()->json(['code' => $verificacion, 'mensaje' => 'Ocurrio un error al momento de registra al usuario.','tipo' => 'error']);

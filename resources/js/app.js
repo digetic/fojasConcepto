@@ -67,8 +67,8 @@ Vue.use(SimpleVueValidation);
 import router from './routes'
 
 
-// Vue.prototype.$web ='http://fojasconcepto.test';
-Vue.prototype.$web ='http://fojascon.fab.bo';
+ Vue.prototype.$web ='http://fojasconcepto.test';
+//Vue.prototype.$web ='http://fojascon.fab.bo';
 /**
  * ELEMENT-UI
  */
